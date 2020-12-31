@@ -10,6 +10,7 @@
     "start": "node src/server.js"
   },
   "dependencies": {
+    "axios": "^0.21.1",
     "element-plus": "^1.0.1-beta.17",
     "express": "^4.17.1",
     "scichart": "^1.0.1334",

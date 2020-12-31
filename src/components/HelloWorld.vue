@@ -1,6 +1,9 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
+    <p>{{ count }}</p>
+    <button @click="handClickPlus">Click to Plus</button>
+    <button @click="handClickLess">Click to Less</button>
     <div id="scichart-root" style="width: 600px; height: 400px; margin: auto"></div>
   </div>
 </template>
@@ -9,6 +12,7 @@
 import { defineComponent, onMounted } from "vue";
 import { SciChartSurface } from "scichart/Charting/Visuals/SciChartSurface";
 import { NumericAxis } from "scichart/Charting/Visuals/Axis/NumericAxis";
+import { count, handClickPlus, handClickLess } from "@/composition/store";
 
 async function initSciChart() {
   SciChartSurface.setRuntimeLicenseKey(
@@ -47,10 +51,16 @@ async function initSciChart() {
 
 export default defineComponent({
   setup() {
+    // count, handClickPlus, handClickLess;
     onMounted(() => {
       console.log("execute onMounted");
       initSciChart();
     });
+    return {
+      count,
+      handClickPlus,
+      handClickLess,
+    };
   },
   name: "HelloWorld",
   props: {
