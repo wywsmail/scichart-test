@@ -1,4 +1,5 @@
-import { ref, onMounted } from "vue";
+import { ref, reactive } from "vue";
+// import { onMounted } from "vue";
 import axios from "axios";
 import apiUrl from "../../api_url.global";
 
@@ -16,10 +17,17 @@ export const isLogin = ref(false);
 
 // DIAGNOSES PAGE
 export const renderDashboard = () => {
-  onMounted(() => {});
+  // onMounted(() => {});
 };
 
 // CHART PAGE
+// interface tempDiagnoses {
+//   data:{}
+// }
+// interface tempDiagnoses {
+//   data: Object;
+// }
+export const tempDiagnoses = reactive({ data: {} });
 
 const diagnosesRequest = axios.create({
   baseURL: apiUrl.url + "diagnoses/",
@@ -40,6 +48,7 @@ diagnosesRequest.interceptors.request.use(
     return Promise.reject(error);
   }
 );
+
 diagnosesRequest.interceptors.response.use(
   response => {
     console.log("請求發起後");
@@ -52,16 +61,22 @@ diagnosesRequest.interceptors.response.use(
 );
 
 const requestDiagnoses = () => {
-  diagnosesRequest.get("dbb1f0fe-af16-4332-9e2a-13ad33e39c50");
+  return diagnosesRequest.get("dbb1f0fe-af16-4332-9e2a-13ad33e39c50");
 };
+
 export const apiRequestDiagnoses = async () => {
   try {
     const res = await requestDiagnoses();
     return res;
   } catch (error) {
     console.log(error.response.data);
+    return error.response.data;
   }
 };
+
+tempDiagnoses.data = apiRequestDiagnoses();
+
+console.log(tempDiagnoses.data);
 
 // LOGIN PAGE
 export const username = ref("");
