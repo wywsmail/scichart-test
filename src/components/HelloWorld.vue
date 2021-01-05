@@ -16,7 +16,7 @@
       <input type="checkbox" id="enable-mouse-wheel-zoom" checked />
       <label for="enable-mouse-wheel-zoom">Enable Mousewheel Zoom</label><br />
     </div>
-    <div id="scichart-root" style="width: 600px; height: 400px; margin: auto"></div>
+    <div id="scichart-root" style="width: 100%; height: 600px; margin: auto"></div>
   </div>
 </template>
 
@@ -27,7 +27,7 @@ import { count, handClickPlus, handClickLess } from "@/composition/store";
 import { SciChartSurface } from "scichart/Charting/Visuals/SciChartSurface";
 import { NumericAxis } from "scichart/Charting/Visuals/Axis/NumericAxis";
 // import { FastLineRenderableSeries } from "scichart/Charting/visuals/RenderableSeries/FastLineRenderableSeries";
-// import { XyDataSeries } from "scichart/Charting/Model/XyDataSeries";
+import { XyDataSeries } from "scichart/Charting/Model/XyDataSeries";
 // import { TextAnnotation } from "scichart/Charting/Visuals/Annotations/TextAnnotation";
 // import { MouseWheelZoomModifier } from "scichart/Charting/ChartModifiers/MouseWheelZoomModifier";
 // import { RubberBandXyZoomModifier } from "scichart/Charting/ChartModifiers/RubberBandXyZoomModifier";
@@ -36,7 +36,7 @@ import { NumericAxis } from "scichart/Charting/Visuals/Axis/NumericAxis";
 // import { RolloverModifier } from "scichart/Charting/ChartModifiers/RolloverModifier";
 // // import { EHorizontalAnchorPoint, EVerticalAnchorPoint } from "scichart/types/AnchorPoint";
 // //
-// import { data } from "../assets/data";
+import { data } from "../assets/data";
 // import { RangeSelectionChartModifier } from "../composition/RangeSelectionChartModifier";
 async function initSciChart() {
   SciChartSurface.setRuntimeLicenseKey(
@@ -71,34 +71,34 @@ async function initSciChart() {
   sciChartSurface.yAxes.add(yAxis);
 
   // // Declare a DataSeries
-  // const xyDataSeries1 = new XyDataSeries(wasmContext);
-  // const xyDataSeries2 = new XyDataSeries(wasmContext);
-  // const xyDataSeries3 = new XyDataSeries(wasmContext);
-  // const xyDataSeries4 = new XyDataSeries(wasmContext);
-  // const xyDataSeries5 = new XyDataSeries(wasmContext);
-  // const xyDataSeries6 = new XyDataSeries(wasmContext);
+  const xyDataSeries1 = new XyDataSeries(wasmContext);
+  const xyDataSeries2 = new XyDataSeries(wasmContext);
+  const xyDataSeries3 = new XyDataSeries(wasmContext);
+  const xyDataSeries4 = new XyDataSeries(wasmContext);
+  const xyDataSeries5 = new XyDataSeries(wasmContext);
+  const xyDataSeries6 = new XyDataSeries(wasmContext);
 
-  // data.dps1.forEach((item: Object, index: number) => {
-  //   xyDataSeries1.append(index, item + 0);
-  // });
+  data.dps1.forEach((item: number, index: number) => {
+    xyDataSeries1.append(index, item + 0);
+  });
 
-  // data.dps2.forEach((item, index) => {
-  //   xyDataSeries2.append(index, item + 1);
-  // });
-  // data.dps3.forEach((item, index) => {
-  //   xyDataSeries3.append(index, item + 2);
-  // });
-  // data.dps4.forEach((item, index) => {
-  //   xyDataSeries4.append(index, item + 3);
-  // });
+  data.dps2.forEach((item: number, index: number) => {
+    xyDataSeries2.append(index, item + 1);
+  });
+  data.dps3.forEach((item: number, index: number) => {
+    xyDataSeries3.append(index, item + 2);
+  });
+  data.dps4.forEach((item: number, index: number) => {
+    xyDataSeries4.append(index, item + 3);
+  });
 
-  // data.dps5.forEach((item, index) => {
-  //   xyDataSeries5.append(index, item + 4);
-  // });
+  data.dps5.forEach((item: number, index: number) => {
+    xyDataSeries5.append(index, item + 4);
+  });
 
-  // data.dps6.forEach((item, index) => {
-  //   xyDataSeries6.append(index, item + 5);
-  // });
+  data.dps6.forEach((item: number, index: number) => {
+    xyDataSeries6.append(index, item + 5);
+  });
 
   // That's it! You just created your first SciChartSurface!
 
@@ -199,7 +199,7 @@ async function initSciChart() {
   //   })
   // );
 
-  // // Declare a DataSeries
+  // Declare a DataSeries
   // const xyDataSeries1 = new XyDataSeries(wasmContext);
   // const xyDataSeries2 = new XyDataSeries(wasmContext);
   // const xyDataSeries3 = new XyDataSeries(wasmContext);
@@ -229,7 +229,7 @@ async function initSciChart() {
   //   xyDataSeries6.append(index, item + 5);
   // });
 
-  // // Add a line series to the SciChartSurface
+  // Add a line series to the SciChartSurface
   // const lineSeries1 = new FastLineRenderableSeries(wasmContext);
   // lineSeries1.strokeThickness = 2;
   // lineSeries1.stroke = "rgba(255,0,0,1)";

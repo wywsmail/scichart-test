@@ -45686,12 +45686,7 @@ let dps6 = [
 // })
 
 interface data{
-    dps1: Object,
-    dps2: Object,
-    dps3: Object,
-    dps4: Object,
-    dps5: Object,
-    dps6: Object,
+    [propName: string]: any;
 }
 export const data:data = {
     dps1,
