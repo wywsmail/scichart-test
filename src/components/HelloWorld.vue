@@ -26,7 +26,7 @@ import { count, handClickPlus, handClickLess } from "@/composition/store";
 //
 import { SciChartSurface } from "scichart/Charting/Visuals/SciChartSurface";
 import { NumericAxis } from "scichart/Charting/Visuals/Axis/NumericAxis";
-// import { FastLineRenderableSeries } from "scichart/Charting/visuals/RenderableSeries/FastLineRenderableSeries";
+import { FastLineRenderableSeries } from "scichart/Charting/Visuals/RenderableSeries/FastLineRenderableSeries";
 import { XyDataSeries } from "scichart/Charting/Model/XyDataSeries";
 // import { TextAnnotation } from "scichart/Charting/Visuals/Annotations/TextAnnotation";
 // import { MouseWheelZoomModifier } from "scichart/Charting/ChartModifiers/MouseWheelZoomModifier";
@@ -230,42 +230,42 @@ async function initSciChart() {
   // });
 
   // Add a line series to the SciChartSurface
-  // const lineSeries1 = new FastLineRenderableSeries(wasmContext);
-  // lineSeries1.strokeThickness = 2;
-  // lineSeries1.stroke = "rgba(255,0,0,1)";
-  // lineSeries1.dataSeries = xyDataSeries1;
+  const lineSeries1 = new FastLineRenderableSeries(wasmContext);
+  lineSeries1.strokeThickness = 2;
+  lineSeries1.stroke = "rgba(255,0,0,1)";
+  lineSeries1.dataSeries = xyDataSeries1;
 
-  // const lineSeries2 = new FastLineRenderableSeries(wasmContext);
-  // lineSeries2.strokeThickness = 2;
-  // lineSeries2.stroke = "rgba(255,0,0,1)";
-  // lineSeries2.dataSeries = xyDataSeries2;
+  const lineSeries2 = new FastLineRenderableSeries(wasmContext);
+  lineSeries2.strokeThickness = 2;
+  lineSeries2.stroke = "rgba(255,0,0,1)";
+  lineSeries2.dataSeries = xyDataSeries2;
 
-  // const lineSeries3 = new FastLineRenderableSeries(wasmContext);
-  // lineSeries3.strokeThickness = 2;
-  // lineSeries3.stroke = "rgba(255,0,0,1)";
-  // lineSeries3.dataSeries = xyDataSeries3;
+  const lineSeries3 = new FastLineRenderableSeries(wasmContext);
+  lineSeries3.strokeThickness = 2;
+  lineSeries3.stroke = "rgba(255,0,0,1)";
+  lineSeries3.dataSeries = xyDataSeries3;
 
-  // const lineSeries4 = new FastLineRenderableSeries(wasmContext);
-  // lineSeries4.strokeThickness = 2;
-  // lineSeries4.stroke = "rgba(255,0,0,1)";
-  // lineSeries4.dataSeries = xyDataSeries4;
+  const lineSeries4 = new FastLineRenderableSeries(wasmContext);
+  lineSeries4.strokeThickness = 2;
+  lineSeries4.stroke = "rgba(255,0,0,1)";
+  lineSeries4.dataSeries = xyDataSeries4;
 
-  // const lineSeries5 = new FastLineRenderableSeries(wasmContext);
-  // lineSeries5.strokeThickness = 2;
-  // lineSeries5.stroke = "rgba(255,0,0,1)";
-  // lineSeries5.dataSeries = xyDataSeries5;
+  const lineSeries5 = new FastLineRenderableSeries(wasmContext);
+  lineSeries5.strokeThickness = 2;
+  lineSeries5.stroke = "rgba(255,0,0,1)";
+  lineSeries5.dataSeries = xyDataSeries5;
 
-  // const lineSeries6 = new FastLineRenderableSeries(wasmContext);
-  // lineSeries6.strokeThickness = 2;
-  // lineSeries6.stroke = "rgba(255,0,0,1)";
-  // lineSeries6.dataSeries = xyDataSeries6;
+  const lineSeries6 = new FastLineRenderableSeries(wasmContext);
+  lineSeries6.strokeThickness = 2;
+  lineSeries6.stroke = "rgba(255,0,0,1)";
+  lineSeries6.dataSeries = xyDataSeries6;
 
-  // sciChartSurface.renderableSeries.add(lineSeries1);
-  // sciChartSurface.renderableSeries.add(lineSeries2);
-  // sciChartSurface.renderableSeries.add(lineSeries3);
-  // sciChartSurface.renderableSeries.add(lineSeries4);
-  // sciChartSurface.renderableSeries.add(lineSeries5);
-  // sciChartSurface.renderableSeries.add(lineSeries6);
+  sciChartSurface.renderableSeries.add(lineSeries1);
+  sciChartSurface.renderableSeries.add(lineSeries2);
+  sciChartSurface.renderableSeries.add(lineSeries3);
+  sciChartSurface.renderableSeries.add(lineSeries4);
+  sciChartSurface.renderableSeries.add(lineSeries5);
+  sciChartSurface.renderableSeries.add(lineSeries6);
 }
 
 export default defineComponent({

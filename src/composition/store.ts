@@ -27,7 +27,49 @@ export const renderDashboard = () => {
 // interface tempDiagnoses {
 //   data: Object;
 // }
-export const tempDiagnoses = reactive({ data: {} });
+
+// interface TData {
+//   (code: number, data: string): 
+// }
+
+type TData = {
+  code: number;
+  // data: any;
+  data: {
+    create_data: string;
+    device_id: string;
+    diagnosis_id: string;
+    diagnosis_type: string;
+    end_time: string;
+    measure_times: string;
+    measure_type: string;
+    measures: [
+      {
+        event_count: number;
+        event_detect: [];
+        heart_rate: [];
+        measure_counts_by_second: number;
+        measure_id: string;
+        measure_index: number;
+        peak_indexs: [];
+        stress: [];
+        value: [
+          {
+            name: string;
+            index: number;
+            raw_datas: [];
+          }
+        ];
+      }
+    ];
+    medical_id: string;
+    sdk_version: string;
+    start_time: string;
+    version: string;
+  };
+};
+
+export const tempDiagnoses = reactive({ data: {} as TData });
 
 const diagnosesRequest = axios.create({
   baseURL: apiUrl.url + "diagnoses/",
@@ -38,45 +80,60 @@ const diagnosesRequest = axios.create({
   }
 });
 
-diagnosesRequest.interceptors.request.use(
-  config => {
-    console.log("請求發起前");
-    console.log(config);
-    return config;
-  },
-  error => {
-    return Promise.reject(error);
-  }
-);
+// diagnosesRequest.interceptors.request.use(
+//   config => {
+//     console.log("請求發起前");
+//     console.log(config);
+//     return config;
+//   },
+//   error => {
+//     return Promise.reject(error);
+//   }
+// );
 
-diagnosesRequest.interceptors.response.use(
-  response => {
-    console.log("請求發起後");
-    console.log(response);
-    return response;
-  },
-  error => {
-    return Promise.reject(error);
-  }
-);
+// diagnosesRequest.interceptors.response.use(
+//   response => {
+//     console.log("請求發起後");
+//     console.log(response);
+//     return response;
+//   },
+//   error => {
+//     return Promise.reject(error);
+//   }
+// );
 
-const requestDiagnoses = () => {
-  return diagnosesRequest.get("dbb1f0fe-af16-4332-9e2a-13ad33e39c50");
+export const requestDiagnoses = () => {
+  return diagnosesRequest
+    .get("dbb1f0fe-af16-4332-9e2a-13ad33e39c50")
+    .then((res) => {
+      console.log(res.data.code);
+      tempDiagnoses.data = res.data;
+      console.log(tempDiagnoses.data.data.version);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 
-export const apiRequestDiagnoses = async () => {
-  try {
-    const res = await requestDiagnoses();
-    return res;
-  } catch (error) {
-    console.log(error.response.data);
-    return error.response.data;
-  }
-};
+// export const apiRequestDiagnoses = async () => {
+//   try {
+//     const res = await requestDiagnoses();
+//     return res;
+//   } catch (error) {
+//     console.log(error.response.data);
+//     return error.response.data;
+//   }
+//   // return tempDiagnoses.data;
+// };
 
-tempDiagnoses.data = apiRequestDiagnoses();
+// const { data } = await apiRequestDiagnoses();
+// tempDiagnoses.data = await apiRequestDiagnoses();
+// console.log(tempDiagnoses);
+// const { data } from apiRequestDiagnoses();
+// console.log(apiRequestDiagnoses());
+// console.log(tempDiagnoses);
 
-console.log(tempDiagnoses.data);
+// console.log(tempDiagnoses.data);
 
 // LOGIN PAGE
 export const username = ref("");
