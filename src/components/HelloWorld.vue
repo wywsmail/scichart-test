@@ -28,16 +28,15 @@ import { SciChartSurface } from "scichart/Charting/Visuals/SciChartSurface";
 import { NumericAxis } from "scichart/Charting/Visuals/Axis/NumericAxis";
 import { FastLineRenderableSeries } from "scichart/Charting/Visuals/RenderableSeries/FastLineRenderableSeries";
 import { XyDataSeries } from "scichart/Charting/Model/XyDataSeries";
-// import { TextAnnotation } from "scichart/Charting/Visuals/Annotations/TextAnnotation";
-// import { MouseWheelZoomModifier } from "scichart/Charting/ChartModifiers/MouseWheelZoomModifier";
-// import { RubberBandXyZoomModifier } from "scichart/Charting/ChartModifiers/RubberBandXyZoomModifier";
-// import { ZoomExtentsModifier } from "scichart/Charting/ChartModifiers/ZoomExtentsModifier";
-// import { ZoomPanModifier } from "scichart/Charting/ChartModifiers/ZoomPanModifier";
-// import { RolloverModifier } from "scichart/Charting/ChartModifiers/RolloverModifier";
-// // import { EHorizontalAnchorPoint, EVerticalAnchorPoint } from "scichart/types/AnchorPoint";
-// //
+import { TextAnnotation } from "scichart/Charting/Visuals/Annotations/TextAnnotation";
+import { MouseWheelZoomModifier } from "scichart/Charting/ChartModifiers/MouseWheelZoomModifier";
+import { RubberBandXyZoomModifier } from "scichart/Charting/ChartModifiers/RubberBandXyZoomModifier";
+import { ZoomExtentsModifier } from "scichart/Charting/ChartModifiers/ZoomExtentsModifier";
+import { ZoomPanModifier } from "scichart/Charting/ChartModifiers/ZoomPanModifier";
+import { RolloverModifier } from "scichart/Charting/ChartModifiers/RolloverModifier";
+import { EHorizontalAnchorPoint, EVerticalAnchorPoint } from "scichart/types/AnchorPoint";
 import { data } from "../assets/data";
-// import { RangeSelectionChartModifier } from "../composition/RangeSelectionChartModifier";
+import { RangeSelectionChartModifier } from "@/composition/RangeSelectionChartModifier";
 async function initSciChart() {
   SciChartSurface.setRuntimeLicenseKey(
     "5ycxvf/fY4gXbo/ejlWy2JzrxfwiO3XxnN4QB5l327kqZNnGd+hs1lHuSmi2+TDeenf0kGGDk6rpjYWwpLJipt6qTvMzRx6zlZhY9Qyo+DYNuNieYzxrC/ZceJwv7E/2UdlYysxQLHMDEcp0txtbjJ++qVe4gjU1bgU8+mz92RzB7rZhonqZ6pCZyLYgONZ8ljZicebuSlOM0KQSeomou30SIE1S9wiP6W9YuuaIoCR/gZIwMZnioOHf8k3gsPB3EfCH0D/Mz+/eUq9RliOJkSm66r13+XgaDRp/fG9UAF2xoZmXSqzBX1v52A2Xn7NuXyxmOiQVRvIfuF7qW6e7XIZqHed6ZJ+rp9xXMs+q1JlF39LmZsMqChi0HuAM8eohJhRJ0dspyTAFH9aot6nBJCi1DmKu0DXumyXm9IdEOlXCWa5whtWDwoUnvkuKrI1KRDVZ1KjsDoZ+Pvw+7oX0+ERCeMeUrpgx0XhDFe8jzQB33hmiAu23FJ4OIike6RGYlWk5VczgpY+NXSVj5tjM0b0JiF/mFGjoFKsQ3noKqAHyosPrfhtGH830MYD44ObNWuvLWeLxNofC4a5odOwPFHvwDVVlNTAo9UFw2g3p7pF9WAsup7+YV7cjooMQPqrMD4GBSggeh+k26nQyc9nAT0qiceMSScuHENhbc+j8UFI0RZuP1x5d6xkJJ1A8TtJ41KDqxML8QrV/KijPP+y5iAxIOCexrjGlPTCTdUhTpw=="
@@ -70,6 +69,8 @@ async function initSciChart() {
   sciChartSurface.xAxes.add(xAxis);
   sciChartSurface.yAxes.add(yAxis);
 
+  // yAxis.axisAlignmentProperty = "None";
+
   // // Declare a DataSeries
   const xyDataSeries1 = new XyDataSeries(wasmContext);
   const xyDataSeries2 = new XyDataSeries(wasmContext);
@@ -100,134 +101,110 @@ async function initSciChart() {
     xyDataSeries6.append(index, item + 5);
   });
 
-  // That's it! You just created your first SciChartSurface!
+  const mouseWheelZoomModifier = new MouseWheelZoomModifier();
+  const zoomPanModifier = new ZoomPanModifier();
+  const rubberBandZoomModifier = new RubberBandXyZoomModifier();
+  const zoomExtentsModifier = new ZoomExtentsModifier();
+  const rangeSelectionModifier = new RangeSelectionChartModifier();
+  sciChartSurface.chartModifiers.add(zoomExtentsModifier);
+  sciChartSurface.chartModifiers.add(zoomPanModifier);
+  sciChartSurface.chartModifiers.add(rubberBandZoomModifier);
+  sciChartSurface.chartModifiers.add(mouseWheelZoomModifier);
+  sciChartSurface.chartModifiers.add(rangeSelectionModifier);
+  const inputEnablePan: HTMLElement = document.getElementById("enable-pan");
+  const inputEnableZoom: HTMLElement = document.getElementById("enable-zoom");
+  const inputEnableZoomToFit: HTMLElement = document.getElementById("enable-zoom-to-fit");
+  const inputEnableMouseWheel: HTMLElement = document.getElementById(
+    "enable-mouse-wheel-zoom"
+  );
+  const inputEnableRangeSelect: HTMLElement = document.getElementById(
+    "enable-range-select"
+  );
 
-  // // Create an X,Y Axis and add to the chart
+  const inputEnablePan2: HTMLInputElement = <HTMLInputElement>(
+    document.getElementById("enable-pan")
+  );
+  const inputEnableZoom2: HTMLInputElement = <HTMLInputElement>(
+    document.getElementById("enable-zoom")
+  );
+  const inputEnableZoomToFit2: HTMLInputElement = <HTMLInputElement>(
+    document.getElementById("enable-zoom-to-fit")
+  );
+  const inputEnableMouseWheel2: HTMLInputElement = <HTMLInputElement>(
+    document.getElementById("enable-mouse-wheel-zoom")
+  );
+  const inputEnableRangeSelect2: HTMLInputElement = <HTMLInputElement>(
+    document.getElementById("enable-range-select")
+  );
 
-  // const xAxis = new NumericAxis(wasmContext);
-  // // xAxis.visibleRange = new NumberRange(0, 7000);
-  // sciChartSurface.xAxes.add(xAxis);
-  // const yAxis = new NumericAxis(wasmContext);
-  // // yAxis.visibleRange = new NumberRange(0, 6);
-  // sciChartSurface.yAxes.add(yAxis);
+  inputEnablePan.addEventListener("change", () => {
+    zoomPanModifier.isEnabled = inputEnablePan2.checked;
+    rubberBandZoomModifier.isEnabled = !inputEnablePan2.checked;
+    rangeSelectionModifier.isEnabled = !inputEnablePan2.checked;
+    inputEnableZoom2.checked = !inputEnablePan2.checked;
+    inputEnableRangeSelect2.checked = !inputEnablePan2.checked;
+  });
+  inputEnableZoom.addEventListener("change", () => {
+    rubberBandZoomModifier.isEnabled = inputEnableZoom2.checked;
+    zoomPanModifier.isEnabled = !inputEnableZoom2.checked;
+    rangeSelectionModifier.isEnabled = !inputEnableZoom2.checked;
+    inputEnablePan2.checked = !inputEnableZoom2.checked;
+    inputEnableRangeSelect2.checked = !inputEnableZoom2.checked;
+  });
+  inputEnableRangeSelect.addEventListener("change", () => {
+    rangeSelectionModifier.isEnabled = inputEnableRangeSelect2.checked;
+    zoomPanModifier.isEnabled = !inputEnableRangeSelect2.checked;
+    rubberBandZoomModifier.isEnabled = !inputEnableRangeSelect2.checked;
+    inputEnablePan2.checked = !inputEnableRangeSelect2.checked;
+    inputEnableZoom2.checked = !inputEnableRangeSelect2.checked;
+  });
 
-  // yAxis.axisAlignmentProperty = "None";
+  inputEnableZoomToFit.addEventListener("change", () => {
+    zoomExtentsModifier.isEnabled = inputEnableZoomToFit2.checked;
+  });
+  inputEnableMouseWheel.addEventListener("change", () => {
+    mouseWheelZoomModifier.isEnabled = inputEnableMouseWheel2.checked;
+  });
 
-  // const mouseWheelZoomModifier = new MouseWheelZoomModifier();
-  // const zoomPanModifier = new ZoomPanModifier();
-  // const rubberBandZoomModifier = new RubberBandXyZoomModifier();
-  // const zoomExtentsModifier = new ZoomExtentsModifier();
-  // const rangeSelectionModifier = new RangeSelectionChartModifier();
-  // sciChartSurface.chartModifiers.add(zoomExtentsModifier);
-  // sciChartSurface.chartModifiers.add(zoomPanModifier);
-  // sciChartSurface.chartModifiers.add(rubberBandZoomModifier);
-  // sciChartSurface.chartModifiers.add(mouseWheelZoomModifier);
-  // sciChartSurface.chartModifiers.add(rangeSelectionModifier);
-  // const inputEnablePan = document.getElementById("enable-pan");
-  // const inputEnableZoom = document.getElementById("enable-zoom");
-  // const inputEnableZoomToFit = document.getElementById("enable-zoom-to-fit");
-  // const inputEnableMouseWheel = document.getElementById(
-  //   "enable-mouse-wheel-zoom"
-  // );
-  // const inputEnableRangeSelect = document.getElementById("enable-range-select");
-  // inputEnablePan.addEventListener("input", event => {
-  //   zoomPanModifier.isEnabled = inputEnablePan.checked;
-  //   rubberBandZoomModifier.isEnabled = !inputEnablePan.checked;
-  //   rangeSelectionModifier.isEnabled = !inputEnablePan.checked;
-  //   inputEnableZoom.checked = !inputEnablePan.checked;
-  //   inputEnableRangeSelect.checked = !inputEnablePan.checked;
-  // });
-  // inputEnableZoom.addEventListener("input", event => {
-  //   rubberBandZoomModifier.isEnabled = inputEnableZoom.checked;
-  //   zoomPanModifier.isEnabled = !inputEnableZoom.checked;
-  //   rangeSelectionModifier.isEnabled = !inputEnableZoom.checked;
-  //   inputEnablePan.checked = !inputEnableZoom.checked;
-  //   inputEnableRangeSelect.checked = !inputEnableZoom.checked;
-  // });
-  // inputEnableRangeSelect.addEventListener("input", event => {
-  //   rangeSelectionModifier.isEnabled = inputEnableRangeSelect.checked;
-  //   zoomPanModifier.isEnabled = !inputEnableRangeSelect.checked;
-  //   rubberBandZoomModifier.isEnabled = !inputEnableRangeSelect.checked;
-  //   inputEnablePan.checked = !inputEnableRangeSelect.checked;
-  //   inputEnableZoom.checked = !inputEnableRangeSelect.checked;
-  // });
+  sciChartSurface.chartModifiers.add(new RolloverModifier());
 
-  // inputEnableZoomToFit.addEventListener("input", event => {
-  //   zoomExtentsModifier.isEnabled = inputEnableZoomToFit.checked;
-  // });
-  // inputEnableMouseWheel.addEventListener("input", event => {
-  //   mouseWheelZoomModifier.isEnabled = inputEnableMouseWheel.checked;
-  // });
-
-  // sciChartSurface.chartModifiers.add(new RolloverModifier());
-
-  // sciChartSurface.annotations.add(
-  //   // Add TextAnnotations in the top left of the chart
-  //   new TextAnnotation({
-  //     text: "Annotations are Easy!",
-  //     fontSize: 24,
-  //     x1: 0.3,
-  //     y1: 9.7
-  //   }),
-  //   new TextAnnotation({
-  //     text: "You can create text",
-  //     fontSize: 18,
-  //     x1: 1,
-  //     y1: 9
-  //   }),
-  //   // Add TextAnnotations with anchor points
-  //   new TextAnnotation({
-  //     text: "Anchor Center (X1, Y1)",
-  //     horizontalAnchorPoint: EHorizontalAnchorPoint.Center,
-  //     verticalAnchorPoint: EVerticalAnchorPoint.Bottom,
-  //     x1: 2,
-  //     y1: 8
-  //   }),
-  //   new TextAnnotation({
-  //     text: "Anchor Right",
-  //     horizontalAnchorPoint: EHorizontalAnchorPoint.Right,
-  //     verticalAnchorPoint: EVerticalAnchorPoint.Top,
-  //     x1: 2,
-  //     y1: 8
-  //   }),
-  //   new TextAnnotation({
-  //     text: "or Anchor Left",
-  //     horizontalAnchorPoint: EHorizontalAnchorPoint.Left,
-  //     verticalAnchorPoint: EVerticalAnchorPoint.Top,
-  //     x1: 2,
-  //     y1: 8
-  //   })
-  // );
-
-  // Declare a DataSeries
-  // const xyDataSeries1 = new XyDataSeries(wasmContext);
-  // const xyDataSeries2 = new XyDataSeries(wasmContext);
-  // const xyDataSeries3 = new XyDataSeries(wasmContext);
-  // const xyDataSeries4 = new XyDataSeries(wasmContext);
-  // const xyDataSeries5 = new XyDataSeries(wasmContext);
-  // const xyDataSeries6 = new XyDataSeries(wasmContext);
-
-  // data.dps1.forEach((item, index) => {
-  //   xyDataSeries1.append(index, item + 0);
-  // });
-
-  // data.dps2.forEach((item, index) => {
-  //   xyDataSeries2.append(index, item + 1);
-  // });
-  // data.dps3.forEach((item, index) => {
-  //   xyDataSeries3.append(index, item + 2);
-  // });
-  // data.dps4.forEach((item, index) => {
-  //   xyDataSeries4.append(index, item + 3);
-  // });
-
-  // data.dps5.forEach((item, index) => {
-  //   xyDataSeries5.append(index, item + 4);
-  // });
-
-  // data.dps6.forEach((item, index) => {
-  //   xyDataSeries6.append(index, item + 5);
-  // });
+  sciChartSurface.annotations.add(
+    // Add TextAnnotations in the top left of the chart
+    new TextAnnotation({
+      text: "Annotations are Easy!",
+      fontSize: 24,
+      x1: 0.3,
+      y1: 9.7,
+    }),
+    new TextAnnotation({
+      text: "You can create text",
+      fontSize: 18,
+      x1: 1,
+      y1: 9,
+    }),
+    // Add TextAnnotations with anchor points
+    new TextAnnotation({
+      text: "Anchor Center (X1, Y1)",
+      horizontalAnchorPoint: EHorizontalAnchorPoint.Center,
+      verticalAnchorPoint: EVerticalAnchorPoint.Bottom,
+      x1: 2,
+      y1: 8,
+    }),
+    new TextAnnotation({
+      text: "Anchor Right",
+      horizontalAnchorPoint: EHorizontalAnchorPoint.Right,
+      verticalAnchorPoint: EVerticalAnchorPoint.Top,
+      x1: 2,
+      y1: 8,
+    }),
+    new TextAnnotation({
+      text: "or Anchor Left",
+      horizontalAnchorPoint: EHorizontalAnchorPoint.Left,
+      verticalAnchorPoint: EVerticalAnchorPoint.Top,
+      x1: 2,
+      y1: 8,
+    })
+  );
 
   // Add a line series to the SciChartSurface
   const lineSeries1 = new FastLineRenderableSeries(wasmContext);
@@ -279,6 +256,7 @@ export default defineComponent({
       count,
       handClickPlus,
       handClickLess,
+      initSciChart,
     };
   },
   name: "HelloWorld",
