@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
-    "element-plus": "^1.0.1-beta.17",
+    "element-plus": "^1.0.1-beta.27",
     "express": "^4.17.1",
     "scichart": "^1.0.1334",
     "vue": "^3.0.0",
@@ -27,6 +27,7 @@
     "@vue/compiler-sfc": "^3.0.0",
     "@vue/eslint-config-prettier": "^6.0.0",
     "@vue/eslint-config-typescript": "^5.0.2",
+    "babel-plugin-component": "^1.1.1",
     "copy-files-from-to": "^3.2.0",
     "eslint": "^6.7.2",
     "eslint-plugin-prettier": "^3.1.3",

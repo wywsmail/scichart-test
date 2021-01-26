@@ -1,5 +1,4 @@
-let dps1 = [
-    0,
+const dps1 = [0,
     0,
     0,
     0,
@@ -7606,16 +7605,7 @@ let dps1 = [
     -0.05419922
 ];
 
-// let objdps1 = dps1.map((d, index) => {
-//     objdps1.x = index
-//     objdps1.y = d
-//     return objdps1;
-// })
-
-
-
-
-let dps2 = [
+const dps2 = [
     0,
     0,
     0,
@@ -15223,13 +15213,7 @@ let dps2 = [
     0.018066406
 ];
 
-// let objdps2 = dps2.map((d, index) => {
-//     objdps2.x = index
-//     objdps2.y = d
-//     return objdps2;
-// })
-
-let dps3 = [
+const dps3 = [
     0,
     0,
     0,
@@ -22837,13 +22821,7 @@ let dps3 = [
     0.072265625
 ];
 
-// let objdps3 = dps3.map((d, index) => {
-//     objdps3.x = index
-//     objdps3.y = d
-//     return objdps3;
-// })
-
-let dps4 = [
+const dps4 = [
     0,
     0,
     0,
@@ -30451,13 +30429,7 @@ let dps4 = [
     0.018066406
 ];
 
-// let objdps4 = dps4.map((d, index) => {
-//     objdps4.x = index
-//     objdps4.y = d
-//     return objdps4;
-// })
-
-let dps5 = [
+const dps5 = [
     0,
     0,
     0,
@@ -38065,13 +38037,7 @@ let dps5 = [
     -0.061425783
 ];
 
-// let objdps5 = dps5.map((d, index) => {
-//     objdps5.x = index
-//     objdps5.y = d
-//     return objdps5;
-// })
-
-let dps6 = [
+const dps6 = [
     0,
     0,
     0,
@@ -45679,16 +45645,10 @@ let dps6 = [
     0.043359376
 ];
 
-// let objdps6 = dps6.map((d,index) =>{
-//     objdps6.x = index
-//     objdps6.y = d
-//     return objdps6;
-// })
-
 interface data{
     [propName: string]: any;
 }
-export const data:data = {
+export const data: data = {
     dps1,
     dps2,
     dps3,

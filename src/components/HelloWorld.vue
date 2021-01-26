@@ -23,7 +23,6 @@
 <script lang="ts">
 import { defineComponent, onMounted } from "vue";
 import { count, handClickPlus, handClickLess } from "@/composition/store";
-//
 import { SciChartSurface } from "scichart/Charting/Visuals/SciChartSurface";
 import { NumericAxis } from "scichart/Charting/Visuals/Axis/NumericAxis";
 import { FastLineRenderableSeries } from "scichart/Charting/Visuals/RenderableSeries/FastLineRenderableSeries";
@@ -137,7 +136,7 @@ async function initSciChart() {
     document.getElementById("enable-range-select")
   );
 
-  inputEnablePan.addEventListener("change", () => {
+  inputEnablePan.addEventListener("change", (): void => {
     zoomPanModifier.isEnabled = inputEnablePan2.checked;
     rubberBandZoomModifier.isEnabled = !inputEnablePan2.checked;
     rangeSelectionModifier.isEnabled = !inputEnablePan2.checked;
