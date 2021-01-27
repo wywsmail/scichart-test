@@ -1,4 +1,5 @@
-import { ref } from "vue";
+/* eslint-disable @typescript-eslint/camelcase */
+import { reactive, ref } from "vue";
 // import { onMounted } from "vue";
 import axios from "axios";
 import apiUrl from "../../api_url.global";
@@ -15,7 +16,7 @@ export const handClickLess = () => {
 // 原 tempState.js
 export const token = ref(null);
 export const username = ref("");
-export const role = localStorage.getItem("role") || ref("");
+export const role = localStorage.getItem("role") ?? ref("");
 export const diagnoses = ref(null);
 export const rows = ref([]);
 export const colums = ref([
@@ -56,6 +57,112 @@ export const anomalyModels = ref([]);
 export const isLogin = ref(false);
 
 // DIAGNOSES PAGE
+export const tableData = reactive([
+  {
+    patientid: "2466332",
+    time: "2020/08/05, 15:18:52",
+    mesuretype: "still",
+    whomeasure: "yuan",
+    tags: "VPC,ST-E"
+  },
+  {
+    patientid: "2466332",
+    time: "2020/08/05, 15:18:52",
+    mesuretype: "still",
+    whomeasure: "yuan",
+    tags: "VPC,ST-E"
+  },
+  {
+    patientid: "2466332",
+    time: "2020/08/05, 15:18:52",
+    mesuretype: "still",
+    whomeasure: "yuan",
+    tags: "VPC,ST-E"
+  },
+  {
+    patientid: "2466332",
+    time: "2020/08/05, 15:18:52",
+    mesuretype: "still",
+    whomeasure: "yuan",
+    tags: "VPC,ST-E"
+  },
+  {
+    patientid: "2466332",
+    time: "2020/08/05, 15:18:52",
+    mesuretype: "still",
+    whomeasure: "yuan",
+    tags: "VPC,ST-E"
+  },
+  {
+    patientid: "2466332",
+    time: "2020/08/05, 15:18:52",
+    mesuretype: "still",
+    whomeasure: "yuan",
+    tags: "VPC,ST-E"
+  },
+  {
+    patientid: "2466332",
+    time: "2020/08/05, 15:18:52",
+    mesuretype: "still",
+    whomeasure: "yuan",
+    tags: "VPC,ST-E"
+  },
+  {
+    patientid: "2466332",
+    time: "2020/08/05, 15:18:52",
+    mesuretype: "still",
+    whomeasure: "yuan",
+    tags: "VPC,ST-E"
+  },
+  {
+    patientid: "2466332",
+    time: "2020/08/05, 15:18:52",
+    mesuretype: "still",
+    whomeasure: "yuan",
+    tags: "VPC,ST-E"
+  },
+  {
+    patientid: "2466332",
+    time: "2020/08/05, 15:18:52",
+    mesuretype: "still",
+    whomeasure: "yuan",
+    tags: "VPC,ST-E"
+  }
+]);
+
+export const requestDiagnoses = () => {
+  const config: any = {
+    baseURL: apiUrl.url,
+    url: "/diagnoses/dashboard",
+    header: {
+      "Content-Type": "application/json",
+      platform: "web"
+    },
+    method: "post",
+    data: {
+      medical_id: "01",
+      // measure_person: username.value,
+      // role: String(role),
+      // start_date: diagnosesUpdateTime
+      user_id: "c32a9d8f-c0fe-4e23-beb9-4e0d9db24368",
+      role: "regular",
+      start_date: "2021-03-11T02:47:12.068Z"
+    }
+  };
+  console.log(config);
+  // transformResponse: [].concat(
+  //   axios.defaults.transformRespons,
+  //   data => data.data
+  // )
+  axios(config)
+    .then(res => {
+      console.log(res.data);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};
+
 // export const username = ref("");
 // export const role = ref("");
 
@@ -246,7 +353,10 @@ export const retrieveToken = (username: string, password: string) => {
     .then(res => {
       console.log(res);
       token.value = res.data.access_token;
-      console.log(token.value);
+      localStorage.setItem("role", res.data.role);
+      // username = res.data.username;
+      // console.log(token.value);
+      // console.log(res.request.response);
     })
     .catch(err => {
       console.log(err);

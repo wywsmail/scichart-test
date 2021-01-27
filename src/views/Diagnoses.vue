@@ -7,8 +7,9 @@
         <el-table-column prop="patientid" label="Patient ID" width="180">
         </el-table-column>
         <el-table-column prop="time" label="Time" width="180"></el-table-column>
-        <el-table-column prop="mesuretype" label="Measure Type"> </el-table-column>
-        <el-table-column prop="whomeasure" label="Who measures"> </el-table-column>
+        <el-table-column prop="mesuretype" label="Measure Type">
+        </el-table-column>
+        <el-table-column prop="whomeasure" label="Who measures"></el-table-column>
         <el-table-column prop="tags" label="Tags"></el-table-column>
         <el-table-column prop="address" label="Delete">
           <i class="el-icon-delete"> </i>
@@ -24,88 +25,17 @@
 </template>
 
 <script>
-import { count } from "@/composition/store";
-// import { diagnosesRequest } from "@/composition/store";
-// import { onMounted } from "vue";
+import { count, tableData } from "@/composition/store";
+import { requestDiagnoses } from "@/composition/store";
+import { onMounted } from "vue";
 export default {
   setup() {
-    // onMounted(() => {
-    //   diagnosesRequest();
-    // });
+    onMounted(() => {
+      requestDiagnoses();
+    });
     return {
       count,
-      tableData: [
-        {
-          patientid: "2466332",
-          time: "2020/08/05, 15:18:52",
-          mesuretype: "still",
-          whomeasure: "yuan",
-          tags: "VPC,ST-E"
-        },
-        {
-          patientid: "2466332",
-          time: "2020/08/05, 15:18:52",
-          mesuretype: "still",
-          whomeasure: "yuan",
-          tags: "VPC,ST-E"
-        },
-        {
-          patientid: "2466332",
-          time: "2020/08/05, 15:18:52",
-          mesuretype: "still",
-          whomeasure: "yuan",
-          tags: "VPC,ST-E"
-        },
-        {
-          patientid: "2466332",
-          time: "2020/08/05, 15:18:52",
-          mesuretype: "still",
-          whomeasure: "yuan",
-          tags: "VPC,ST-E"
-        },
-        {
-          patientid: "2466332",
-          time: "2020/08/05, 15:18:52",
-          mesuretype: "still",
-          whomeasure: "yuan",
-          tags: "VPC,ST-E"
-        },
-        {
-          patientid: "2466332",
-          time: "2020/08/05, 15:18:52",
-          mesuretype: "still",
-          whomeasure: "yuan",
-          tags: "VPC,ST-E"
-        },
-        {
-          patientid: "2466332",
-          time: "2020/08/05, 15:18:52",
-          mesuretype: "still",
-          whomeasure: "yuan",
-          tags: "VPC,ST-E"
-        },
-        {
-          patientid: "2466332",
-          time: "2020/08/05, 15:18:52",
-          mesuretype: "still",
-          whomeasure: "yuan",
-          tags: "VPC,ST-E"
-        },
-        {
-          patientid: "2466332",
-          time: "2020/08/05, 15:18:52",
-          mesuretype: "still",
-          whomeasure: "yuan",
-          tags: "VPC,ST-E"
-        },
-        {
-          patientid: "2466332",
-          time: "2020/08/05, 15:18:52",
-          mesuretype: "still",
-          whomeasure: "yuan",
-          tags: "VPC,ST-E"
-        }
-      ]
+      tableData
     };
   }
 };
