@@ -5,7 +5,7 @@
 
 <script lang="ts">
 import HelloWorld from "@/components/HelloWorld.vue";
-// import { tempDiagnoses, requestDiagnoses } from "@/composition/store";
+import { getSingleDiagnoses } from "@/composition/store";
 import { onMounted } from "vue";
 export default {
   name: "Chart",
@@ -14,7 +14,7 @@ export default {
   },
   setup() {
     onMounted(() => {
-      // requestDiagnoses();
+      getSingleDiagnoses();
       //   console.log(tempDiagnoses.data.data);
       //   // console.log(tempDiagnoses.data.data.create_data);
       //   console.log("Chart 頁面");

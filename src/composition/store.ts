@@ -204,6 +204,34 @@ export const requestDiagnoses = () => {
 
 // CHART PAGE
 
+export const getSingleDiagnoses = () => {
+  const config: any = {
+    baseURL: apiUrl.url,
+    url: "/diagnoses/" + "3d99f4a1-c997-42f0-a1f7-ef61b36d19c3",
+    header: {
+      "Content-Type": "application/json",
+      platform: "web"
+    },
+    method: "get",
+    data: {
+      // medical_id: "01",
+      // measure_person: username.value,
+      // role: String(role),
+      // start_date: diagnosesUpdateTime
+      // user_id: "c32a9d8f-c0fe-4e23-beb9-4e0d9db24368",
+      // role: "regular",
+      // start_date: "2021-03-11T02:47:12.068Z"
+    }
+  };
+  axios(config)
+    .then(res => {
+      console.log(res);
+    })
+    .catch(err => {
+      console.log(err);
+  });
+};
+
 // type TData = {
 //   code: number;
 //   // data: any;
