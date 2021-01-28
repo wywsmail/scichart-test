@@ -15,7 +15,6 @@ export const handClickLess = () => {
 
 // 原 tempState.js
 export const token = ref(null);
-export const username = ref("");
 export const role = localStorage.getItem("role") ?? ref("");
 export const diagnoses = ref(null);
 export const rows = ref([]);
@@ -163,7 +162,7 @@ export const requestDiagnoses = () => {
     });
 };
 
-// export const username = ref("");
+
 // export const role = ref("");
 
 // const requestDiagnoses = axios.create({
@@ -361,6 +360,9 @@ export const getSingleDiagnoses = () => {
 //   message?: string;
 // }
 
+export const username = ref("");
+export const password = ref("");
+
 export const retrieveToken = (username: string, password: string) => {
   const loginConfig: any = {
     // baseURL: "https://dev.intelliances.com/broker/medical/v2",
@@ -382,13 +384,14 @@ export const retrieveToken = (username: string, password: string) => {
       console.log(res);
       token.value = res.data.access_token;
       localStorage.setItem("role", res.data.role);
-      // username = res.data.username;
-      // console.log(token.value);
-      // console.log(res.request.response);
     })
     .catch(err => {
       console.log(err);
     });
+};
+
+export const login = () => {
+  retrieveToken(username.value, password.value);
 };
 
 // export const retrieveToken = (username, password, credentials) => {
