@@ -3,14 +3,14 @@
     <el-col :span="16">
       <h1>Diagnoses</h1>
       <p>{{ count }}</p>
-      <el-table :data="tableData" stripe style="width: 1200px">
-        <el-table-column prop="patientid" label="Patient ID" width="180">
+      <el-table :data="tableData[0]" stripe style="width: 1200px">
+        <el-table-column prop="diagnosis_id" label="Diagnosis ID" width="180">
         </el-table-column>
-        <el-table-column prop="time" label="Time" width="180"></el-table-column>
-        <el-table-column prop="mesuretype" label="Measure Type">
+        <el-table-column prop="end_time" label="Time" width="180"></el-table-column>
+        <el-table-column prop="measure_type" label="Measure Type">
         </el-table-column>
         <el-table-column prop="whomeasure" label="Who measures"></el-table-column>
-        <el-table-column prop="tags" label="Tags"></el-table-column>
+        <el-table-column prop="notes" label="Tags"></el-table-column>
         <el-table-column prop="address" label="Delete">
           <i class="el-icon-delete"> </i>
         </el-table-column>
@@ -32,6 +32,7 @@ export default {
   setup() {
     onMounted(() => {
       requestDiagnoses();
+      console.log(tableData[0]);
     });
     return {
       count,

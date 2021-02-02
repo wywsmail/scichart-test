@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/camelcase */
 
 import { reactive, ref } from "vue";
-import { useRouter } from "vue-router";
+// import { useRouter } from "vue-router";
 import router from "../router/index";
 // import { onMounted } from "vue";
 import axios from "axios";
@@ -58,78 +58,15 @@ export const anomalyModels = ref([]);
 export const isLogin = ref(false);
 
 // DIAGNOSES PAGE
-export const tableData = reactive([
-  {
-    patientid: "2466332",
-    time: "2020/08/05, 15:18:52",
-    mesuretype: "still",
-    whomeasure: "yuan",
-    tags: "VPC,ST-E"
-  },
-  {
-    patientid: "2466332",
-    time: "2020/08/05, 15:18:52",
-    mesuretype: "still",
-    whomeasure: "yuan",
-    tags: "VPC,ST-E"
-  },
-  {
-    patientid: "2466332",
-    time: "2020/08/05, 15:18:52",
-    mesuretype: "still",
-    whomeasure: "yuan",
-    tags: "VPC,ST-E"
-  },
-  {
-    patientid: "2466332",
-    time: "2020/08/05, 15:18:52",
-    mesuretype: "still",
-    whomeasure: "yuan",
-    tags: "VPC,ST-E"
-  },
-  {
-    patientid: "2466332",
-    time: "2020/08/05, 15:18:52",
-    mesuretype: "still",
-    whomeasure: "yuan",
-    tags: "VPC,ST-E"
-  },
-  {
-    patientid: "2466332",
-    time: "2020/08/05, 15:18:52",
-    mesuretype: "still",
-    whomeasure: "yuan",
-    tags: "VPC,ST-E"
-  },
-  {
-    patientid: "2466332",
-    time: "2020/08/05, 15:18:52",
-    mesuretype: "still",
-    whomeasure: "yuan",
-    tags: "VPC,ST-E"
-  },
-  {
-    patientid: "2466332",
-    time: "2020/08/05, 15:18:52",
-    mesuretype: "still",
-    whomeasure: "yuan",
-    tags: "VPC,ST-E"
-  },
-  {
-    patientid: "2466332",
-    time: "2020/08/05, 15:18:52",
-    mesuretype: "still",
-    whomeasure: "yuan",
-    tags: "VPC,ST-E"
-  },
-  {
-    patientid: "2466332",
-    time: "2020/08/05, 15:18:52",
-    mesuretype: "still",
-    whomeasure: "yuan",
-    tags: "VPC,ST-E"
-  }
-]);
+export const tableData = reactive([]);
+
+// {
+  //   patientid: "2466332",
+  //   time: "2020/08/05, 15:18:52",
+  //   mesuretype: "still",
+  //   whomeasure: "yuan",
+  //   tags: "VPC,ST-E"
+  // }
 
 export const requestDiagnoses = () => {
   const config: any = {
@@ -157,7 +94,9 @@ export const requestDiagnoses = () => {
   // )
   axios(config)
     .then(res => {
-      console.log(res.data);
+      console.log(res.data.data);
+      tableData.push(res.data.data);
+      console.log(tableData[0]);
     })
     .catch(err => {
       console.log(err);
