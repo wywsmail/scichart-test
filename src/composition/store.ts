@@ -1,9 +1,11 @@
 /* eslint-disable @typescript-eslint/camelcase */
+
 import { reactive, ref } from "vue";
+import { useRouter } from "vue-router";
+import router from "../router/index";
 // import { onMounted } from "vue";
 import axios from "axios";
 import apiUrl from "../../api_url.global";
-
 // testing
 export const count = ref(0);
 export const handClickPlus = () => {
@@ -133,9 +135,9 @@ export const requestDiagnoses = () => {
   const config: any = {
     baseURL: apiUrl.url,
     url: "/diagnoses/dashboard",
-    header: {
+    headers: {
       "Content-Type": "application/json",
-      platform: "web"
+      "platform": "web"
     },
     method: "post",
     data: {
@@ -161,7 +163,6 @@ export const requestDiagnoses = () => {
       console.log(err);
     });
 };
-
 
 // export const role = ref("");
 
@@ -207,9 +208,9 @@ export const getSingleDiagnoses = () => {
   const config: any = {
     baseURL: apiUrl.url,
     url: "/diagnoses/" + "3d99f4a1-c997-42f0-a1f7-ef61b36d19c3",
-    header: {
+    headers: {
       "Content-Type": "application/json",
-      platform: "web"
+      "platform": "web"
     },
     method: "get",
     data: {
@@ -224,11 +225,23 @@ export const getSingleDiagnoses = () => {
   };
   axios(config)
     .then(res => {
-      console.log(res);
+      // console.log(res.data.data.measures.values[0].raw_datas[0]);
+      console.log(res.data.data.measures[0].values[0].name);
+      console.log(res.data.data.measures[0].values[0].raw_datas);
+      console.log(res.data.data.measures[0].values[1].name);
+      console.log(res.data.data.measures[0].values[1].raw_datas);
+      console.log(res.data.data.measures[0].values[2].name);
+      console.log(res.data.data.measures[0].values[2].raw_datas);
+      console.log(res.data.data.measures[0].values[3].name);
+      console.log(res.data.data.measures[0].values[3].raw_datas);
+      console.log(res.data.data.measures[0].values[4].name);
+      console.log(res.data.data.measures[0].values[4].raw_datas);
+      console.log(res.data.data.measures[0].values[5].name);
+      console.log(res.data.data.measures[0].values[5].raw_datas);
     })
     .catch(err => {
       console.log(err);
-  });
+    });
 };
 
 // type TData = {
@@ -363,14 +376,15 @@ export const getSingleDiagnoses = () => {
 export const username = ref("");
 export const password = ref("");
 
+// const router = useRouter();
 export const retrieveToken = (username: string, password: string) => {
   const loginConfig: any = {
     // baseURL: "https://dev.intelliances.com/broker/medical/v2",
     baseURL: apiUrl.url,
     url: "/login",
-    header: {
+    headers: {
       "Content-Type": "application/json",
-      platform: "web"
+      "platform": "web"
     },
     method: "post",
     data: {
@@ -378,21 +392,64 @@ export const retrieveToken = (username: string, password: string) => {
       password: password
     }
   };
-  // console.log(loginConfig);
+  // const router = useRouter();
   axios(loginConfig)
     .then(res => {
       console.log(res);
       token.value = res.data.access_token;
       localStorage.setItem("role", res.data.role);
+      window.setTimeout(() => {
+        router.push({ name: "Diagnoses" });
+      }, 1000);
+      // console.log(router);
+      // router.push({ name: "diagnoses" });
+      // { name: "diagnosis" }
+      // console.log(router);
     })
     .catch(err => {
       console.log(err);
     });
 };
-
 export const login = () => {
   retrieveToken(username.value, password.value);
 };
+
+// export const jump = () => {
+//   const router = useRouter();
+//   router.push("diagnoses");
+// }
+// export const retrieveToken = (username: string, password: string) => {
+//   const loginConfig: any = {
+//     // baseURL: "https://dev.intelliances.com/broker/medical/v2",
+//     baseURL: apiUrl.url,
+//     url: "/login",
+//     header: {
+//       "Content-Type": "application/json",
+//       platform: "web"
+//     },
+//     method: "post",
+//     data: {
+//       identifier: username,
+//       password: password
+//     }
+//   };
+//   axios(loginConfig)
+//     .then(res => {
+//       console.log(res);
+//       token.value = res.data.access_token;
+//       localStorage.setItem("role", res.data.role);
+//       // console.log(router);
+//       router.push("diagnoses");
+//       // console.log(router);
+//     })
+//     .catch(err => {
+//       console.log(err);
+//     });
+// };
+
+// export const login = () => {
+//   retrieveToken(username.value, password.value);
+// };
 
 // export const retrieveToken = (username, password, credentials) => {
 //   return new Promise((resolve, reject) => {

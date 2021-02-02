@@ -6,7 +6,7 @@
     "build": "npm run copyWasm && vue-cli-service build",
     "lint": "vue-cli-service lint",
     "copyWasm": "copy-files-from-to --config copy-files-from-to.json",
-    "dev": "npm run copyWasm && vue-cli-service serve",
+    "serve": "npm run copyWasm && vue-cli-service serve",
     "start": "node src/server.js"
   },
   "dependencies": {

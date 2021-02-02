@@ -25,9 +25,15 @@
 
 <script>
 import { defineComponent } from "vue";
+// import { useRouter } from "vue-router";
 import { password, username, login } from "@/composition/store";
 export default defineComponent({
   setup() {
+    // const jump = () => {
+    //   console.log("有嗎")
+    //   const router = useRouter();
+    //   router.push({ name: "diagnoses" });
+    //
     return { username, password, login };
   }
 });
