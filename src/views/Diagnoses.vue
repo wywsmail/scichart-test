@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 <template>
   <el-row type="flex" justify="center">
     <el-col :span="16">

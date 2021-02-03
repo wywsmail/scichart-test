@@ -17,6 +17,7 @@ export const handClickLess = () => {
 
 // 原 tempState.js
 export const token = ref(null);
+export const user_id = localStorage.getItem("userid") ?? ref(null);
 export const role = localStorage.getItem("role") ?? ref("");
 export const diagnoses = ref(null);
 export const rows = ref([]);
@@ -74,12 +75,16 @@ export const requestDiagnoses = () => {
       // measure_person: username.value,
       // role: String(role),
       // start_date: diagnosesUpdateTime
-      user_id: "c32a9d8f-c0fe-4e23-beb9-4e0d9db24368",
+      user_id: user_id,
       role: "regular",
       start_date: "2021-03-11T02:47:12.068Z"
     }
   };
   console.log(config);
+  console.log(user_id);
+  
+  // console.log(user_id.value);
+  
   // transformResponse: [].concat(
   //   axios.defaults.transformRespons,
   //   data => data.data
@@ -311,18 +316,18 @@ export const username = ref("");
 export const password = ref("");
 
 // const router = useRouter();
-export const retrieveToken = (username: string, password: string) => {
+export const retrieveToken = (phone: string, password: string) => {
   const loginConfig: any = {
     // baseURL: "https://dev.intelliances.com/broker/medical/v2",
     baseURL: apiUrl.url,
     url: "/login",
     headers: {
       "Content-Type": "application/json",
-      platform: "web"
+      platform: "mobile"
     },
     method: "post",
     data: {
-      identifier: username,
+      identifier: phone,
       password: password
     }
   };
@@ -332,6 +337,8 @@ export const retrieveToken = (username: string, password: string) => {
       console.log(res);
       token.value = res.data.access_token;
       localStorage.setItem("role", res.data.role);
+      localStorage.setItem("userid", res.data.user_id);
+      // user_id.value = res.data.user_id;
       window.setTimeout(() => {
         router.push({ name: "Diagnoses" });
       }, 1000);
