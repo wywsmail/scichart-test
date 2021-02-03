@@ -34,7 +34,7 @@
     "tests/**/*.ts",
     "tests/**/*.tsx",
     "src/composition/store.js"
-  ],
+, "src/components/SciChart.vue"  ],
   "exclude": [
     "node_modules"
   ]

@@ -60,21 +60,13 @@ export const isLogin = ref(false);
 // DIAGNOSES PAGE
 export const tableData = reactive([]);
 
-// {
-  //   patientid: "2466332",
-  //   time: "2020/08/05, 15:18:52",
-  //   mesuretype: "still",
-  //   whomeasure: "yuan",
-  //   tags: "VPC,ST-E"
-  // }
-
 export const requestDiagnoses = () => {
   const config: any = {
     baseURL: apiUrl.url,
     url: "/diagnoses/dashboard",
     headers: {
       "Content-Type": "application/json",
-      "platform": "web"
+      platform: "web"
     },
     method: "post",
     data: {
@@ -95,14 +87,57 @@ export const requestDiagnoses = () => {
   axios(config)
     .then(res => {
       console.log(res.data.data);
-      tableData.push(res.data.data);
-      console.log(tableData[0]);
+      tableData.length = 0;
+      tableData.push(...res.data.data);
     })
     .catch(err => {
       console.log(err);
     });
 };
 
+export const showECGChart = (index, row) => {
+  console.log(index, row.diagnosis_id);
+  const config: any = {
+    baseURL: apiUrl.url,
+    url: "/diagnoses/" + row.diagnosis_id,
+    headers: {
+      "Content-Type": "application/json",
+      platform: "web"
+    },
+    method: "get",
+    data: {
+      // medical_id: "01",
+      // measure_person: username.value,
+      // role: String(role),
+      // start_date: diagnosesUpdateTime
+      // user_id: "c32a9d8f-c0fe-4e23-beb9-4e0d9db24368",
+      // role: "regular",
+      // start_date: "2021-03-11T02:47:12.068Z"
+    }
+  };
+  axios(config)
+    .then(res => {
+      // console.log(res.data.data.measures.values[0].raw_datas[0]);
+      console.log(res.data.data.measures[0].values[0].name);
+      console.log(res.data.data.measures[0].values[0].raw_datas);
+      console.log(res.data.data.measures[0].values[1].name);
+      console.log(res.data.data.measures[0].values[1].raw_datas);
+      console.log(res.data.data.measures[0].values[2].name);
+      console.log(res.data.data.measures[0].values[2].raw_datas);
+      console.log(res.data.data.measures[0].values[3].name);
+      console.log(res.data.data.measures[0].values[3].raw_datas);
+      console.log(res.data.data.measures[0].values[4].name);
+      console.log(res.data.data.measures[0].values[4].raw_datas);
+      console.log(res.data.data.measures[0].values[5].name);
+      console.log(res.data.data.measures[0].values[5].raw_datas);
+      window.setTimeout(() => {
+        router.push({ name: "Chart" });
+      }, 1000);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};
 // export const role = ref("");
 
 // const requestDiagnoses = axios.create({
@@ -142,46 +177,6 @@ export const requestDiagnoses = () => {
 // };
 
 // CHART PAGE
-
-export const getSingleDiagnoses = () => {
-  const config: any = {
-    baseURL: apiUrl.url,
-    url: "/diagnoses/" + "3d99f4a1-c997-42f0-a1f7-ef61b36d19c3",
-    headers: {
-      "Content-Type": "application/json",
-      "platform": "web"
-    },
-    method: "get",
-    data: {
-      // medical_id: "01",
-      // measure_person: username.value,
-      // role: String(role),
-      // start_date: diagnosesUpdateTime
-      // user_id: "c32a9d8f-c0fe-4e23-beb9-4e0d9db24368",
-      // role: "regular",
-      // start_date: "2021-03-11T02:47:12.068Z"
-    }
-  };
-  axios(config)
-    .then(res => {
-      // console.log(res.data.data.measures.values[0].raw_datas[0]);
-      console.log(res.data.data.measures[0].values[0].name);
-      console.log(res.data.data.measures[0].values[0].raw_datas);
-      console.log(res.data.data.measures[0].values[1].name);
-      console.log(res.data.data.measures[0].values[1].raw_datas);
-      console.log(res.data.data.measures[0].values[2].name);
-      console.log(res.data.data.measures[0].values[2].raw_datas);
-      console.log(res.data.data.measures[0].values[3].name);
-      console.log(res.data.data.measures[0].values[3].raw_datas);
-      console.log(res.data.data.measures[0].values[4].name);
-      console.log(res.data.data.measures[0].values[4].raw_datas);
-      console.log(res.data.data.measures[0].values[5].name);
-      console.log(res.data.data.measures[0].values[5].raw_datas);
-    })
-    .catch(err => {
-      console.log(err);
-    });
-};
 
 // type TData = {
 //   code: number;
@@ -323,7 +318,7 @@ export const retrieveToken = (username: string, password: string) => {
     url: "/login",
     headers: {
       "Content-Type": "application/json",
-      "platform": "web"
+      platform: "web"
     },
     method: "post",
     data: {
