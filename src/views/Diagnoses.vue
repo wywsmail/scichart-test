@@ -47,6 +47,7 @@ export default {
   setup() {
     onMounted(() => {
       requestDiagnoses();
+      // window.location.reload();
     });
     const handleDelete = (index, row) => {
       console.log(index, row.diagnosis_id);

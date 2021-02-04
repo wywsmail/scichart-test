@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 
-import { reactive, ref } from "vue";
+import { computed, reactive, ref } from "vue";
 // import { useRouter } from "vue-router";
 import router from "../router/index";
 // import { onMounted } from "vue";
@@ -17,7 +17,9 @@ export const handClickLess = () => {
 
 // 原 tempState.js
 export const token = ref(null);
-export const user_id = localStorage.getItem("userid") ?? ref(null);
+export const userId = localStorage.getItem("userid") || ref(null);
+// export const userId = ref(localStorage.getItem("userid"));
+// export const userId = computed(() => localStorage.getItem("userid"));
 export const role = localStorage.getItem("role") ?? ref("");
 export const diagnoses = ref(null);
 export const rows = ref([]);
@@ -62,6 +64,7 @@ export const isLogin = ref(false);
 export const tableData = reactive([]);
 
 export const requestDiagnoses = () => {
+  // userId.value = localStorage.getItem("userid");
   const config: any = {
     baseURL: apiUrl.url,
     url: "/diagnoses/dashboard",
@@ -75,16 +78,14 @@ export const requestDiagnoses = () => {
       // measure_person: username.value,
       // role: String(role),
       // start_date: diagnosesUpdateTime
-      user_id: user_id,
+      // user_id: userId,
+      user_id: localStorage.getItem("userid"),
       role: "regular",
       start_date: "2021-03-11T02:47:12.068Z"
     }
   };
   console.log(config);
-  console.log(user_id);
-  
-  // console.log(user_id.value);
-  
+
   // transformResponse: [].concat(
   //   axios.defaults.transformRespons,
   //   data => data.data
@@ -94,6 +95,7 @@ export const requestDiagnoses = () => {
       console.log(res.data.data);
       tableData.length = 0;
       tableData.push(...res.data.data);
+      // window.location.reload();
     })
     .catch(err => {
       console.log(err);
@@ -312,10 +314,8 @@ export const showECGChart = (index, row) => {
 //   message?: string;
 // }
 
-export const username = ref("");
+export const identifier = ref("");
 export const password = ref("");
-
-// const router = useRouter();
 export const retrieveToken = (phone: string, password: string) => {
   const loginConfig: any = {
     // baseURL: "https://dev.intelliances.com/broker/medical/v2",
@@ -331,30 +331,33 @@ export const retrieveToken = (phone: string, password: string) => {
       password: password
     }
   };
-  // const router = useRouter();
+  // localStorage.removeItem("userid");
+  console.log("送的資料",loginConfig);
+  // console.log(userId.value);
   axios(loginConfig)
     .then(res => {
-      console.log(res);
       token.value = res.data.access_token;
       localStorage.setItem("role", res.data.role);
+      console.log(res.data.user_id);
       localStorage.setItem("userid", res.data.user_id);
-      // user_id.value = res.data.user_id;
+      // userId = localStorage.getItem("userid");
       window.setTimeout(() => {
         router.push({ name: "Diagnoses" });
       }, 1000);
-      // console.log(router);
-      // router.push({ name: "diagnoses" });
-      // { name: "diagnosis" }
-      // console.log(router);
     })
     .catch(err => {
       console.log(err);
     });
 };
 export const login = () => {
-  retrieveToken(username.value, password.value);
+  retrieveToken(identifier.value, password.value);
 };
 
+export const logout = () =>{
+  window.localStorage.removeItem("userid");
+  tableData.length = 0;
+  console.log(userId);
+}
 // export const jump = () => {
 //   const router = useRouter();
 //   router.push("diagnoses");
