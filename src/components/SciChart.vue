@@ -22,7 +22,7 @@
 
 <script lang="ts">
 import { defineComponent, onMounted } from "vue";
-import { count, handClickPlus, handClickLess } from "@/composition/store";
+import { count, handClickPlus, handClickLess, diagnoses } from "@/composition/store";
 import { SciChartSurface } from "scichart/Charting/Visuals/SciChartSurface";
 import { NumericAxis } from "scichart/Charting/Visuals/Axis/NumericAxis";
 import { FastLineRenderableSeries } from "scichart/Charting/Visuals/RenderableSeries/FastLineRenderableSeries";
@@ -34,7 +34,7 @@ import { ZoomExtentsModifier } from "scichart/Charting/ChartModifiers/ZoomExtent
 import { ZoomPanModifier } from "scichart/Charting/ChartModifiers/ZoomPanModifier";
 import { RolloverModifier } from "scichart/Charting/ChartModifiers/RolloverModifier";
 import { EHorizontalAnchorPoint, EVerticalAnchorPoint } from "scichart/types/AnchorPoint";
-import { data } from "../assets/data";
+// import { data } from "../assets/data";
 import { RangeSelectionChartModifier } from "@/composition/RangeSelectionChartModifier";
 async function initSciChart() {
   SciChartSurface.setRuntimeLicenseKey(
@@ -78,28 +78,46 @@ async function initSciChart() {
   const xyDataSeries5 = new XyDataSeries(wasmContext);
   const xyDataSeries6 = new XyDataSeries(wasmContext);
 
-  data.dps1.forEach((item: number, index: number) => {
+  // data.dps1.forEach((item: number, index: number) => {
+  //   xyDataSeries1.append(index, item + 0);
+  // });
+
+  // data.dps2.forEach((item: number, index: number) => {
+  //   xyDataSeries2.append(index, item + 1);
+  // });
+  // data.dps3.forEach((item: number, index: number) => {
+  //   xyDataSeries3.append(index, item + 2);
+  // });
+  // data.dps4.forEach((item: number, index: number) => {
+  //   xyDataSeries4.append(index, item + 3);
+  // });
+
+  // data.dps5.forEach((item: number, index: number) => {
+  //   xyDataSeries5.append(index, item + 4);
+  // });
+
+  // data.dps6.forEach((item: number, index: number) => {
+  //   xyDataSeries6.append(index, item + 5);
+  // });
+
+  diagnoses[0][1].forEach((item: number, index: number) => {
     xyDataSeries1.append(index, item + 0);
   });
-
-  data.dps2.forEach((item: number, index: number) => {
+  diagnoses[1][1].forEach((item: number, index: number) => {
     xyDataSeries2.append(index, item + 1);
   });
-  data.dps3.forEach((item: number, index: number) => {
+  diagnoses[2][1].forEach((item: number, index: number) => {
     xyDataSeries3.append(index, item + 2);
   });
-  data.dps4.forEach((item: number, index: number) => {
+  diagnoses[3][1].forEach((item: number, index: number) => {
     xyDataSeries4.append(index, item + 3);
   });
-
-  data.dps5.forEach((item: number, index: number) => {
+  diagnoses[4][1].forEach((item: number, index: number) => {
     xyDataSeries5.append(index, item + 4);
   });
-
-  data.dps6.forEach((item: number, index: number) => {
+  diagnoses[5][1].forEach((item: number, index: number) => {
     xyDataSeries6.append(index, item + 5);
   });
-
   const mouseWheelZoomModifier = new MouseWheelZoomModifier();
   const zoomPanModifier = new ZoomPanModifier();
   const rubberBandZoomModifier = new RubberBandXyZoomModifier();
@@ -256,6 +274,7 @@ export default defineComponent({
       handClickPlus,
       handClickLess,
       initSciChart,
+      diagnoses,
     };
   },
   name: "HelloWorld",

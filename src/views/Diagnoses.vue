@@ -24,8 +24,18 @@
         </el-table-column>
         <el-table-column label="按鈕操作" width="180">
           <template v-slot="scope">
-            <el-button size="mini" type="primary" @click="showECGChart(scope.$index, scope.row)">顯示 ECG</el-button>
-            <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+            <el-button
+              size="mini"
+              type="primary"
+              @click="getECGChart(scope.$index, scope.row)"
+              >顯示 ECG</el-button
+            >
+            <el-button
+              size="mini"
+              type="danger"
+              @click="handleDelete(scope.$index, scope.row)"
+              >删除</el-button
+            >
           </template>
         </el-table-column>
       </el-table>
@@ -41,7 +51,7 @@
 
 <script>
 import { count, tableData } from "@/composition/store";
-import { requestDiagnoses, showECGChart } from "@/composition/store";
+import { requestDiagnoses, getECGChart } from "@/composition/store";
 import { onMounted } from "vue";
 export default {
   setup() {
@@ -55,7 +65,7 @@ export default {
     return {
       count,
       tableData,
-      showECGChart,
+      getECGChart,
       handleDelete
     };
   }
