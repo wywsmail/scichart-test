@@ -57,7 +57,8 @@ export const evaluationTags = ref([]);
 export const anomalyModels = ref([]);
 
 // HOME PAGE
-export const isLogin = ref(false);
+export const isLogin = ref(JSON.parse(localStorage.getItem("isLogin")));
+console.log(isLogin.value);
 
 // LOGIN PAGE
 
@@ -88,6 +89,9 @@ export const retrieveToken = (phone: string, password: string) => {
       window.setTimeout(() => {
         router.push({ name: "Diagnoses" });
       }, 1000);
+      localStorage.setItem("isLogin", JSON.stringify(true));
+      isLogin.value = true;
+      console.log(isLogin.value);
     })
     .catch(err => {
       console.log(err);
@@ -99,7 +103,15 @@ export const login = () => {
 
 export const logout = () => {
   window.localStorage.removeItem("userid");
+  window.localStorage.removeItem("dataAry");
   tableData.length = 0;
+  // isLogin.value = false;
+  localStorage.setItem("isLogin", JSON.stringify(false));
+  isLogin.value = false;
+  console.log(isLogin.value);
+  window.setTimeout(() => {
+    router.push({ name: "Home" });
+  }, 1000);
   console.log(userId);
 };
 
@@ -169,6 +181,7 @@ export const showECGChart = (index, row) => {
 };
 
 export const getECGChart = (index, row) => {
+  console.log(index, row.diagnosis_id);
   window.setTimeout(() => {
     router.push({ name: "Chart" });
   }, 1000);

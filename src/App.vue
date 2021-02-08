@@ -4,21 +4,37 @@
       <el-row type="flex" justify="space-between">
         <el-col :span="5">
           <div id="nav">
-            <router-link to="/">inCare</router-link> |
-            <router-link to="/diagnoses">Diagnoses</router-link>
+            <el-button width="100" size="medium" @click.prevent="changePage('')" native-type="submit">inCare</el-button>
+            <el-button width="100" size="medium" @click.prevent="changePage('diagnoses')" native-type="submit">Diagnoses</el-button>
           </div>
         </el-col>
         <el-col :span="3">
           <div id="nav">
-            <router-link to="/login">Login</router-link>
+            <el-button width="100" size="medium" @click.prevent="changePage('login')" native-type="submit" v-if="!isLogin">Log In</el-button>
+            <el-button width="100" size="medium" @click.prevent="logout" native-type="submit" v-else>Log Out</el-button>
           </div>
         </el-col>
       </el-row>
     </el-header>
     <el-main><router-view /></el-main>
-    <el-footer>inCare © 2020</el-footer>
+    <el-footer>inCare © 2021</el-footer>
   </el-container>
 </template>
+
+<script>
+import { defineComponent } from "vue";
+import { logout, isLogin } from "@/composition/store";
+import router from "./router/index";
+// import { password, identifier, login, logout } from "@/composition/store";
+export default defineComponent({
+  setup() {
+    const changePage = to =>{
+      router.push(`/${to}`);
+    };
+    return { changePage, logout, isLogin };
+  }
+});
+</script>
 
 <style>
 #app {

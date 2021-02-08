@@ -8,18 +8,17 @@
         show-password
         v-model="password"
       ></el-input>
-      <el-button width="100" size="medium" @click.prevent="login" native-type="submit">送出</el-button>
-      <el-button width="100" size="medium" @click.prevent="logout" native-type="submit">登出</el-button>
+      <el-button width="100" size="medium" @click.prevent="login" native-type="submit">Log In</el-button>
     </el-col>
   </el-row>
 </template>
 
 <script>
 import { defineComponent } from "vue";
-import { password, identifier, login, logout } from "@/composition/store";
+import { password, identifier, login } from "@/composition/store";
 export default defineComponent({
   setup() {
-    return { identifier, password, login, logout };
+    return { identifier, password, login };
   }
 });
 </script>
