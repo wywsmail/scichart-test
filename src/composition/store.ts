@@ -136,6 +136,9 @@ export const requestDiagnoses = () => {
   axios(config)
     .then(res => {
       console.log(res.data.data);
+      res.data.data.forEach(item => {
+        item.start_time = new Date(item.start_time).toLocaleString();
+      });
       tableData.length = 0;
       tableData.push(...res.data.data);
     })

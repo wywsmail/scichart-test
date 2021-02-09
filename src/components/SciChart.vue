@@ -16,7 +16,7 @@
       <input type="checkbox" id="enable-mouse-wheel-zoom" checked />
       <label for="enable-mouse-wheel-zoom">Enable Mousewheel Zoom</label><br />
     </div>
-    <div id="scichart-root" style="width: 100%; height: 600px; margin: auto"></div>
+    <div id="scichart-root" style="width: 100%; height: 800px; margin: auto"></div>
   </div>
 </template>
 
@@ -104,19 +104,19 @@ async function initSciChart() {
     xyDataSeries1.append(index, item + 0);
   });
   diagnoses[4][1].forEach((item: number, index: number) => {
-    xyDataSeries2.append(index, item + 1);
+    xyDataSeries2.append(index, item + 2);
   });
   diagnoses[3][1].forEach((item: number, index: number) => {
-    xyDataSeries3.append(index, item + 2);
+    xyDataSeries3.append(index, item + 4);
   });
   diagnoses[2][1].forEach((item: number, index: number) => {
-    xyDataSeries4.append(index, item + 3);
+    xyDataSeries4.append(index, item + 6);
   });
   diagnoses[1][1].forEach((item: number, index: number) => {
-    xyDataSeries5.append(index, item + 4);
+    xyDataSeries5.append(index, item + 8);
   });
   diagnoses[0][1].forEach((item: number, index: number) => {
-    xyDataSeries6.append(index, item + 5);
+    xyDataSeries6.append(index, item + 10);
   });
   const mouseWheelZoomModifier = new MouseWheelZoomModifier();
   const zoomPanModifier = new ZoomPanModifier();
@@ -188,39 +188,63 @@ async function initSciChart() {
   sciChartSurface.annotations.add(
     // Add TextAnnotations in the top left of the chart
     new TextAnnotation({
-      text: "Annotations are Easy!",
-      fontSize: 24,
+      text: "LEAD 1",
+      fontSize: 18,
       x1: 0.3,
       y1: 9.7,
     }),
     new TextAnnotation({
-      text: "You can create text",
+      text: "LEAD 2",
       fontSize: 18,
       x1: 1,
-      y1: 9,
-    }),
-    // Add TextAnnotations with anchor points
-    new TextAnnotation({
-      text: "Anchor Center (X1, Y1)",
-      horizontalAnchorPoint: EHorizontalAnchorPoint.Center,
-      verticalAnchorPoint: EVerticalAnchorPoint.Bottom,
-      x1: 2,
-      y1: 8,
+      y1: 7.7,
     }),
     new TextAnnotation({
-      text: "Anchor Right",
-      horizontalAnchorPoint: EHorizontalAnchorPoint.Right,
-      verticalAnchorPoint: EVerticalAnchorPoint.Top,
-      x1: 2,
-      y1: 8,
+      text: "LEAD 3",
+      fontSize: 18,
+      x1: 1,
+      y1: 5.7,
     }),
     new TextAnnotation({
-      text: "or Anchor Left",
-      horizontalAnchorPoint: EHorizontalAnchorPoint.Left,
-      verticalAnchorPoint: EVerticalAnchorPoint.Top,
-      x1: 2,
-      y1: 8,
-    })
+      text: "aVR",
+      fontSize: 18,
+      x1: 1,
+      y1: 3.7,
+    }),
+    new TextAnnotation({
+      text: "aVL",
+      fontSize: 18,
+      x1: 1,
+      y1: 1.7,
+    }),
+    new TextAnnotation({
+      text: "aVF",
+      fontSize: 18,
+      x1: 1,
+      y1: 0.7,
+    }),
+    // // Add TextAnnotations with anchor points
+    // new TextAnnotation({
+    //   text: "Anchor Center (X1, Y1)",
+    //   horizontalAnchorPoint: EHorizontalAnchorPoint.Center,
+    //   verticalAnchorPoint: EVerticalAnchorPoint.Bottom,
+    //   x1: 2,
+    //   y1: 8,
+    // }),
+    // new TextAnnotation({
+    //   text: "Anchor Right",
+    //   horizontalAnchorPoint: EHorizontalAnchorPoint.Right,
+    //   verticalAnchorPoint: EVerticalAnchorPoint.Top,
+    //   x1: 2,
+    //   y1: 8,
+    // }),
+    // new TextAnnotation({
+    //   text: "or Anchor Left",
+    //   horizontalAnchorPoint: EHorizontalAnchorPoint.Left,
+    //   verticalAnchorPoint: EVerticalAnchorPoint.Top,
+    //   x1: 2,
+    //   y1: 8,
+    // })
   );
 
   // Add a line series to the SciChartSurface

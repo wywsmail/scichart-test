@@ -5,22 +5,23 @@
       <h1>Diagnoses</h1>
       <p>{{ count }}</p>
       <el-table :data="tableData" stripe style="width: 1200px">
-        <el-table-column prop="diagnosis_id" label="Diagnosis ID" width="180">
+        <el-table-column prop="diagnosis_id" label="ID" width="180">
         </el-table-column>
         <el-table-column
-          prop="end_time"
+          prop="start_time"
           label="Time"
           width="180"
         ></el-table-column>
-        <el-table-column prop="measure_type" label="Measure Type">
-        </el-table-column>
+        <el-table-column prop="hr_last" label="HR"></el-table-column>
         <el-table-column
-          prop="whomeasure"
-          label="Who measures"
+          prop="gain"
+          label="Gain"
         ></el-table-column>
-        <el-table-column prop="notes" label="Tags"></el-table-column>
-        <el-table-column prop="address" label="Delete">
-          <i class="el-icon-delete"> </i>
+        <el-table-column prop="device_id" label="Device"></el-table-column>
+        <el-table-column prop="mac_address" label="MAC"></el-table-column>
+        <el-table-column prop="longitude" label="Location">
+          <el-table-column prop="latitude" label="lat"></el-table-column>
+          <el-table-column prop="longitude" label="lng"></el-table-column>
         </el-table-column>
         <el-table-column label="按鈕操作" width="180">
           <template v-slot="scope">
