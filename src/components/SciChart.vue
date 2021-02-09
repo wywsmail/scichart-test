@@ -100,22 +100,22 @@ async function initSciChart() {
   //   xyDataSeries6.append(index, item + 5);
   // });
 
-  diagnoses[0][1].forEach((item: number, index: number) => {
+  diagnoses[5][1].forEach((item: number, index: number) => {
     xyDataSeries1.append(index, item + 0);
   });
-  diagnoses[1][1].forEach((item: number, index: number) => {
+  diagnoses[4][1].forEach((item: number, index: number) => {
     xyDataSeries2.append(index, item + 1);
   });
-  diagnoses[2][1].forEach((item: number, index: number) => {
+  diagnoses[3][1].forEach((item: number, index: number) => {
     xyDataSeries3.append(index, item + 2);
   });
-  diagnoses[3][1].forEach((item: number, index: number) => {
+  diagnoses[2][1].forEach((item: number, index: number) => {
     xyDataSeries4.append(index, item + 3);
   });
-  diagnoses[4][1].forEach((item: number, index: number) => {
+  diagnoses[1][1].forEach((item: number, index: number) => {
     xyDataSeries5.append(index, item + 4);
   });
-  diagnoses[5][1].forEach((item: number, index: number) => {
+  diagnoses[0][1].forEach((item: number, index: number) => {
     xyDataSeries6.append(index, item + 5);
   });
   const mouseWheelZoomModifier = new MouseWheelZoomModifier();
