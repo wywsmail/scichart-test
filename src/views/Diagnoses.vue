@@ -13,10 +13,7 @@
           width="180"
         ></el-table-column>
         <el-table-column prop="hr_last" label="HR"></el-table-column>
-        <el-table-column
-          prop="gain"
-          label="Gain"
-        ></el-table-column>
+        <el-table-column prop="gain" label="Gain"></el-table-column>
         <el-table-column prop="device_id" label="Device"></el-table-column>
         <el-table-column prop="mac_address" label="MAC"></el-table-column>
         <el-table-column prop="longitude" label="Location">

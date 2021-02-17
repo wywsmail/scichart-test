@@ -8,7 +8,13 @@
         show-password
         v-model="password"
       ></el-input>
-      <el-button width="100" size="medium" @click.prevent="login" native-type="submit">Log In</el-button>
+      <el-button
+        width="100"
+        size="medium"
+        @click.prevent="login"
+        native-type="submit"
+        >Log In
+      </el-button>
     </el-col>
   </el-row>
 </template>

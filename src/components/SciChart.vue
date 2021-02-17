@@ -34,6 +34,8 @@ import { ZoomExtentsModifier } from "scichart/Charting/ChartModifiers/ZoomExtent
 import { ZoomPanModifier } from "scichart/Charting/ChartModifiers/ZoomPanModifier";
 import { RolloverModifier } from "scichart/Charting/ChartModifiers/RolloverModifier";
 import { EHorizontalAnchorPoint, EVerticalAnchorPoint } from "scichart/types/AnchorPoint";
+import { SciChartJSLightTheme} from "scichart/Charting/Themes/SciChartJSLightTheme";
+// import { isXAxis } from "scichart/Charting/Visuals/Axis/AxisCore";
 // import { data } from "../assets/data";
 import { RangeSelectionChartModifier } from "@/composition/RangeSelectionChartModifier";
 async function initSciChart() {
@@ -61,14 +63,19 @@ async function initSciChart() {
   // instance must be passed to other types that exist on the same surface.
   const { sciChartSurface, wasmContext } = await SciChartSurface.create("scichart-root");
 
+  sciChartSurface.applyTheme(new SciChartJSLightTheme());
+
   // Create an X,Y Axis and add to the chart
   const xAxis = new NumericAxis(wasmContext);
   const yAxis = new NumericAxis(wasmContext);
-
+  
+  // yAxis.isXAxis = false;
+  
   sciChartSurface.xAxes.add(xAxis);
   sciChartSurface.yAxes.add(yAxis);
-
-  // yAxis.axisAlignmentProperty = "None";
+  // 改變顏色與格線的設定教學網址
+  // https://www.scichart.com/documentation/js/current/webframe.html#Axis%20Styling%20-%20Styling%20Title%20and%20Axis%20Labels.html
+  
 
   // // Declare a DataSeries
   const xyDataSeries1 = new XyDataSeries(wasmContext);
@@ -77,28 +84,6 @@ async function initSciChart() {
   const xyDataSeries4 = new XyDataSeries(wasmContext);
   const xyDataSeries5 = new XyDataSeries(wasmContext);
   const xyDataSeries6 = new XyDataSeries(wasmContext);
-
-  // data.dps1.forEach((item: number, index: number) => {
-  //   xyDataSeries1.append(index, item + 0);
-  // });
-
-  // data.dps2.forEach((item: number, index: number) => {
-  //   xyDataSeries2.append(index, item + 1);
-  // });
-  // data.dps3.forEach((item: number, index: number) => {
-  //   xyDataSeries3.append(index, item + 2);
-  // });
-  // data.dps4.forEach((item: number, index: number) => {
-  //   xyDataSeries4.append(index, item + 3);
-  // });
-
-  // data.dps5.forEach((item: number, index: number) => {
-  //   xyDataSeries5.append(index, item + 4);
-  // });
-
-  // data.dps6.forEach((item: number, index: number) => {
-  //   xyDataSeries6.append(index, item + 5);
-  // });
 
   diagnoses[5][1].forEach((item: number, index: number) => {
     xyDataSeries1.append(index, item + 0);
@@ -154,7 +139,7 @@ async function initSciChart() {
     document.getElementById("enable-range-select")
   );
 
-  inputEnablePan.addEventListener("change", (): void => {
+  inputEnablePan.addEventListener("change", () => {
     zoomPanModifier.isEnabled = inputEnablePan2.checked;
     rubberBandZoomModifier.isEnabled = !inputEnablePan2.checked;
     rangeSelectionModifier.isEnabled = !inputEnablePan2.checked;
@@ -189,36 +174,42 @@ async function initSciChart() {
     // Add TextAnnotations in the top left of the chart
     new TextAnnotation({
       text: "LEAD 1",
+      textColor: "black",
       fontSize: 18,
       x1: 0.3,
       y1: 9.7,
     }),
     new TextAnnotation({
       text: "LEAD 2",
+      textColor: "black",
       fontSize: 18,
       x1: 1,
       y1: 7.7,
     }),
     new TextAnnotation({
       text: "LEAD 3",
+      textColor: "black",
       fontSize: 18,
       x1: 1,
       y1: 5.7,
     }),
     new TextAnnotation({
       text: "aVR",
+      textColor: "black",
       fontSize: 18,
       x1: 1,
       y1: 3.7,
     }),
     new TextAnnotation({
       text: "aVL",
+      textColor: "black",
       fontSize: 18,
       x1: 1,
       y1: 1.7,
     }),
     new TextAnnotation({
       text: "aVF",
+      textColor: "black",
       fontSize: 18,
       x1: 1,
       y1: 0.7,
