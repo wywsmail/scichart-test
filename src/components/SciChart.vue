@@ -12,30 +12,23 @@
       <input type="checkbox" id="enable-range-select" />
       <label for="enable-range-select">Enable Range Select</label><br />
       <input type="checkbox" id="enable-zoom-to-fit" checked />
-      <label for="enable-zoom-to-fit">Enable Double-Click to Zoom to Fit</label
-      ><br />
+      <label for="enable-zoom-to-fit">Enable Double-Click to Zoom to Fit</label><br />
       <input type="checkbox" id="enable-mouse-wheel-zoom" checked />
       <label for="enable-mouse-wheel-zoom">Enable Mousewheel Zoom</label><br />
     </div>
-    <div
-      id="scichart-root"
-      style="width: 100%; height: 800px; margin: auto"
-    ></div>
+    <div id="scichart-root" style="width: 100%; height: 800px; margin: auto"></div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, onMounted } from "vue";
-import {
-  count,
-  handClickPlus,
-  handClickLess,
-  diagnoses
-} from "@/composition/store";
+import { count, handClickPlus, handClickLess, diagnoses } from "@/composition/store";
 import { SciChartSurface } from "scichart/Charting/Visuals/SciChartSurface";
 import { NumericAxis } from "scichart/Charting/Visuals/Axis/NumericAxis";
 import { NumberRange } from "scichart/Core/NumberRange";
-import { EAutoRange } from "scichart/types/AutoRange";
+// import { CategoryAxis } from "scichart/Charting/Visuals/Axis/CategoryAxis";
+import { EAxisAlignment } from "scichart/types/AxisAlignment";
+// import { EAutoRange } from "scichart/types/AutoRange";
 import { FastLineRenderableSeries } from "scichart/Charting/Visuals/RenderableSeries/FastLineRenderableSeries";
 import { XyDataSeries } from "scichart/Charting/Model/XyDataSeries";
 import { ECoordinateMode } from "scichart/Charting/Visuals/Annotations/AnnotationBase";
@@ -77,22 +70,29 @@ async function initSciChart() {
   // Create the SciChartSurface in the div 'scichart-root'
   // The SciChartSurface, and webassembly context 'wasmContext' are paired. This wasmContext
   // instance must be passed to other types that exist on the same surface.
-  const { sciChartSurface, wasmContext } = await SciChartSurface.create(
-    "scichart-root"
-  );
+  const { sciChartSurface, wasmContext } = await SciChartSurface.create("scichart-root");
 
   sciChartSurface.applyTheme(new SciChartJSLightTheme());
+  
+  // const { sciChartSurface, wasmContext } = await SciChartSurface.create(divElementId);
+  // const xAxis = new CategoryAxis(wasmContext);
 
   // Create an X,Y Axis and add to the chart
   const xAxis = new NumericAxis(wasmContext);
-  // xAxis.autoRange = EAutoRange.Once;
-  xAxis.visibleRange = new NumberRange(-100, 8500);
-  const yAxis = new NumericAxis(wasmContext);
-  // yAxis.isXAxis = false;
+  xAxis.autoTicks = false;
+  // Have a major gridline every 10 units on the axis
+  xAxis.majorDelta = 10;
+  // Have a minor gridline every 2 units on the axis
+  xAxis.minorDelta = 2;
+  xAxis.visibleRangeLimit = new NumberRange(0, 7499);
+  // xAxis.visibleRangeLimit = new NumberRange(0, 100);
+  // sciChartSurface.padding = Thickness.fromString("10 20 30 40");
+  const yAxis = new NumericAxis(wasmContext, {
+    axisTitle: "(mV)",
+    axisAlignment: EAxisAlignment.Right
+  });
   sciChartSurface.xAxes.add(xAxis);
   sciChartSurface.yAxes.add(yAxis);
-  // 改變顏色與格線的設定教學網址
-  // https://www.scichart.com/documentation/js/current/webframe.html#Axis%20Styling%20-%20Styling%20Title%20and%20Axis%20Labels.html
 
   // // Declare a DataSeries
   const xyDataSeries1 = new XyDataSeries(wasmContext);
