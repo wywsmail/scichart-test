@@ -19,8 +19,17 @@ export const token = ref(null);
 export const userId = localStorage.getItem("userid") || ref(null);
 export const tableData = reactive([]);
 export const role = localStorage.getItem("role") ?? ref("");
-// export const diagnoses = reactive([]);
-export const diagnoses = JSON.parse(localStorage.getItem("dataAry"));
+// export const diagnosesId = reactive([]);
+// export const diagnosesId = ref(null);
+  // localStorage.getItem("diagnosesid") || ref(null);
+export const diagnoses = ref([]);
+  // export const diagnoses = JSON.parse(localStorage.getItem("dataAry"));
+  // ref(null);
+  // || JSON.parse(localStorage.getItem("dataAry"));
+export const dataInformation = ref([]);
+// export const dataInfomation = JSON.parse(localStorage.getItem("dataInfo"));
+  // ref(null);
+  // || JSON.parse(localStorage.getItem("dataInfo"));
 export const rows = ref([]);
 export const colums = ref([
   {
@@ -103,8 +112,11 @@ export const login = () => {
 
 export const logout = () => {
   window.localStorage.removeItem("userid");
-  window.localStorage.removeItem("dataAry");
+  window.localStorage.removeItem("diagnosesid");
+  // window.localStorage.removeItem("dataInfo");
   tableData.length = 0;
+  // diagnoses.value.length = 0;
+  // dataInfomation.value.length = 0;
   // isLogin.value = false;
   localStorage.setItem("isLogin", JSON.stringify(false));
   isLogin.value = false;
@@ -112,7 +124,7 @@ export const logout = () => {
   window.setTimeout(() => {
     router.push({ name: "Home" });
   }, 1000);
-  console.log(userId);
+  console.log(userId.value);
 };
 
 // DIAGNOSES PAGE
@@ -148,12 +160,26 @@ export const requestDiagnoses = () => {
 };
 
 // CHART PAGE
-
-export const showECGChart = (index, row) => {
+export const getECGChart = (index, row) => {
   console.log(index, row.diagnosis_id);
+  localStorage.setItem("diagnosesid", row.diagnosis_id);
+  // diagnosesId.value = row.diagnosis_id;
+  // console.log(row.diagnosis_id);
+  // console.log(diagnosesId.value);
+  window.setTimeout(() => {
+    router.push({ name: "Chart" });
+    // console.log(row.diagnosis_id);
+  }, 1000);
+  // showECGChart(index, row);
+  // showECGChart();
+};
+
+export const showECGChart = (
+  diagnosesId = localStorage.getItem("diagnosesid")) => {
   const config: any = {
     baseURL: apiUrl.url,
-    url: "/diagnoses/" + row.diagnosis_id,
+    url: "/diagnoses/" + diagnosesId,
+    // url: "/diagnoses/" + diagnosesId,
     headers: {
       "Content-Type": "application/json",
       platform: "web"
@@ -169,24 +195,32 @@ export const showECGChart = (index, row) => {
       // start_date: "2021-03-11T02:47:12.068Z"
     }
   };
+  console.log("送的資料", config);
   axios(config)
     .then(res => {
+      console.log(res);
       const dataAry = [];
+      const dataInfo = [];
       res.data.data.measures[0].values.forEach(item => {
         dataAry.push([item.name, item.raw_datas]);
       });
-      localStorage.setItem("dataAry", JSON.stringify(dataAry));
-      console.log(diagnoses);
+      dataInfo.push(
+        res.data.data.diagnosis_id,
+        res.data.data.start_time,
+        res.data.data.hr_last,
+        res.data.data.gain,
+        res.data.data.device_id
+      );
+      console.log(dataInfo);
+      console.log(dataAry);
+      diagnoses.value.length = 0;
+      dataInformation.value.length = 0;
+      diagnoses.value.push(...dataAry);
+      dataInformation.value.push(...dataInfo);
+      console.log(diagnoses.value);
+      console.log(dataInformation.value);
     })
     .catch(err => {
       console.log(err);
     });
-};
-
-export const getECGChart = (index, row) => {
-  console.log(index, row.diagnosis_id);
-  window.setTimeout(() => {
-    router.push({ name: "Chart" });
-  }, 1000);
-  showECGChart(index, row);
 };

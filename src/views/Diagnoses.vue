@@ -5,13 +5,8 @@
       <h1>Diagnoses</h1>
       <p>{{ count }}</p>
       <el-table :data="tableData" stripe style="width: 1200px">
-        <el-table-column prop="diagnosis_id" label="ID" width="180">
-        </el-table-column>
-        <el-table-column
-          prop="start_time"
-          label="Time"
-          width="180"
-        ></el-table-column>
+        <el-table-column prop="diagnosis_id" label="ID" width="180"> </el-table-column>
+        <el-table-column prop="start_time" label="Time" width="180"> </el-table-column>
         <el-table-column prop="hr_last" label="HR"></el-table-column>
         <el-table-column prop="gain" label="Gain"></el-table-column>
         <el-table-column prop="device_id" label="Device"></el-table-column>
@@ -41,15 +36,13 @@
   </el-row>
   <el-row type="flex" justify="end">
     <el-col :span="12">
-      <el-pagination background layout="prev, pager, next" :total="1000">
-      </el-pagination>
+      <el-pagination background layout="prev, pager, next" :total="1000"> </el-pagination>
     </el-col>
   </el-row>
 </template>
 
 <script>
-import { count, tableData } from "@/composition/store";
-import { requestDiagnoses, getECGChart } from "@/composition/store";
+import { count, tableData, requestDiagnoses, getECGChart } from "@/composition/store";
 import { onMounted } from "vue";
 export default {
   setup() {
