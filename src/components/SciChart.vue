@@ -25,7 +25,7 @@ import { count, handClickPlus, handClickLess, diagnoses } from "@/composition/st
 import { SciChartSurface } from "scichart/Charting/Visuals/SciChartSurface";
 import { NumericAxis } from "scichart/Charting/Visuals/Axis/NumericAxis";
 import { NumberRange } from "scichart/Core/NumberRange";
-// import { CategoryAxis } from "scichart/Charting/Visuals/Axis/CategoryAxis";
+import { CategoryAxis } from "scichart/Charting/Visuals/Axis/CategoryAxis";
 import { EAxisAlignment } from "scichart/types/AxisAlignment";
 // import { EAutoRange } from "scichart/types/AutoRange";
 // import { NumericLabelProvider } from "scichart/Charting/Visuals/Axis/LabelProvider/NumericLabelProvider";
@@ -74,13 +74,13 @@ async function initSciChart() {
 
   sciChartSurface.applyTheme(new SciChartJSLightTheme());
 
-  // const xAxis = new CategoryAxis(wasmContext);
-  // xAxis.labelProvider.formatLabel = (index: number) => {
-  //   return index / 250 + "s";
-  // };
+  const xAxis = new CategoryAxis(wasmContext);
+  xAxis.labelProvider.formatLabel = (index: number) => {
+    return index / 250 + "s";
+  };
   // xAxis.drawMajorGridLines = true;
   // Create an X,Y Axis and add to the chart
-  const xAxis = new NumericAxis(wasmContext);
+  // const xAxis = new NumericAxis(wasmContext);
   xAxis.autoTicks = true;
   // Have a major gridline every 10 units on the axis
   xAxis.majorDelta = 30;
