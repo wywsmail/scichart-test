@@ -342,7 +342,6 @@ export default defineComponent({
   setup() {
     // count, handClickPlus, handClickLess;
     onMounted(() => {
-      showECGChart();
       console.log("execute onMounted");
       initSciChart();
     });

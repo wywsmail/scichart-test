@@ -153,26 +153,11 @@ export const requestDiagnoses = () => {
 };
 
 // CHART PAGE
-export const getECGChart = (index, row) => {
-  console.log(index, row.diagnosis_id);
-  localStorage.setItem("diagnosesid", row.diagnosis_id);
-  // diagnosesId.value = row.diagnosis_id;
-  // console.log(row.diagnosis_id);
-  // console.log(diagnosesId.value);
-  window.setTimeout(() => {
-    router.push({ name: "Chart" });
-    // console.log(row.diagnosis_id);
-  }, 1000);
-  // showECGChart(index, row);
-  // showECGChart();
-};
 
-export const showECGChart = (
-  diagnosesId = localStorage.getItem("diagnosesid")) => {
+export const showECGChart = (index, row) => {
   const config: any = {
     baseURL: apiUrl.url,
-    url: "/diagnoses/" + diagnosesId,
-    // url: "/diagnoses/" + diagnosesId,
+    url: "/diagnoses/" + row.diagnosis_id,
     headers: {
       "Content-Type": "application/json",
       platform: "web"
@@ -188,10 +173,8 @@ export const showECGChart = (
       // start_date: "2021-03-11T02:47:12.068Z"
     }
   };
-  console.log("送的資料", config);
   axios(config)
     .then(res => {
-      console.log(res);
       const dataAry = [];
       const dataInfo = [];
       res.data.data.measures[0].values.forEach(item => {

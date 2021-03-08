@@ -12,7 +12,6 @@
 </template>
 
 <script lang="ts">
-import { onMounted } from "vue";
 import SciChart from "@/components/SciChart.vue";
 import { dataInformation } from "@/composition/store";
 // import test from "@/components/test.vue";
