@@ -21,6 +21,8 @@ export const tableData = reactive([]);
 export const role = localStorage.getItem("role") ?? ref("");
 // export const diagnoses = reactive([]);
 export const diagnoses = JSON.parse(localStorage.getItem("dataAry"));
+export const dataInformation = ref(
+  JSON.parse(localStorage.getItem("datainfo")));
 export const rows = ref([]);
 export const colums = ref([
   {
@@ -172,11 +174,25 @@ export const showECGChart = (index, row) => {
   axios(config)
     .then(res => {
       const dataAry = [];
+      const dataInfo = [];
       res.data.data.measures[0].values.forEach(item => {
         dataAry.push([item.name, item.raw_datas]);
       });
       localStorage.setItem("dataAry", JSON.stringify(dataAry));
-      console.log(diagnoses);
+      dataInfo.push(
+        res.data.data.diagnosis_id,
+        res.data.data.start_time,
+        res.data.data.hr_last,
+        res.data.data.gain,
+        res.data.data.device_id
+      );
+
+      localStorage.setItem("datainfo", JSON.stringify(dataInfo));
+      dataInformation.value = JSON.parse(localStorage.getItem("datainfo"))
+      console.log(JSON.parse(localStorage.getItem("datainfo")));
+      console.log(dataInformation.value);
+      // dataInformation.value.length = 0;
+      // dataInformation.value.push(...dataInfo);
     })
     .catch(err => {
       console.log(err);
@@ -184,7 +200,7 @@ export const showECGChart = (index, row) => {
 };
 
 export const getECGChart = (index, row) => {
-  console.log(index, row.diagnosis_id);
+  localStorage.setItem("diagnosesid", row.diagnosis_id);
   window.setTimeout(() => {
     router.push({ name: "Chart" });
   }, 1000);
