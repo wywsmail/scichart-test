@@ -21,20 +21,14 @@
 
 <script lang="ts">
 import { defineComponent, onMounted } from "vue";
-import {
-  count,
-  handClickPlus,
-  handClickLess,
-  diagnoses,
-  showECGChart
-} from "@/composition/store";
+import { count, handClickPlus, handClickLess, diagnoses } from "@/composition/store";
 import { SciChartSurface } from "scichart/Charting/Visuals/SciChartSurface";
 import { NumericAxis } from "scichart/Charting/Visuals/Axis/NumericAxis";
 import { NumberRange } from "scichart/Core/NumberRange";
-import { CategoryAxis } from "scichart/Charting/Visuals/Axis/CategoryAxis";
+// import { CategoryAxis } from "scichart/Charting/Visuals/Axis/CategoryAxis";
 import { EAxisAlignment } from "scichart/types/AxisAlignment";
-import { EAutoRange } from "scichart/types/AutoRange";
-import { NumericLabelProvider } from "scichart/Charting/Visuals/Axis/LabelProvider/NumericLabelProvider";
+// import { EAutoRange } from "scichart/types/AutoRange";
+// import { NumericLabelProvider } from "scichart/Charting/Visuals/Axis/LabelProvider/NumericLabelProvider";
 import { FastLineRenderableSeries } from "scichart/Charting/Visuals/RenderableSeries/FastLineRenderableSeries";
 import { XyDataSeries } from "scichart/Charting/Model/XyDataSeries";
 import { ECoordinateMode } from "scichart/Charting/Visuals/Annotations/AnnotationBase";
@@ -80,13 +74,13 @@ async function initSciChart() {
 
   sciChartSurface.applyTheme(new SciChartJSLightTheme());
 
-  const xAxis = new CategoryAxis(wasmContext);
-  xAxis.labelProvider.formatLabel = (index: number) => {
-    return index / 250 + "s";
-  };
-  xAxis.drawMajorGridLines = true;
+  // const xAxis = new CategoryAxis(wasmContext);
+  // xAxis.labelProvider.formatLabel = (index: number) => {
+  //   return index / 250 + "s";
+  // };
+  // xAxis.drawMajorGridLines = true;
   // Create an X,Y Axis and add to the chart
-  // const xAxis = new NumericAxis(wasmContext);
+  const xAxis = new NumericAxis(wasmContext);
   xAxis.autoTicks = true;
   // Have a major gridline every 10 units on the axis
   xAxis.majorDelta = 30;
@@ -112,34 +106,34 @@ async function initSciChart() {
   const xyDataSeries5 = new XyDataSeries(wasmContext);
   const xyDataSeries6 = new XyDataSeries(wasmContext);
 
-  console.log(diagnoses.value[0][0]);
-  console.log(diagnoses.value[0][1].length);
-  console.log(diagnoses.value[1][0]);
-  console.log(diagnoses.value[1][1].length);
-  console.log(diagnoses.value[2][0]);
-  console.log(diagnoses.value[2][1].length);
-  console.log(diagnoses.value[3][0]);
-  console.log(diagnoses.value[3][1].length);
-  console.log(diagnoses.value[4][0]);
-  console.log(diagnoses.value[4][1].length);
-  console.log(diagnoses.value[5][0]);
-  console.log(diagnoses.value[5][1].length);
-  diagnoses.value[0][1].forEach((item: number, index: number) => {
+  // console.log(diagnoses.value[0][0]);
+  // console.log(diagnoses.value[0][1].length);
+  // console.log(diagnoses.value[1][0]);
+  // console.log(diagnoses.value[1][1].length);
+  // console.log(diagnoses.value[2][0]);
+  // console.log(diagnoses.value[2][1].length);
+  // console.log(diagnoses.value[3][0]);
+  // console.log(diagnoses.value[3][1].length);
+  // console.log(diagnoses.value[4][0]);
+  // console.log(diagnoses.value[4][1].length);
+  // console.log(diagnoses.value[5][0]);
+  // console.log(diagnoses.value[5][1].length);
+  diagnoses[5][1].forEach((item: number, index: number) => {
     xyDataSeries6.append(index, item + 10);
   });
-  diagnoses.value[1][1].forEach((item: number, index: number) => {
+  diagnoses[4][1].forEach((item: number, index: number) => {
     xyDataSeries5.append(index, item + 8);
   });
-  diagnoses.value[2][1].forEach((item: number, index: number) => {
+  diagnoses[3][1].forEach((item: number, index: number) => {
     xyDataSeries4.append(index, item + 6);
   });
-  diagnoses.value[3][1].forEach((item: number, index: number) => {
+  diagnoses[2][1].forEach((item: number, index: number) => {
     xyDataSeries3.append(index, item + 4);
   });
-  diagnoses.value[4][1].forEach((item: number, index: number) => {
+  diagnoses[1][1].forEach((item: number, index: number) => {
     xyDataSeries2.append(index, item + 2);
   });
-  diagnoses.value[5][1].forEach((item: number, index: number) => {
+  diagnoses[0][1].forEach((item: number, index: number) => {
     xyDataSeries1.append(index, item + 0);
   });
 
