@@ -19,17 +19,10 @@ export const token = ref(null);
 export const userId = localStorage.getItem("userid") || ref(null);
 export const tableData = reactive([]);
 export const role = localStorage.getItem("role") ?? ref("");
-// export const diagnosesId = reactive([]);
-// export const diagnosesId = ref(null);
-  // localStorage.getItem("diagnosesid") || ref(null);
-export const diagnoses = ref([]);
-  // export const diagnoses = JSON.parse(localStorage.getItem("dataAry"));
-  // ref(null);
-  // || JSON.parse(localStorage.getItem("dataAry"));
-export const dataInformation = ref([]);
-// export const dataInfomation = JSON.parse(localStorage.getItem("dataInfo"));
-  // ref(null);
-  // || JSON.parse(localStorage.getItem("dataInfo"));
+// export const diagnoses = reactive([]);
+export const diagnoses = JSON.parse(localStorage.getItem("dataAry"));
+export const dataInformation = ref(
+  JSON.parse(localStorage.getItem("datainfo")));
 export const rows = ref([]);
 export const colums = ref([
   {
@@ -204,6 +197,7 @@ export const showECGChart = (
       res.data.data.measures[0].values.forEach(item => {
         dataAry.push([item.name, item.raw_datas]);
       });
+      localStorage.setItem("dataAry", JSON.stringify(dataAry));
       dataInfo.push(
         res.data.data.diagnosis_id,
         res.data.data.start_time,
@@ -211,16 +205,23 @@ export const showECGChart = (
         res.data.data.gain,
         res.data.data.device_id
       );
-      console.log(dataInfo);
-      console.log(dataAry);
-      diagnoses.value.length = 0;
-      dataInformation.value.length = 0;
-      diagnoses.value.push(...dataAry);
-      dataInformation.value.push(...dataInfo);
-      console.log(diagnoses.value);
+
+      localStorage.setItem("datainfo", JSON.stringify(dataInfo));
+      dataInformation.value = JSON.parse(localStorage.getItem("datainfo"))
+      console.log(JSON.parse(localStorage.getItem("datainfo")));
       console.log(dataInformation.value);
+      // dataInformation.value.length = 0;
+      // dataInformation.value.push(...dataInfo);
     })
     .catch(err => {
       console.log(err);
     });
+};
+
+export const getECGChart = (index, row) => {
+  localStorage.setItem("diagnosesid", row.diagnosis_id);
+  window.setTimeout(() => {
+    router.push({ name: "Chart" });
+  }, 1000);
+  showECGChart(index, row);
 };

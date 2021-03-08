@@ -14,7 +14,7 @@
 <script lang="ts">
 import { onMounted } from "vue";
 import SciChart from "@/components/SciChart.vue";
-import { dataInformation, diagnoses, showECGChart } from "@/composition/store";
+import { dataInformation } from "@/composition/store";
 // import test from "@/components/test.vue";
 // import SciChart2 from "@/components/SciChart2.vue";
 export default {
@@ -26,10 +26,6 @@ export default {
   },
   setup() {
     console.log(dataInformation.value);
-    console.log(diagnoses.value);
-    onMounted(() => {
-      showECGChart();
-    });
     return { dataInformation };
   }
 };
