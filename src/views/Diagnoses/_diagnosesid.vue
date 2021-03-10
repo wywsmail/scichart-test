@@ -1,27 +1,45 @@
 <template>
-  <div class="hello">
-    <p>{{ count }}</p>
-    <button @click="handClickPlus">Click to Plus</button>
-    <button @click="handClickLess">Click to Less</button>
-    <div style="margin: 10px">
-      <input type="checkbox" id="enable-pan" checked />
-      <label for="enable-pan">Enable Mouse-Drag to Pan</label><br />
-      <input type="checkbox" id="enable-zoom" />
-      <label for="enable-zoom">Enable Mouse-Drag to Zoom</label><br />
-      <input type="checkbox" id="enable-range-select" />
-      <label for="enable-range-select">Enable Range Select</label><br />
-      <input type="checkbox" id="enable-zoom-to-fit" checked />
-      <label for="enable-zoom-to-fit">Enable Double-Click to Zoom to Fit</label><br />
-      <input type="checkbox" id="enable-mouse-wheel-zoom" checked />
-      <label for="enable-mouse-wheel-zoom">Enable Mousewheel Zoom</label><br />
-    </div>
-    <div id="scichart-root" style="width: 100%; height: 800px; margin: auto"></div>
+  <h1>Chart</h1>
+  <ul>
+    <li>{{ dataInformation[0] }}</li>
+    <li>{{ dataInformation[1] }}</li>
+    <li>{{ dataInformation[2] }}</li>
+    <li>{{ dataInformation[3] }}</li>
+    <li>{{ dataInformation[4] }}</li>
+  </ul>
+  <p>{{ count }}</p>
+  <button @click="handClickPlus">Click to Plus</button>
+  <button @click="handClickLess">Click to Less</button>
+  <div style="margin: 10px">
+    <input type="checkbox" id="enable-pan" checked />
+    <label for="enable-pan">Enable Mouse-Drag to Pan</label><br />
+    <input type="checkbox" id="enable-zoom" />
+    <label for="enable-zoom">Enable Mouse-Drag to Zoom</label><br />
+    <input type="checkbox" id="enable-range-select" />
+    <label for="enable-range-select">Enable Range Select</label><br />
+    <input type="checkbox" id="enable-zoom-to-fit" checked />
+    <label for="enable-zoom-to-fit">Enable Double-Click to Zoom to Fit</label><br />
+    <input type="checkbox" id="enable-mouse-wheel-zoom" checked />
+    <label for="enable-mouse-wheel-zoom">Enable Mousewheel Zoom</label><br />
   </div>
+  <div id="scichart-root" style="width: 100%; height: 800px; margin: auto"></div>
 </template>
 
 <script lang="ts">
+import { useRoute } from "vue-router";
 import { defineComponent, onMounted } from "vue";
-import { count, handClickPlus, handClickLess, diagnoses } from "@/composition/store";
+// import SciChart from "@/components/SciChart.vue";
+import {
+  dataInformation,
+  showECGChart,
+  count,
+  handClickPlus,
+  handClickLess,
+  diagnoses
+} from "@/composition/store";
+
+// about scichart
+
 import { SciChartSurface } from "scichart/Charting/Visuals/SciChartSurface";
 import { NumericAxis } from "scichart/Charting/Visuals/Axis/NumericAxis";
 import { NumberRange } from "scichart/Core/NumberRange";
@@ -47,6 +65,7 @@ import { XAxisDragModifier } from "scichart/Charting/ChartModifiers/XAxisDragMod
 // import { isXAxis } from "scichart/Charting/Visuals/Axis/AxisCore";
 // import { data } from "../assets/data";
 // import { RangeSelectionChartModifier } from "@/composition/RangeSelectionChartModifier";
+
 async function initSciChart() {
   SciChartSurface.setRuntimeLicenseKey(
     "5ycxvf/fY4gXbo/ejlWy2JzrxfwiO3XxnN4QB5l327kqZNnGd+hs1lHuSmi2+TDeenf0kGGDk6rpjYWwpLJipt6qTvMzRx6zlZhY9Qyo+DYNuNieYzxrC/ZceJwv7E/2UdlYysxQLHMDEcp0txtbjJ++qVe4gjU1bgU8+mz92RzB7rZhonqZ6pCZyLYgONZ8ljZicebuSlOM0KQSeomou30SIE1S9wiP6W9YuuaIoCR/gZIwMZnioOHf8k3gsPB3EfCH0D/Mz+/eUq9RliOJkSm66r13+XgaDRp/fG9UAF2xoZmXSqzBX1v52A2Xn7NuXyxmOiQVRvIfuF7qW6e7XIZqHed6ZJ+rp9xXMs+q1JlF39LmZsMqChi0HuAM8eohJhRJ0dspyTAFH9aot6nBJCi1DmKu0DXumyXm9IdEOlXCWa5whtWDwoUnvkuKrI1KRDVZ1KjsDoZ+Pvw+7oX0+ERCeMeUrpgx0XhDFe8jzQB33hmiAu23FJ4OIike6RGYlWk5VczgpY+NXSVj5tjM0b0JiF/mFGjoFKsQ3noKqAHyosPrfhtGH830MYD44ObNWuvLWeLxNofC4a5odOwPFHvwDVVlNTAo9UFw2g3p7pF9WAsup7+YV7cjooMQPqrMD4GBSggeh+k26nQyc9nAT0qiceMSScuHENhbc+j8UFI0RZuP1x5d6xkJJ1A8TtJ41KDqxML8QrV/KijPP+y5iAxIOCexrjGlPTCTdUhTpw=="
@@ -333,43 +352,26 @@ async function initSciChart() {
   );
 }
 
-export default defineComponent({
+export default {
+  name: "Chart",
   setup() {
-    // count, handClickPlus, handClickLess;
+    const route = useRoute();
+    // const router = useRouter();
     onMounted(() => {
-      console.log("execute onMounted");
-      console.log(diagnoses.value);
+      console.log(route.params.diagnosesid);
+      showECGChart(route.params.diagnosesid);
       initSciChart();
     });
     return {
+      dataInformation,
       count,
       handClickPlus,
       handClickLess,
       initSciChart,
       diagnoses
     };
-  },
-  name: "HelloWorld",
-  props: {
-    msg: String
   }
-});
+};
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-</style>
+<style scoped></style>

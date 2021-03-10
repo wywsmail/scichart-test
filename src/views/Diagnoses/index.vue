@@ -4,7 +4,7 @@
     <el-col :span="16">
       <h1>Diagnoses</h1>
       <p>{{ count }}</p>
-      <el-table :data="tableData" stripe style="width: 1200px">
+      <el-table :data="tableData.data" stripe style="width: 1200px">
         <el-table-column prop="diagnosis_id" label="ID" width="180"> </el-table-column>
         <el-table-column prop="start_time" label="Time" width="180"> </el-table-column>
         <el-table-column prop="hr_last" label="HR"></el-table-column>
@@ -44,11 +44,11 @@
 <script>
 import { count, tableData, requestDiagnoses, getECGChart } from "@/composition/store";
 import { onMounted } from "vue";
+
 export default {
   setup() {
     onMounted(() => {
       requestDiagnoses();
-      // window.location.reload();
     });
     const handleDelete = (index, row) => {
       console.log(index, row.diagnosis_id);
