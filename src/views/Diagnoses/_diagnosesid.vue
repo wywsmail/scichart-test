@@ -1,33 +1,6 @@
-<template>
-  <h1>Chart</h1>
-  <ul>
-    <li>{{ dataInformation[0] }}</li>
-    <li>{{ dataInformation[1] }}</li>
-    <li>{{ dataInformation[2] }}</li>
-    <li>{{ dataInformation[3] }}</li>
-    <li>{{ dataInformation[4] }}</li>
-  </ul>
-  <p>{{ count }}</p>
-  <button @click="handClickPlus">Click to Plus</button>
-  <button @click="handClickLess">Click to Less</button>
-  <div style="margin: 10px">
-    <input type="checkbox" id="enable-pan" checked />
-    <label for="enable-pan">Enable Mouse-Drag to Pan</label><br />
-    <input type="checkbox" id="enable-zoom" />
-    <label for="enable-zoom">Enable Mouse-Drag to Zoom</label><br />
-    <input type="checkbox" id="enable-range-select" />
-    <label for="enable-range-select">Enable Range Select</label><br />
-    <input type="checkbox" id="enable-zoom-to-fit" checked />
-    <label for="enable-zoom-to-fit">Enable Double-Click to Zoom to Fit</label><br />
-    <input type="checkbox" id="enable-mouse-wheel-zoom" checked />
-    <label for="enable-mouse-wheel-zoom">Enable Mousewheel Zoom</label><br />
-  </div>
-  <div id="scichart-root" style="width: 100%; height: 800px; margin: auto"></div>
-</template>
-
 <script lang="ts">
 import { useRoute } from "vue-router";
-import { defineComponent, onMounted } from "vue";
+import { computed, defineComponent, onMounted } from "vue";
 // import SciChart from "@/components/SciChart.vue";
 import {
   dataInformation,
@@ -137,23 +110,25 @@ async function initSciChart() {
   // console.log(diagnoses.value[4][1].length);
   // console.log(diagnoses.value[5][0]);
   // console.log(diagnoses.value[5][1].length);
-  console.log(diagnoses.value);
-  diagnoses.value[0].raw_datas.forEach((item: number, index: number) => {
+  // console.log(dataInformation.data);
+  // console.log(diagnoses.data);
+  // console.log(diagnoses.data);
+  diagnoses.data[0].raw_datas.forEach((item: number, index: number) => {
     xyDataSeries6.append(index, item + 10);
   });
-  diagnoses.value[1].raw_datas.forEach((item: number, index: number) => {
+  diagnoses.data[1].raw_datas.forEach((item: number, index: number) => {
     xyDataSeries5.append(index, item + 8);
   });
-  diagnoses.value[2].raw_datas.forEach((item: number, index: number) => {
+  diagnoses.data[2].raw_datas.forEach((item: number, index: number) => {
     xyDataSeries4.append(index, item + 6);
   });
-  diagnoses.value[3].raw_datas.forEach((item: number, index: number) => {
+  diagnoses.data[3].raw_datas.forEach((item: number, index: number) => {
     xyDataSeries3.append(index, item + 4);
   });
-  diagnoses.value[4].raw_datas.forEach((item: number, index: number) => {
+  diagnoses.data[4].raw_datas.forEach((item: number, index: number) => {
     xyDataSeries2.append(index, item + 2);
   });
-  diagnoses.value[5].raw_datas.forEach((item: number, index: number) => {
+  diagnoses.data[5].raw_datas.forEach((item: number, index: number) => {
     xyDataSeries1.append(index, item + 0);
   });
 
@@ -356,22 +331,55 @@ export default {
   name: "Chart",
   setup() {
     const route = useRoute();
-    // const router = useRouter();
     onMounted(() => {
-      console.log(route.params.diagnosesid);
+      // const route = useRoute();
+      // console.log(route);
+      // console.log(route.params.diagnosesid);
       showECGChart(route.params.diagnosesid);
       initSciChart();
     });
+    const upDateData = computed(() => {
+      return diagnoses;
+    });
+    console.log(upDateData);
     return {
       dataInformation,
       count,
       handClickPlus,
       handClickLess,
       initSciChart,
-      diagnoses
+      upDateData
+      // diagnoses
     };
   }
 };
 </script>
+
+<template>
+  <h1>Chart</h1>
+  <ul>
+    <li>{{ dataInformation.data[0] }}</li>
+    <li>{{ dataInformation.data[1] }}</li>
+    <li>{{ dataInformation.data[2] }}</li>
+    <li>{{ dataInformation.data[3] }}</li>
+    <li>{{ dataInformation.data[4] }}</li>
+  </ul>
+  <p>{{ count }}</p>
+  <button @click="handClickPlus">Click to Plus</button>
+  <button @click="handClickLess">Click to Less</button>
+  <div style="margin: 10px">
+    <input type="checkbox" id="enable-pan" checked />
+    <label for="enable-pan">Enable Mouse-Drag to Pan</label><br />
+    <input type="checkbox" id="enable-zoom" />
+    <label for="enable-zoom">Enable Mouse-Drag to Zoom</label><br />
+    <input type="checkbox" id="enable-range-select" />
+    <label for="enable-range-select">Enable Range Select</label><br />
+    <input type="checkbox" id="enable-zoom-to-fit" checked />
+    <label for="enable-zoom-to-fit">Enable Double-Click to Zoom to Fit</label><br />
+    <input type="checkbox" id="enable-mouse-wheel-zoom" checked />
+    <label for="enable-mouse-wheel-zoom">Enable Mousewheel Zoom</label><br />
+  </div>
+  <div id="scichart-root" style="width: 100%; height: 800px; margin: auto"></div>
+</template>
 
 <style scoped></style>

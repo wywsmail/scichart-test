@@ -22,8 +22,8 @@ export const tableData = reactive({ data: [] });
 export const role = localStorage.getItem("role") ?? ref("");
 // export const diagnoses = reactive([]);
 // export const diagnosesid = ref(localStorage.getItem("diagnosesid"));
-export const diagnoses = ref([]);
-export const dataInformation = ref([]);
+export const diagnoses = reactive({ data: [] });
+export const dataInformation = reactive({ data: [] });
 // export const dataInformation = ref()||
 export const rows = ref([]);
 export const colums = ref([
@@ -159,13 +159,15 @@ export const requestDiagnoses = () => {
 
 // CHART PAGE
 
-export const getECGChart = (_index, row) => {
+export const getECGChart = (index, row) => {
+  console.log(index, row);
   // localStorage.setItem("diagnosesid", row.diagnosis_id);
   // diagnosesid.value = row.diagnosis_id;
-  // console.log(diagnosesid.value);
-  window.setTimeout(() => {
-    router.push(`/Diagnoses/${row.diagnosis_id}`);
-  }, 1000);
+  console.log(row.diagnosis_id);
+  // window.setTimeout(() => {
+  //   router.push(`/Diagnoses/${row.diagnosis_id}`);
+  // }, 1000);
+  router.push(`/Diagnoses/${row.diagnosis_id}`);
   // showECGChart(index, row);
 };
 
@@ -222,11 +224,11 @@ export const showECGChart = id => {
         res.data.data.gain,
         res.data.data.device_id
       );
-      dataInformation.value = dataInfo;
-      diagnoses.value = res.data.data.measures[0].values;
+      dataInformation.data = dataInfo;
+      diagnoses.data = res.data.data.measures[0].values;
       // localStorage.setItem("datainfo", JSON.stringify(dataInfo));
-      console.log(dataInformation.value);
-      console.log(diagnoses.value);
+      console.log(dataInformation.data);
+      console.log(diagnoses.data);
       // dataInformation.value = JSON.parse(localStorage.getItem("datainfo"))
       // console.log(JSON.parse(localStorage.getItem("datainfo")));
       // console.log(dataInformation.value);
