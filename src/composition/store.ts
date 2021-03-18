@@ -171,7 +171,8 @@ export const getECGChart = (index, row) => {
   // showECGChart(index, row);
 };
 
-export const showECGChart = id => {
+export const showECGChart = (id):Promise<any> => {
+  return new Promise((resolve, reject) => {
   const config: any = {
     baseURL: apiUrl.url,
     url: "/diagnoses/" + id,
@@ -225,7 +226,7 @@ export const showECGChart = id => {
         res.data.data.device_id
       );
       dataInformation.data = dataInfo;
-      diagnoses.data = res.data.data.measures[0].values;
+      diagnoses.data = res.data.data.measures[0].values || [];
       // localStorage.setItem("datainfo", JSON.stringify(dataInfo));
       console.log(dataInformation.data);
       console.log(diagnoses.data);
@@ -234,8 +235,12 @@ export const showECGChart = id => {
       // console.log(dataInformation.value);
       // dataInformation.value.length = 0;
       // dataInformation.value.push(...dataInfo);
+      console.log(`a`);
+      resolve(diagnoses);
     })
     .catch(err => {
       console.log(err);
+      reject(err);
     });
+  });
 };

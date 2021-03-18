@@ -331,11 +331,13 @@ export default {
   name: "Chart",
   setup() {
     const route = useRoute();
-    onMounted(() => {
+    onMounted(async () => {
       // const route = useRoute();
       // console.log(route);
       // console.log(route.params.diagnosesid);
-      showECGChart(route.params.diagnosesid);
+      console.log(`b`);
+      await showECGChart(route.params.diagnosesid).catch((err) => {});
+      console.log(`c`);
       initSciChart();
     });
     const upDateData = computed(() => {
