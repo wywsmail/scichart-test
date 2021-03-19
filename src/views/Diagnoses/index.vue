@@ -3,7 +3,6 @@
   <el-row type="flex" justify="center">
     <el-col :span="16">
       <h1>Diagnoses</h1>
-      <p>{{ count }}</p>
       <el-table :data="tableData.data" stripe style="width: 1200px">
         <el-table-column prop="diagnosis_id" label="ID" width="180"> </el-table-column>
         <el-table-column prop="start_time" label="Time" width="180"> </el-table-column>
@@ -42,7 +41,7 @@
 </template>
 
 <script>
-import { count, tableData, requestDiagnoses, getECGChart } from "@/composition/store";
+import { tableData, requestDiagnoses, getECGChart } from "@/composition/store";
 import { onMounted } from "vue";
 
 export default {
@@ -54,7 +53,6 @@ export default {
       console.log(index, row.diagnosis_id);
     };
     return {
-      count,
       tableData,
       getECGChart,
       handleDelete

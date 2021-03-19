@@ -1,22 +1,62 @@
+<template>
+  <el-row type="flex" justify="center">
+    <el-col :span="16">
+      <h1>Chart</h1>
+      <el-table :data="diagnoses.data" stripe style="width: 1200px">
+        <el-table-column prop="diagnosis_id" label="ID" width="180"></el-table-column>
+        <el-table-column prop="start_time" label="Time" width="180"></el-table-column>
+        <el-table-column prop="hr_last" label="HR"></el-table-column>
+        <el-table-column prop="gain" label="Gain"></el-table-column>
+        <el-table-column prop="device_id" label="Device"></el-table-column>
+      </el-table>
+    </el-col>
+  </el-row>
+  <div style="margin: 10px">
+    <input type="checkbox" id="enable-pan" checked />
+    <label for="enable-pan">Enable Mouse-Drag to Pan</label><br />
+    <input type="checkbox" id="enable-zoom" />
+    <label for="enable-zoom">Enable Mouse-Drag to Zoom</label><br />
+    <input type="checkbox" id="enable-range-select" />
+    <label for="enable-range-select">Enable Range Select</label><br />
+    <input type="checkbox" id="enable-zoom-to-fit" checked />
+    <label for="enable-zoom-to-fit">Enable Double-Click to Zoom to Fit</label><br />
+    <input type="checkbox" id="enable-mouse-wheel-zoom" checked />
+    <label for="enable-mouse-wheel-zoom">Enable Mousewheel Zoom</label><br />
+  </div>
+  <el-button-group>
+    <el-button type="primary" icon="el-icon-arrow-left">上一页</el-button>
+    <el-button type="primary"
+      >下一页<i class="el-icon-arrow-right el-icon--right"></i
+    ></el-button>
+  </el-button-group>
+  <br />
+  <el-button-group>
+    <el-button type="primary" icon="el-icon-edit"></el-button>
+    <el-button type="primary" icon="el-icon-share"></el-button>
+    <el-button type="primary" icon="el-icon-delete"></el-button>
+  </el-button-group>
+  <el-row type="flex" justify="center">
+    <el-col :span="16">
+      <div id="scichart-root" style="width: 100%; height: 800px; margin: auto"></div>
+      <div id="scichart-root-1" style="width: 100%; height: 350px"></div>
+      <!-- the Div where second SciChartSurface will reside -->
+      <div id="scichart-root-2" style="width: 100%; height: 350px"></div>
+    </el-col>
+  </el-row>
+</template>
+
 <script lang="ts">
 import { useRoute } from "vue-router";
 import { computed, defineComponent, onMounted } from "vue";
 // import SciChart from "@/components/SciChart.vue";
-import {
-  dataInformation,
-  showECGChart,
-  count,
-  handClickPlus,
-  handClickLess,
-  diagnoses
-} from "@/composition/store";
+import { dataInformation, showECGChart, diagnoses } from "@/composition/store";
 
 // about scichart
 
 import { SciChartSurface } from "scichart/Charting/Visuals/SciChartSurface";
 import { NumericAxis } from "scichart/Charting/Visuals/Axis/NumericAxis";
 import { NumberRange } from "scichart/Core/NumberRange";
-// import { CategoryAxis } from "scichart/Charting/Visuals/Axis/CategoryAxis";
+import { CategoryAxis } from "scichart/Charting/Visuals/Axis/CategoryAxis";
 import { EAxisAlignment } from "scichart/types/AxisAlignment";
 // import { EAutoRange } from "scichart/types/AutoRange";
 // import { NumericLabelProvider } from "scichart/Charting/Visuals/Axis/LabelProvider/NumericLabelProvider";
@@ -29,6 +69,7 @@ import { EXyDirection } from "scichart/types/XyDirection";
 // import { RubberBandXyZoomModifier } from "scichart/Charting/ChartModifiers/RubberBandXyZoomModifier";
 // import { ZoomExtentsModifier } from "scichart/Charting/ChartModifiers/ZoomExtentsModifier";
 import { ZoomPanModifier } from "scichart/Charting/ChartModifiers/ZoomPanModifier";
+import { CursorModifier } from "scichart/Charting/ChartModifiers/CursorModifier";
 // import { RolloverModifier } from "scichart/Charting/ChartModifiers/RolloverModifier";
 // import { EHorizontalAnchorPoint, EVerticalAnchorPoint } from "scichart/types/AnchorPoint";
 import { SciChartJSLightTheme } from "scichart/Charting/Themes/SciChartJSLightTheme";
@@ -37,7 +78,7 @@ import { XAxisDragModifier } from "scichart/Charting/ChartModifiers/XAxisDragMod
 // import { YAxisDragModifier } from "scichart/Charting/ChartModifiers/YAxisDragModifier";
 // import { isXAxis } from "scichart/Charting/Visuals/Axis/AxisCore";
 // import { data } from "../assets/data";
-// import { RangeSelectionChartModifier } from "@/composition/RangeSelectionChartModifier";
+import { RangeSelectionChartModifier } from "@/composition/RangeSelectionChartModifier";
 
 async function initSciChart() {
   SciChartSurface.setRuntimeLicenseKey(
@@ -66,13 +107,13 @@ async function initSciChart() {
 
   sciChartSurface.applyTheme(new SciChartJSLightTheme());
 
-  // const xAxis = new CategoryAxis(wasmContext);
-  // xAxis.labelProvider.formatLabel = (index: number) => {
-  //   return index / 250 + "s";
-  // };
-  // xAxis.drawMajorGridLines = true;
+  const xAxis = new CategoryAxis(wasmContext);
+  xAxis.labelProvider.formatLabel = (index: number) => {
+    return index / 250 + "s";
+  };
+  xAxis.drawMajorGridLines = true;
   // Create an X,Y Axis and add to the chart
-  const xAxis = new NumericAxis(wasmContext);
+  // const xAxis = new NumericAxis(wasmContext);
   xAxis.autoTicks = true;
   // Have a major gridline every 10 units on the axis
   xAxis.majorDelta = 30;
@@ -113,24 +154,36 @@ async function initSciChart() {
   // console.log(dataInformation.data);
   // console.log(diagnoses.data);
   // console.log(diagnoses.data);
-  diagnoses.data[0].raw_datas.forEach((item: number, index: number) => {
-    xyDataSeries6.append(index, item + 10);
-  });
-  diagnoses.data[1].raw_datas.forEach((item: number, index: number) => {
-    xyDataSeries5.append(index, item + 8);
-  });
-  diagnoses.data[2].raw_datas.forEach((item: number, index: number) => {
-    xyDataSeries4.append(index, item + 6);
-  });
-  diagnoses.data[3].raw_datas.forEach((item: number, index: number) => {
-    xyDataSeries3.append(index, item + 4);
-  });
-  diagnoses.data[4].raw_datas.forEach((item: number, index: number) => {
-    xyDataSeries2.append(index, item + 2);
-  });
-  diagnoses.data[5].raw_datas.forEach((item: number, index: number) => {
-    xyDataSeries1.append(index, item + 0);
-  });
+  diagnoses.data[0].measures[0].values[0].raw_datas.forEach(
+    (item: number, index: number) => {
+      xyDataSeries6.append(index, item + 10);
+    }
+  );
+  diagnoses.data[0].measures[0].values[1].raw_datas.forEach(
+    (item: number, index: number) => {
+      xyDataSeries5.append(index, item + 8);
+    }
+  );
+  diagnoses.data[0].measures[0].values[2].raw_datas.forEach(
+    (item: number, index: number) => {
+      xyDataSeries4.append(index, item + 6);
+    }
+  );
+  diagnoses.data[0].measures[0].values[3].raw_datas.forEach(
+    (item: number, index: number) => {
+      xyDataSeries3.append(index, item + 4);
+    }
+  );
+  diagnoses.data[0].measures[0].values[4].raw_datas.forEach(
+    (item: number, index: number) => {
+      xyDataSeries2.append(index, item + 2);
+    }
+  );
+  diagnoses.data[0].measures[0].values[5].raw_datas.forEach(
+    (item: number, index: number) => {
+      xyDataSeries1.append(index, item + 0);
+    }
+  );
 
   const mouseWheelZoomModifier = new MouseWheelZoomModifier({
     xyDirection: EXyDirection.XDirection
@@ -138,6 +191,18 @@ async function initSciChart() {
   const zoomPanModifier = new ZoomPanModifier({
     xyDirection: EXyDirection.XDirection
   });
+
+  // sciChartSurface.chartModifiers.add(new RolloverModifier());
+  const cursorModifier = new CursorModifier({
+    crosshairStroke: "#ff6600",
+    crosshairStrokeThickness: 1,
+    tooltipContainerBackground: "#000",
+    tooltipTextStroke: "#ff6600",
+    showTooltip: false
+    // axisLabelsFill: "#b36200",
+    // axisLabelsStroke: "#fff"
+  });
+  sciChartSurface.chartModifiers.add(cursorModifier);
   // const rubberBandZoomModifier = new RubberBandXyZoomModifier();
   // const zoomExtentsModifier = new ZoomExtentsModifier();
   // const rangeSelectionModifier = new RangeSelectionChartModifier();
@@ -327,6 +392,124 @@ async function initSciChart() {
   );
 }
 
+// 鏈結多個圖表測試 (Multiple Charts)
+
+import { ZoomExtentsModifier } from "scichart/Charting/ChartModifiers/ZoomExtentsModifier";
+import { RolloverModifier } from "scichart/Charting/ChartModifiers/RolloverModifier";
+import { EAutoRange } from "scichart/types/AutoRange";
+import { FastMountainRenderableSeries } from "scichart/Charting/Visuals/RenderableSeries/FastMountainRenderableSeries";
+import { SciChartVerticalGroup } from "scichart/Charting/LayoutManager/SciChartVerticalGroup";
+
+async function multipleSciChart() {
+  const verticalGroup = new SciChartVerticalGroup();
+
+  let chart1XAxis, chart2XAxis;
+  // CREATE FIRST CHART
+  const createFirstChart = async () => {
+    const { sciChartSurface, wasmContext } = await SciChartSurface.create(
+      "scichart-root-1"
+    );
+
+    // Create an X Axis and add to the chart
+    const chart1XAxis = new NumericAxis(wasmContext, { axisTitle: "X Axis" });
+    sciChartSurface.xAxes.add(chart1XAxis);
+
+    // Create Y Axis and add to the chart
+    const yAxis = new NumericAxis(wasmContext, {
+      axisTitle: "Y Axis",
+      axisAlignment: EAxisAlignment.Right,
+      autoRange: EAutoRange.Always,
+      growBy: new NumberRange(0.2, 0.2)
+    });
+    sciChartSurface.yAxes.add(yAxis);
+
+    // Create data for line series
+    const dataForLineSeries = new XyDataSeries(wasmContext);
+    for (let x = 0; x < 250; x++) {
+      dataForLineSeries.append(x, Math.sin(x * 0.1));
+    }
+
+    // Create line series and add to the chart
+    const lineSeries = new FastLineRenderableSeries(wasmContext, {
+      dataSeries: dataForLineSeries
+    });
+    // Set RolloverModifier properties
+    lineSeries.rolloverModifierProps.tooltipColor = "green";
+    lineSeries.rolloverModifierProps.tooltipLabelX = "X";
+    lineSeries.rolloverModifierProps.tooltipLabelY = "Y";
+    sciChartSurface.renderableSeries.add(lineSeries);
+
+    // Add several chart modifiers
+    sciChartSurface.chartModifiers.add(
+      // new ZoomPanModifier({ modifierGroup: "group1" }),
+      new MouseWheelZoomModifier({ modifierGroup: "group1" }),
+      new ZoomExtentsModifier({ modifierGroup: "group1" }),
+      new RolloverModifier({ modifierGroup: "group1" }),
+      new RangeSelectionChartModifier()
+    );
+    verticalGroup.addSurfaceToGroup(sciChartSurface);
+    return { sciChartSurface, wasmContext };
+  };
+  // createFirstChart();
+  // CREATE SECOND CHART
+  const createSecondChart = async () => {
+    const { sciChartSurface, wasmContext } = await SciChartSurface.create(
+      "scichart-root-2"
+    );
+
+    // Create an X Axis and add to the chart
+    const chart2XAxis = new NumericAxis(wasmContext);
+    sciChartSurface.xAxes.add(chart2XAxis);
+
+    // Create Y Axis and add to the chart
+    const yAxis = new NumericAxis(wasmContext, {
+      axisTitle: "Y Axis",
+      axisAlignment: EAxisAlignment.Left,
+      autoRange: EAutoRange.Always,
+      growBy: new NumberRange(0.2, 0.2)
+    });
+    sciChartSurface.yAxes.add(yAxis);
+
+    // Create data for mountain series
+    const dataForMountainSeries = new XyDataSeries(wasmContext);
+    for (let x = 0; x < 250; x++) {
+      dataForMountainSeries.append(x, Math.cos(x * 0.1));
+    }
+
+    // Create mountain series, bind to primary axis and add to the chart
+    const mountainSeries = new FastMountainRenderableSeries(wasmContext, {
+      dataSeries: dataForMountainSeries,
+      fill: "LightSteelBlue"
+    });
+    mountainSeries.rolloverModifierProps.tooltipColor = "green";
+    sciChartSurface.renderableSeries.add(mountainSeries);
+
+    sciChartSurface.chartModifiers.add(
+      // new ZoomPanModifier({ modifierGroup: "group1" }),
+      new MouseWheelZoomModifier({ modifierGroup: "group1" }),
+      new ZoomExtentsModifier({ modifierGroup: "group1" }),
+      new RolloverModifier({ modifierGroup: "group1" }),
+      new RangeSelectionChartModifier()
+    );
+    verticalGroup.addSurfaceToGroup(sciChartSurface);
+    return { sciChartSurface, wasmContext };
+  };
+  // createSecondChart();
+  const res = await Promise.all([createFirstChart(), createSecondChart()]);
+  res.forEach((el) => {
+    el.sciChartSurface.zoomExtents();
+  });
+  // Synchronize visible ranges
+  chart1XAxis.visibleRangeChanged.subscribe((data1) => {
+    chart2XAxis.visibleRange = data1.visibleRange;
+  });
+  chart2XAxis.visibleRangeChanged.subscribe((data1) => {
+    chart1XAxis.visibleRange = data1.visibleRange;
+  });
+}
+
+multipleSciChart();
+
 export default {
   name: "Chart",
   setup() {
@@ -339,6 +522,7 @@ export default {
       await showECGChart(route.params.diagnosesid).catch((err) => {});
       console.log(`c`);
       initSciChart();
+      multipleSciChart();
     });
     const upDateData = computed(() => {
       return diagnoses;
@@ -346,42 +530,16 @@ export default {
     console.log(upDateData);
     return {
       dataInformation,
-      count,
-      handClickPlus,
-      handClickLess,
       initSciChart,
-      upDateData
-      // diagnoses
+      upDateData,
+      diagnoses
     };
   }
 };
 </script>
 
-<template>
-  <h1>Chart</h1>
-  <ul>
-    <li>{{ dataInformation.data[0] }}</li>
-    <li>{{ dataInformation.data[1] }}</li>
-    <li>{{ dataInformation.data[2] }}</li>
-    <li>{{ dataInformation.data[3] }}</li>
-    <li>{{ dataInformation.data[4] }}</li>
-  </ul>
-  <p>{{ count }}</p>
-  <button @click="handClickPlus">Click to Plus</button>
-  <button @click="handClickLess">Click to Less</button>
-  <div style="margin: 10px">
-    <input type="checkbox" id="enable-pan" checked />
-    <label for="enable-pan">Enable Mouse-Drag to Pan</label><br />
-    <input type="checkbox" id="enable-zoom" />
-    <label for="enable-zoom">Enable Mouse-Drag to Zoom</label><br />
-    <input type="checkbox" id="enable-range-select" />
-    <label for="enable-range-select">Enable Range Select</label><br />
-    <input type="checkbox" id="enable-zoom-to-fit" checked />
-    <label for="enable-zoom-to-fit">Enable Double-Click to Zoom to Fit</label><br />
-    <input type="checkbox" id="enable-mouse-wheel-zoom" checked />
-    <label for="enable-mouse-wheel-zoom">Enable Mousewheel Zoom</label><br />
-  </div>
-  <div id="scichart-root" style="width: 100%; height: 800px; margin: auto"></div>
-</template>
-
-<style scoped></style>
+<style scoped>
+.el-button + .el-button {
+  margin-left: 0px;
+}
+</style>
