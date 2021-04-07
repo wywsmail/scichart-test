@@ -25,6 +25,13 @@
             <el-button
               width="100"
               size="medium"
+              @click.prevent="changePage('hittest')"
+              native-type="submit"
+              >Hit Test
+            </el-button>
+            <el-button
+              width="100"
+              size="medium"
               @click.prevent="changePage('login')"
               native-type="submit"
               v-if="!isLogin"
@@ -54,7 +61,7 @@ import router from "./router/index";
 // import { password, identifier, login, logout } from "@/composition/store";
 export default defineComponent({
   setup() {
-    const changePage = to => {
+    const changePage = (to) => {
       router.push(`/${to}`);
     };
     return { changePage, logout, isLogin };

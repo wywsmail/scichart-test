@@ -175,9 +175,9 @@ export const requestDiagnoses = () => {
 			user_id: localStorage.getItem(
 				"userid"
 			),
-			role: "regular",
-			start_date:
-				"2021-03-11T02:47:12.068Z"
+			role: "regular"
+			// start_date:
+			// "2021-03-11T02:47:12.068Z"
 		}
 	};
 	axios(config)

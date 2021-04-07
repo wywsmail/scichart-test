@@ -13,7 +13,7 @@
     "axios": "^0.21.1",
     "element-plus": "^1.0.1-beta.27",
     "express": "^4.17.1",
-    "scichart": "^1.2.1463",
+    "scichart": "^1.3.1511",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0"
   },

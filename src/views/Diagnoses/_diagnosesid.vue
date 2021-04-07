@@ -11,7 +11,7 @@
       </el-table>
     </el-col>
   </el-row>
-  <div style="margin: 10px">
+  <div style="margin: 10px; display:none">
     <input type="checkbox" id="enable-pan" checked />
     <label for="enable-pan">Enable Mouse-Drag to Pan</label><br />
     <input type="checkbox" id="enable-zoom" />
@@ -23,14 +23,14 @@
     <input type="checkbox" id="enable-mouse-wheel-zoom" checked />
     <label for="enable-mouse-wheel-zoom">Enable Mousewheel Zoom</label><br />
   </div>
-  <el-button-group>
+  <el-button-group style="display:none">
     <el-button type="primary" icon="el-icon-arrow-left">上一页</el-button>
     <el-button type="primary"
       >下一页<i class="el-icon-arrow-right el-icon--right"></i
     ></el-button>
   </el-button-group>
   <br />
-  <el-button-group>
+  <el-button-group style="display:none">
     <el-button type="primary" icon="el-icon-edit"></el-button>
     <el-button type="primary" icon="el-icon-share"></el-button>
     <el-button type="primary" icon="el-icon-delete"></el-button>
@@ -38,9 +38,13 @@
   <el-row type="flex" justify="center">
     <el-col :span="16">
       <div id="scichart-root" style="width: 100%; height: 800px; margin: auto"></div>
-      <div id="scichart-root-1" style="width: 100%; height: 350px"></div>
+      <div id="scichart-root-1" style="width: 100%; height: 135px"></div>
       <!-- the Div where second SciChartSurface will reside -->
-      <div id="scichart-root-2" style="width: 100%; height: 350px"></div>
+      <div id="scichart-root-2" style="width: 100%; height: 135px"></div>
+      <div id="scichart-root-3" style="width: 100%; height: 135px"></div>
+      <div id="scichart-root-4" style="width: 100%; height: 135px"></div>
+      <div id="scichart-root-5" style="width: 100%; height: 135px"></div>
+      <div id="scichart-root-6" style="width: 100%; height: 135px"></div>
     </el-col>
   </el-row>
 </template>
@@ -79,6 +83,7 @@ import { XAxisDragModifier } from "scichart/Charting/ChartModifiers/XAxisDragMod
 // import { isXAxis } from "scichart/Charting/Visuals/Axis/AxisCore";
 // import { data } from "../assets/data";
 import { RangeSelectionChartModifier } from "@/composition/RangeSelectionChartModifier";
+import { SimpleDataPointSelectionModifier } from "@/composition/SimpleDataPointSelectionModifier";
 
 async function initSciChart() {
   SciChartSurface.setRuntimeLicenseKey(
@@ -388,6 +393,7 @@ async function initSciChart() {
 
   sciChartSurface.chartModifiers.add(
     new XAxisDragModifier({ dragMode: EDragMode.Scaling })
+    // new SimpleDataPointSelectionModifier()
     // new YAxisDragModifier({ dragMode: EDragMode.Panning })
   );
 }
@@ -397,47 +403,61 @@ async function initSciChart() {
 import { ZoomExtentsModifier } from "scichart/Charting/ChartModifiers/ZoomExtentsModifier";
 import { RolloverModifier } from "scichart/Charting/ChartModifiers/RolloverModifier";
 import { EAutoRange } from "scichart/types/AutoRange";
-import { FastMountainRenderableSeries } from "scichart/Charting/Visuals/RenderableSeries/FastMountainRenderableSeries";
 import { SciChartVerticalGroup } from "scichart/Charting/LayoutManager/SciChartVerticalGroup";
 
 async function multipleSciChart() {
+  // LICENSING //
+  // Set your license code here
+  SciChartSurface.setRuntimeLicenseKey(
+    "5ycxvf/fY4gXbo/ejlWy2JzrxfwiO3XxnN4QB5l327kqZNnGd+hs1lHuSmi2+TDeenf0kGGDk6rpjYWwpLJipt6qTvMzRx6zlZhY9Qyo+DYNuNieYzxrC/ZceJwv7E/2UdlYysxQLHMDEcp0txtbjJ++qVe4gjU1bgU8+mz92RzB7rZhonqZ6pCZyLYgONZ8ljZicebuSlOM0KQSeomou30SIE1S9wiP6W9YuuaIoCR/gZIwMZnioOHf8k3gsPB3EfCH0D/Mz+/eUq9RliOJkSm66r13+XgaDRp/fG9UAF2xoZmXSqzBX1v52A2Xn7NuXyxmOiQVRvIfuF7qW6e7XIZqHed6ZJ+rp9xXMs+q1JlF39LmZsMqChi0HuAM8eohJhRJ0dspyTAFH9aot6nBJCi1DmKu0DXumyXm9IdEOlXCWa5whtWDwoUnvkuKrI1KRDVZ1KjsDoZ+Pvw+7oX0+ERCeMeUrpgx0XhDFe8jzQB33hmiAu23FJ4OIike6RGYlWk5VczgpY+NXSVj5tjM0b0JiF/mFGjoFKsQ3noKqAHyosPrfhtGH830MYD44ObNWuvLWeLxNofC4a5odOwPFHvwDVVlNTAo9UFw2g3p7pF9WAsup7+YV7cjooMQPqrMD4GBSggeh+k26nQyc9nAT0qiceMSScuHENhbc+j8UFI0RZuP1x5d6xkJJ1A8TtJ41KDqxML8QrV/KijPP+y5iAxIOCexrjGlPTCTdUhTpw=="
+  );
   const verticalGroup = new SciChartVerticalGroup();
 
-  let chart1XAxis, chart2XAxis;
+  let chart1XAxis, chart2XAxis, chart3XAxis, chart4XAxis, chart5XAxis, chart6XAxis;
+
   // CREATE FIRST CHART
   const createFirstChart = async () => {
     const { sciChartSurface, wasmContext } = await SciChartSurface.create(
       "scichart-root-1"
     );
-
+    // Theme Style
+    sciChartSurface.applyTheme(new SciChartJSLightTheme());
     // Create an X Axis and add to the chart
-    const chart1XAxis = new NumericAxis(wasmContext, { axisTitle: "X Axis" });
+    const chart1XAxis = new NumericAxis(wasmContext, {
+      drawLabels: false
+    });
     sciChartSurface.xAxes.add(chart1XAxis);
 
     // Create Y Axis and add to the chart
     const yAxis = new NumericAxis(wasmContext, {
-      axisTitle: "Y Axis",
+      // axisTitle: "Y Axis",
       axisAlignment: EAxisAlignment.Right,
       autoRange: EAutoRange.Always,
-      growBy: new NumberRange(0.2, 0.2)
+      growBy: new NumberRange(0.5, 0.5),
+      drawLabels: true
     });
+    yAxis.visibleRange = new NumberRange(-2, 2);
     sciChartSurface.yAxes.add(yAxis);
 
     // Create data for line series
-    const dataForLineSeries = new XyDataSeries(wasmContext);
-    for (let x = 0; x < 250; x++) {
-      dataForLineSeries.append(x, Math.sin(x * 0.1));
-    }
+    const dataForLineSeries1 = new XyDataSeries(wasmContext);
+    diagnoses.data[0].measures[0].values[5].raw_datas.forEach(
+      (item: number, index: number) => {
+        dataForLineSeries1.append(index, item);
+      }
+    );
 
     // Create line series and add to the chart
-    const lineSeries = new FastLineRenderableSeries(wasmContext, {
-      dataSeries: dataForLineSeries
+    const lineSeries1 = new FastLineRenderableSeries(wasmContext, {
+      dataSeries: dataForLineSeries1,
+      strokeThickness: 2,
+      stroke: "rgba(255,0,0,1)"
     });
     // Set RolloverModifier properties
-    lineSeries.rolloverModifierProps.tooltipColor = "green";
-    lineSeries.rolloverModifierProps.tooltipLabelX = "X";
-    lineSeries.rolloverModifierProps.tooltipLabelY = "Y";
-    sciChartSurface.renderableSeries.add(lineSeries);
+    lineSeries1.rolloverModifierProps.tooltipColor = "green";
+    lineSeries1.rolloverModifierProps.tooltipLabelX = "X";
+    lineSeries1.rolloverModifierProps.tooltipLabelY = "Y";
+    sciChartSurface.renderableSeries.add(lineSeries1);
 
     // Add several chart modifiers
     sciChartSurface.chartModifiers.add(
@@ -447,42 +467,53 @@ async function multipleSciChart() {
       new RolloverModifier({ modifierGroup: "group1" }),
       new RangeSelectionChartModifier()
     );
+    console.log(sciChartSurface.chartModifiers);
     verticalGroup.addSurfaceToGroup(sciChartSurface);
     return { sciChartSurface, wasmContext };
   };
-  // createFirstChart();
   // CREATE SECOND CHART
   const createSecondChart = async () => {
     const { sciChartSurface, wasmContext } = await SciChartSurface.create(
       "scichart-root-2"
     );
-
+    // Theme Style
+    sciChartSurface.applyTheme(new SciChartJSLightTheme());
     // Create an X Axis and add to the chart
-    const chart2XAxis = new NumericAxis(wasmContext);
+    const chart2XAxis = new NumericAxis(wasmContext, {
+      drawLabels: false
+    });
     sciChartSurface.xAxes.add(chart2XAxis);
 
     // Create Y Axis and add to the chart
     const yAxis = new NumericAxis(wasmContext, {
-      axisTitle: "Y Axis",
+      // axisTitle: "Y Axis",
       axisAlignment: EAxisAlignment.Left,
       autoRange: EAutoRange.Always,
-      growBy: new NumberRange(0.2, 0.2)
+      growBy: new NumberRange(0.5, 0.5),
+      drawLabels: true
     });
+    yAxis.visibleRange = new NumberRange(-1, 1);
     sciChartSurface.yAxes.add(yAxis);
 
-    // Create data for mountain series
-    const dataForMountainSeries = new XyDataSeries(wasmContext);
-    for (let x = 0; x < 250; x++) {
-      dataForMountainSeries.append(x, Math.cos(x * 0.1));
-    }
+    // Create data for line series
+    const dataForLineSeries2 = new XyDataSeries(wasmContext);
+    diagnoses.data[0].measures[0].values[4].raw_datas.forEach(
+      (item: number, index: number) => {
+        dataForLineSeries2.append(index, item);
+      }
+    );
 
-    // Create mountain series, bind to primary axis and add to the chart
-    const mountainSeries = new FastMountainRenderableSeries(wasmContext, {
-      dataSeries: dataForMountainSeries,
-      fill: "LightSteelBlue"
+    // Create line series and add to the chart
+    const lineSeries2 = new FastLineRenderableSeries(wasmContext, {
+      dataSeries: dataForLineSeries2,
+      strokeThickness: 2,
+      stroke: "rgba(255,0,0,1)"
     });
-    mountainSeries.rolloverModifierProps.tooltipColor = "green";
-    sciChartSurface.renderableSeries.add(mountainSeries);
+    // Set RolloverModifier properties
+    lineSeries2.rolloverModifierProps.tooltipColor = "green";
+    lineSeries2.rolloverModifierProps.tooltipLabelX = "X";
+    lineSeries2.rolloverModifierProps.tooltipLabelY = "Y";
+    sciChartSurface.renderableSeries.add(lineSeries2);
 
     sciChartSurface.chartModifiers.add(
       // new ZoomPanModifier({ modifierGroup: "group1" }),
@@ -491,24 +522,290 @@ async function multipleSciChart() {
       new RolloverModifier({ modifierGroup: "group1" }),
       new RangeSelectionChartModifier()
     );
+    console.log(sciChartSurface.chartModifiers);
     verticalGroup.addSurfaceToGroup(sciChartSurface);
     return { sciChartSurface, wasmContext };
   };
-  // createSecondChart();
-  const res = await Promise.all([createFirstChart(), createSecondChart()]);
+  // CREATE THIRD CHART
+  const createThirdChart = async () => {
+    const { sciChartSurface, wasmContext } = await SciChartSurface.create(
+      "scichart-root-3"
+    );
+    // Theme Style
+    sciChartSurface.applyTheme(new SciChartJSLightTheme());
+    // Create an X Axis and add to the chart
+    const chart3XAxis = new NumericAxis(wasmContext, {
+      drawLabels: false
+    });
+    sciChartSurface.xAxes.add(chart3XAxis);
+
+    // Create Y Axis and add to the chart
+    const yAxis = new NumericAxis(wasmContext, {
+      axisTitle: "(mV)",
+      axisAlignment: EAxisAlignment.Right,
+      autoRange: EAutoRange.Always,
+      growBy: new NumberRange(0.5, 0.5),
+      drawLabels: true
+    });
+    yAxis.visibleRange = new NumberRange(-1, 1);
+    sciChartSurface.yAxes.add(yAxis);
+
+    // Create data for line series
+    const dataForLineSeries3 = new XyDataSeries(wasmContext);
+    diagnoses.data[0].measures[0].values[3].raw_datas.forEach(
+      (item: number, index: number) => {
+        dataForLineSeries3.append(index, item);
+      }
+    );
+
+    // Create line series and add to the chart
+    const lineSeries3 = new FastLineRenderableSeries(wasmContext, {
+      dataSeries: dataForLineSeries3,
+      strokeThickness: 2,
+      stroke: "rgba(255,0,0,1)"
+    });
+    // Set RolloverModifier properties
+    lineSeries3.rolloverModifierProps.tooltipColor = "green";
+    lineSeries3.rolloverModifierProps.tooltipLabelX = "X";
+    lineSeries3.rolloverModifierProps.tooltipLabelY = "Y";
+    sciChartSurface.renderableSeries.add(lineSeries3);
+
+    // Add several chart modifiers
+    sciChartSurface.chartModifiers.add(
+      // new ZoomPanModifier({ modifierGroup: "group1" }),
+      new MouseWheelZoomModifier({ modifierGroup: "group1" }),
+      new ZoomExtentsModifier({ modifierGroup: "group1" }),
+      new RolloverModifier({ modifierGroup: "group1" }),
+      new RangeSelectionChartModifier()
+    );
+    console.log(sciChartSurface.chartModifiers);
+    verticalGroup.addSurfaceToGroup(sciChartSurface);
+    return { sciChartSurface, wasmContext };
+  };
+  // CREATE FOURTH CHART
+  const createFourthChart = async () => {
+    const { sciChartSurface, wasmContext } = await SciChartSurface.create(
+      "scichart-root-4"
+    );
+    // Theme Style
+    sciChartSurface.applyTheme(new SciChartJSLightTheme());
+    // Create an X Axis and add to the chart
+    const chart4XAxis = new NumericAxis(wasmContext, {
+      drawLabels: false
+    });
+    sciChartSurface.xAxes.add(chart4XAxis);
+
+    // Create Y Axis and add to the chart
+    const yAxis = new NumericAxis(wasmContext, {
+      // axisTitle: "Y Axis",
+      axisAlignment: EAxisAlignment.Left,
+      autoRange: EAutoRange.Always,
+      growBy: new NumberRange(0.5, 0.5),
+      drawLabels: true
+    });
+    yAxis.visibleRange = new NumberRange(-1, 1);
+    sciChartSurface.yAxes.add(yAxis);
+
+    // Create data for line series
+    const dataForLineSeries4 = new XyDataSeries(wasmContext);
+    diagnoses.data[0].measures[0].values[2].raw_datas.forEach(
+      (item: number, index: number) => {
+        dataForLineSeries4.append(index, item);
+      }
+    );
+
+    // Create line series and add to the chart
+    const lineSeries4 = new FastLineRenderableSeries(wasmContext, {
+      dataSeries: dataForLineSeries4,
+      strokeThickness: 2,
+      stroke: "rgba(255,0,0,1)"
+    });
+    // Set RolloverModifier properties
+    lineSeries4.rolloverModifierProps.tooltipColor = "green";
+    lineSeries4.rolloverModifierProps.tooltipLabelX = "X";
+    lineSeries4.rolloverModifierProps.tooltipLabelY = "Y";
+    sciChartSurface.renderableSeries.add(lineSeries4);
+
+    sciChartSurface.chartModifiers.add(
+      // new ZoomPanModifier({ modifierGroup: "group1" }),
+      new MouseWheelZoomModifier({ modifierGroup: "group1" }),
+      new ZoomExtentsModifier({ modifierGroup: "group1" }),
+      new RolloverModifier({ modifierGroup: "group1" }),
+      new RangeSelectionChartModifier()
+    );
+    console.log(sciChartSurface.chartModifiers);
+    verticalGroup.addSurfaceToGroup(sciChartSurface);
+    return { sciChartSurface, wasmContext };
+  };
+  // CREATE FIFTH CHART
+  const createFifthChart = async () => {
+    const { sciChartSurface, wasmContext } = await SciChartSurface.create(
+      "scichart-root-5"
+    );
+    // Theme Style
+    sciChartSurface.applyTheme(new SciChartJSLightTheme());
+    // Create an X Axis and add to the chart
+    const chart5XAxis = new NumericAxis(wasmContext, {
+      drawLabels: false
+    });
+    sciChartSurface.xAxes.add(chart5XAxis);
+
+    // Create Y Axis and add to the chart
+    const yAxis = new NumericAxis(wasmContext, {
+      // axisTitle: "Y Axis",
+      axisAlignment: EAxisAlignment.Left,
+      autoRange: EAutoRange.Always,
+      growBy: new NumberRange(0.5, 0.5),
+      drawLabels: true
+    });
+    yAxis.visibleRange = new NumberRange(-1, 1);
+    sciChartSurface.yAxes.add(yAxis);
+
+    // Create data for line series
+    const dataForLineSeries5 = new XyDataSeries(wasmContext);
+    diagnoses.data[0].measures[0].values[1].raw_datas.forEach(
+      (item: number, index: number) => {
+        dataForLineSeries5.append(index, item);
+      }
+    );
+
+    // Create line series and add to the chart
+    const lineSeries5 = new FastLineRenderableSeries(wasmContext, {
+      dataSeries: dataForLineSeries5,
+      strokeThickness: 2,
+      stroke: "rgba(255,0,0,1)"
+    });
+    // Set RolloverModifier properties
+    lineSeries5.rolloverModifierProps.tooltipColor = "green";
+    lineSeries5.rolloverModifierProps.tooltipLabelX = "X";
+    lineSeries5.rolloverModifierProps.tooltipLabelY = "Y";
+    sciChartSurface.renderableSeries.add(lineSeries5);
+
+    sciChartSurface.chartModifiers.add(
+      // new ZoomPanModifier({ modifierGroup: "group1" }),
+      new MouseWheelZoomModifier({ modifierGroup: "group1" }),
+      new ZoomExtentsModifier({ modifierGroup: "group1" }),
+      new RolloverModifier({ modifierGroup: "group1" }),
+      new RangeSelectionChartModifier()
+    );
+    console.log(sciChartSurface.chartModifiers);
+    verticalGroup.addSurfaceToGroup(sciChartSurface);
+    return { sciChartSurface, wasmContext };
+  };
+  // CREATE SIXTH CHART
+  const createSixthChart = async () => {
+    const { sciChartSurface, wasmContext } = await SciChartSurface.create(
+      "scichart-root-6"
+    );
+    // Theme Style
+    sciChartSurface.applyTheme(new SciChartJSLightTheme());
+    // Create an X Axis and add to the chart
+    const chart6XAxis = new CategoryAxis(wasmContext);
+    chart6XAxis.labelProvider.formatLabel = (index: number) => {
+      return index / 250 + "s";
+    };
+    sciChartSurface.xAxes.add(chart6XAxis);
+
+    // Create Y Axis and add to the chart
+    const yAxis = new NumericAxis(wasmContext, {
+      // axisTitle: "Y Axis",
+      axisAlignment: EAxisAlignment.Left,
+      autoRange: EAutoRange.Always,
+      growBy: new NumberRange(0.5, 0.5),
+      drawLabels: true
+    });
+    yAxis.visibleRange = new NumberRange(-1, 1);
+    sciChartSurface.yAxes.add(yAxis);
+
+    // Create data for line series
+    const dataForLineSeries6 = new XyDataSeries(wasmContext);
+    diagnoses.data[0].measures[0].values[0].raw_datas.forEach(
+      (item: number, index: number) => {
+        dataForLineSeries6.append(index, item);
+      }
+    );
+
+    // Create line series and add to the chart
+    const lineSeries6 = new FastLineRenderableSeries(wasmContext, {
+      dataSeries: dataForLineSeries6,
+      strokeThickness: 2,
+      stroke: "rgba(255,0,0,1)"
+    });
+    // Set RolloverModifier properties
+    lineSeries6.rolloverModifierProps.tooltipColor = "green";
+    lineSeries6.rolloverModifierProps.tooltipLabelX = "X";
+    lineSeries6.rolloverModifierProps.tooltipLabelY = "Y";
+    sciChartSurface.renderableSeries.add(lineSeries6);
+
+    sciChartSurface.chartModifiers.add(
+      // new ZoomPanModifier({ modifierGroup: "group1" }),
+      new MouseWheelZoomModifier({ modifierGroup: "group1" }),
+      new ZoomExtentsModifier({ modifierGroup: "group1" }),
+      new RolloverModifier({ modifierGroup: "group1" }),
+      new RangeSelectionChartModifier()
+    );
+    console.log(sciChartSurface.chartModifiers);
+    verticalGroup.addSurfaceToGroup(sciChartSurface);
+    return { sciChartSurface, wasmContext };
+  };
+  const res = await Promise.all([
+    createFirstChart(),
+    createSecondChart(),
+    createThirdChart(),
+    createFourthChart(),
+    createFifthChart(),
+    createSixthChart()
+  ]);
   res.forEach((el) => {
     el.sciChartSurface.zoomExtents();
   });
-  // Synchronize visible ranges
-  chart1XAxis.visibleRangeChanged.subscribe((data1) => {
-    chart2XAxis.visibleRange = data1.visibleRange;
-  });
-  chart2XAxis.visibleRangeChanged.subscribe((data1) => {
-    chart1XAxis.visibleRange = data1.visibleRange;
-  });
+  // // Synchronize visible ranges
+  // chart1XAxis.visibleRangeChanged.subscribe((data1) => {
+  //   chart2XAxis.visibleRange = data1.visibleRange;
+  //   chart3XAxis.visibleRange = data1.visibleRange;
+  //   chart4XAxis.visibleRange = data1.visibleRange;
+  //   chart5XAxis.visibleRange = data1.visibleRange;
+  //   chart6XAxis.visibleRange = data1.visibleRange;
+  // });
+  // chart2XAxis.visibleRangeChanged.subscribe((data1) => {
+  //   chart1XAxis.visibleRange = data1.visibleRange;
+  //   chart3XAxis.visibleRange = data1.visibleRange;
+  //   chart4XAxis.visibleRange = data1.visibleRange;
+  //   chart5XAxis.visibleRange = data1.visibleRange;
+  //   chart6XAxis.visibleRange = data1.visibleRange;
+  // });
+  // chart3XAxis.visibleRangeChanged.subscribe((data1) => {
+  //   chart1XAxis.visibleRange = data1.visibleRange;
+  //   chart2XAxis.visibleRange = data1.visibleRange;
+  //   chart4XAxis.visibleRange = data1.visibleRange;
+  //   chart5XAxis.visibleRange = data1.visibleRange;
+  //   chart6XAxis.visibleRange = data1.visibleRange;
+  // });
+  // chart4XAxis.visibleRangeChanged.subscribe((data1) => {
+  //   chart1XAxis.visibleRange = data1.visibleRange;
+  //   chart2XAxis.visibleRange = data1.visibleRange;
+  //   chart3XAxis.visibleRange = data1.visibleRange;
+  //   chart5XAxis.visibleRange = data1.visibleRange;
+  //   chart6XAxis.visibleRange = data1.visibleRange;
+  // });
+  // chart5XAxis.visibleRangeChanged.subscribe((data1) => {
+  //   chart1XAxis.visibleRange = data1.visibleRange;
+  //   chart2XAxis.visibleRange = data1.visibleRange;
+  //   chart3XAxis.visibleRange = data1.visibleRange;
+  //   chart4XAxis.visibleRange = data1.visibleRange;
+  //   chart6XAxis.visibleRange = data1.visibleRange;
+  // });
+  // chart6XAxis.visibleRangeChanged.subscribe((data1) => {
+  //   chart1XAxis.visibleRange = data1.visibleRange;
+  //   chart2XAxis.visibleRange = data1.visibleRange;
+  //   chart3XAxis.visibleRange = data1.visibleRange;
+  //   chart4XAxis.visibleRange = data1.visibleRange;
+  //   chart5XAxis.visibleRange = data1.visibleRange;
+  // });
 }
 
-multipleSciChart();
+// multipleSciChart();
+
 
 export default {
   name: "Chart",
@@ -524,14 +821,14 @@ export default {
       initSciChart();
       multipleSciChart();
     });
-    const upDateData = computed(() => {
-      return diagnoses;
-    });
-    console.log(upDateData);
+    // const upDateData = computed(() => {
+    //   return diagnoses;
+    // });
+    // console.log(upDateData);
     return {
       dataInformation,
       initSciChart,
-      upDateData,
+      // upDateData,
       diagnoses
     };
   }
