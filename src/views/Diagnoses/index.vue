@@ -3,9 +3,9 @@
   <el-row type="flex" justify="center">
     <el-col :span="16">
       <h1>Diagnoses</h1>
-      <el-table :data="tableData.data" stripe style="width: 1200px">
-        <el-table-column prop="diagnosis_id" label="ID" width="180"> </el-table-column>
-        <el-table-column prop="start_time" label="Time" width="180"> </el-table-column>
+      <el-table :data="tableData.data" stripe style="width:100%;">
+        <el-table-column prop="diagnosis_id" label="ID"></el-table-column>
+        <el-table-column prop="start_time" label="Time"></el-table-column>
         <el-table-column prop="hr_last" label="HR"></el-table-column>
         <el-table-column prop="gain" label="Gain"></el-table-column>
         <el-table-column prop="device_id" label="Device"></el-table-column>
@@ -14,19 +14,13 @@
           <el-table-column prop="latitude" label="lat"></el-table-column>
           <el-table-column prop="longitude" label="lng"></el-table-column>
         </el-table-column>
-        <el-table-column label="按鈕操作" width="180">
+        <el-table-column label="按鈕操作">
           <template v-slot="scope">
             <el-button
               size="mini"
               type="primary"
               @click="getECGChart(scope.$index, scope.row)"
               >顯示 ECG</el-button
-            >
-            <el-button
-              size="mini"
-              type="danger"
-              @click="handleDelete(scope.$index, scope.row)"
-              >删除</el-button
             >
           </template>
         </el-table-column>
@@ -61,4 +55,8 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped>
+*{
+  box-sizing: border-box;
+}
+</style>

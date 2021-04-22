@@ -7,6 +7,9 @@
       "hosting": {
         "incare-dev2": [
           "incare-dev2"
+        ],
+        "incare": [
+          "incare"
         ]
       }
     }
