@@ -75,36 +75,36 @@ export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
     if (this.y1 < yClickDataValue && this.y2 > yClickDataValue) {
       // this.selectionAnnotation.y1 = this.y1;
       // this.selectionAnnotation.y2 = this.y2;
-      this.selectionAnnotation.y1 = 0.83;
+      this.selectionAnnotation.y1 = 0.84;
       this.selectionAnnotation.y2 = 1;
       // console.log("y1=>",this.selectionAnnotation.y1,"y2=>",this.selectionAnnotation.y2);
     } else if (this.y2 < yClickDataValue && this.y3 > yClickDataValue) {
       // this.selectionAnnotation.y1 = this.y2;
       // this.selectionAnnotation.y2 = this.y3;
-      this.selectionAnnotation.y1 = 0.7;
-      this.selectionAnnotation.y2 = 0.83;
+      this.selectionAnnotation.y1 = 0.66;
+      this.selectionAnnotation.y2 = 0.84;
       // console.log("y1=>",this.selectionAnnotation.y1,"y2=>",this.selectionAnnotation.y2);
     } else if (this.y3 < yClickDataValue && this.y4 > yClickDataValue) {
       // this.selectionAnnotation.y1 = this.y3;
       // this.selectionAnnotation.y2 = this.y4;
-      this.selectionAnnotation.y1 = 0.5;
-      this.selectionAnnotation.y2 = 0.7;
+      this.selectionAnnotation.y1 = 0.485;
+      this.selectionAnnotation.y2 = 0.66;
       // console.log("y1=>",this.selectionAnnotation.y1,"y2=>",this.selectionAnnotation.y2);
     } else if (this.y4 < yClickDataValue && this.y5 > yClickDataValue) {
       // this.selectionAnnotation.y1 = this.y4;
       // this.selectionAnnotation.y2 = this.y5;
-      this.selectionAnnotation.y1 = 0.3;
-      this.selectionAnnotation.y2 = 0.5;
+      this.selectionAnnotation.y1 = 0.305;
+      this.selectionAnnotation.y2 = 0.485;
       // console.log("y1=>",this.selectionAnnotation.y1,"y2=>",this.selectionAnnotation.y2);
     } else if (this.y5 < yClickDataValue && this.y6 > yClickDataValue) {
       // this.selectionAnnotation.y1 = this.y5;
       // this.selectionAnnotation.y2 = this.y6;
-      this.selectionAnnotation.y1 = 0.1;
-      this.selectionAnnotation.y2 = 0.3;
+      this.selectionAnnotation.y1 = 0.125;
+      this.selectionAnnotation.y2 = 0.305;
       // console.log("y1=>",this.selectionAnnotation.y1,"y2=>",this.selectionAnnotation.y2);
     } else if (this.y6 < yClickDataValue && this.y7 > yClickDataValue) {
       this.selectionAnnotation.y1 = 0;
-      this.selectionAnnotation.y2 = 0.1;
+      this.selectionAnnotation.y2 = 0.125;
       // console.log("y1=>",this.selectionAnnotation.y1,"y2=>",this.selectionAnnotation.y2);
     }
     // this.isSelecting = true;

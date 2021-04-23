@@ -118,6 +118,7 @@ import { RangeSelectionChartModifier } from "@/composition/RangeSelectionChartMo
 import { SimpleDataPointSelectionModifier } from "@/composition/SimpleDataPointSelectionModifier";
 import { EllipsePointMarker } from "scichart/Charting/Visuals/PointMarkers/EllipsePointMarker";
 import { ZoomExtentsModifier } from "scichart/Charting/ChartModifiers/ZoomExtentsModifier";
+import { HorizontalLineAnnotation } from 'scichart/Charting/Visuals/Annotations/HorizontalLineAnnotation';
 
 const initSciChart = async () =>{
   // SciChartSurface.setRuntimeLicenseKey(
@@ -151,14 +152,15 @@ const initSciChart = async () =>{
 
   const xAxis = new CategoryAxis(wasmContext);
   xAxis.labelProvider.formatLabel = (index: number) => {
-    return index / 250 + "s";
+    return (index / 250).toFixed(0) + "s";
   };
   xAxis.drawMajorGridLines = true;
   // Create an X,Y Axis and add to the chart
   // const xAxis = new NumericAxis(wasmContext);
-  xAxis.autoTicks = true;
+  xAxis.autoTicks = false;
   // Have a major gridline every 10 units on the axis
-  xAxis.majorDelta = 30;
+  // xAxis.maxAutoTicks = 1;
+  // xAxis.majorDelta = 30;
   console.log(xAxis.majorDelta);
   // Have a minor gridline every 2 units on the axis
   xAxis.minorDelta = 0;
@@ -344,6 +346,31 @@ const initSciChart = async () =>{
       y1: 0.9,
       xCoordinateMode: ECoordinateMode.Relative,
       yCoordinateMode: ECoordinateMode.Relative
+    }),
+    new HorizontalLineAnnotation({
+      stroke: "green",
+      strokeThickness: 2,
+      y1: 1
+    }),
+    new HorizontalLineAnnotation({
+      stroke: "green",
+      strokeThickness: 2,
+      y1: 3
+    }),
+    new HorizontalLineAnnotation({
+      stroke: "green",
+      strokeThickness: 2,
+      y1: 5
+    }),
+    new HorizontalLineAnnotation({
+      stroke: "green",
+      strokeThickness: 2,
+      y1: 7
+    }),
+    new HorizontalLineAnnotation({
+      stroke: "green",
+      strokeThickness: 2,
+      y1: 9
     })
     // // Add TextAnnotations with anchor points
     // new TextAnnotation({
