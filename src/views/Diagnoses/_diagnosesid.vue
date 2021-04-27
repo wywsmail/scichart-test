@@ -119,6 +119,7 @@ import { SimpleDataPointSelectionModifier } from "@/composition/SimpleDataPointS
 import { EllipsePointMarker } from "scichart/Charting/Visuals/PointMarkers/EllipsePointMarker";
 import { ZoomExtentsModifier } from "scichart/Charting/ChartModifiers/ZoomExtentsModifier";
 import { HorizontalLineAnnotation } from 'scichart/Charting/Visuals/Annotations/HorizontalLineAnnotation';
+import { EAutoRange } from 'scichart/types/AutoRange';
 
 const initSciChart = async () =>{
   // SciChartSurface.setRuntimeLicenseKey(
@@ -169,8 +170,9 @@ const initSciChart = async () =>{
   const yAxis = new NumericAxis(wasmContext, {
     axisTitle: "(mV)",
     axisAlignment: EAxisAlignment.Right,
-    drawLabels: true
+    drawLabels: false
   });
+  yAxis.visibleRange = new NumberRange(-1, 11);
 
   sciChartSurface.xAxes.add(xAxis);
   sciChartSurface.yAxes.add(yAxis);
@@ -297,8 +299,8 @@ const initSciChart = async () =>{
       text: "LEAD 1",
       textColor: "black",
       fontSize: 18,
-      x1: 0.0,
-      y1: 0.0,
+      x1: 0.05,
+      y1: (1 / 6) * 0,
       xCoordinateMode: ECoordinateMode.Relative,
       yCoordinateMode: ECoordinateMode.Relative
     }),
@@ -306,8 +308,8 @@ const initSciChart = async () =>{
       text: "LEAD 2",
       textColor: "black",
       fontSize: 18,
-      x1: 0.0,
-      y1: 0.2,
+      x1: 0.05,
+      y1: (1 / 6) * 1,
       xCoordinateMode: ECoordinateMode.Relative,
       yCoordinateMode: ECoordinateMode.Relative
     }),
@@ -315,8 +317,8 @@ const initSciChart = async () =>{
       text: "LEAD 3",
       textColor: "black",
       fontSize: 18,
-      x1: 0.0,
-      y1: 0.4,
+      x1: 0.05,
+      y1: (1 / 6) * 2,
       xCoordinateMode: ECoordinateMode.Relative,
       yCoordinateMode: ECoordinateMode.Relative
     }),
@@ -324,8 +326,8 @@ const initSciChart = async () =>{
       text: "aVR",
       textColor: "black",
       fontSize: 18,
-      x1: 0.0,
-      y1: 0.6,
+      x1: 0.05,
+      y1: (1 / 6) * 3,
       xCoordinateMode: ECoordinateMode.Relative,
       yCoordinateMode: ECoordinateMode.Relative
     }),
@@ -333,8 +335,8 @@ const initSciChart = async () =>{
       text: "aVL",
       textColor: "black",
       fontSize: 18,
-      x1: 0.0,
-      y1: 0.75,
+      x1: 0.05,
+      y1: (1 / 6) * 4,
       xCoordinateMode: ECoordinateMode.Relative,
       yCoordinateMode: ECoordinateMode.Relative
     }),
@@ -342,8 +344,8 @@ const initSciChart = async () =>{
       text: "aVF",
       textColor: "black",
       fontSize: 18,
-      x1: 0.0,
-      y1: 0.9,
+      x1: 0.05,
+      y1: (1 / 6) * 5,
       xCoordinateMode: ECoordinateMode.Relative,
       yCoordinateMode: ECoordinateMode.Relative
     }),

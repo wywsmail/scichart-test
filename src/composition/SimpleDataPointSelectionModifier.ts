@@ -21,7 +21,7 @@ type TDataPoint = {
 export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
   private startPoint: Point | undefined;
   private endPoint: Point | undefined;
-  private readonly selectionAnnotation: BoxAnnotation;
+  private selectionAnnotation: BoxAnnotation;
   private isSelecting: boolean | undefined;
   private selectedPoints: TDataPoint[][] = [];
   y1 = 0;
@@ -75,36 +75,36 @@ export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
     if (this.y1 < yClickDataValue && this.y2 > yClickDataValue) {
       // this.selectionAnnotation.y1 = this.y1;
       // this.selectionAnnotation.y2 = this.y2;
-      this.selectionAnnotation.y1 = 0.84;
-      this.selectionAnnotation.y2 = 1;
+      this.selectionAnnotation.y1 = (1 / 6) * 5;
+      this.selectionAnnotation.y2 = (1 / 6) * 6;
       // console.log("y1=>",this.selectionAnnotation.y1,"y2=>",this.selectionAnnotation.y2);
     } else if (this.y2 < yClickDataValue && this.y3 > yClickDataValue) {
       // this.selectionAnnotation.y1 = this.y2;
       // this.selectionAnnotation.y2 = this.y3;
-      this.selectionAnnotation.y1 = 0.66;
-      this.selectionAnnotation.y2 = 0.84;
+      this.selectionAnnotation.y1 = (1 / 6) * 4;
+      this.selectionAnnotation.y2 = (1 / 6) * 5;
       // console.log("y1=>",this.selectionAnnotation.y1,"y2=>",this.selectionAnnotation.y2);
     } else if (this.y3 < yClickDataValue && this.y4 > yClickDataValue) {
       // this.selectionAnnotation.y1 = this.y3;
       // this.selectionAnnotation.y2 = this.y4;
-      this.selectionAnnotation.y1 = 0.485;
-      this.selectionAnnotation.y2 = 0.66;
+      this.selectionAnnotation.y1 = (1 / 6) * 3;
+      this.selectionAnnotation.y2 = (1 / 6) * 4;
       // console.log("y1=>",this.selectionAnnotation.y1,"y2=>",this.selectionAnnotation.y2);
     } else if (this.y4 < yClickDataValue && this.y5 > yClickDataValue) {
       // this.selectionAnnotation.y1 = this.y4;
       // this.selectionAnnotation.y2 = this.y5;
-      this.selectionAnnotation.y1 = 0.305;
-      this.selectionAnnotation.y2 = 0.485;
+      this.selectionAnnotation.y1 = (1 / 6) * 2;
+      this.selectionAnnotation.y2 = (1 / 6) * 3;
       // console.log("y1=>",this.selectionAnnotation.y1,"y2=>",this.selectionAnnotation.y2);
     } else if (this.y5 < yClickDataValue && this.y6 > yClickDataValue) {
       // this.selectionAnnotation.y1 = this.y5;
       // this.selectionAnnotation.y2 = this.y6;
-      this.selectionAnnotation.y1 = 0.125;
-      this.selectionAnnotation.y2 = 0.305;
+      this.selectionAnnotation.y1 = (1 / 6) * 1;
+      this.selectionAnnotation.y2 = (1 / 6) * 2;
       // console.log("y1=>",this.selectionAnnotation.y1,"y2=>",this.selectionAnnotation.y2);
     } else if (this.y6 < yClickDataValue && this.y7 > yClickDataValue) {
-      this.selectionAnnotation.y1 = 0;
-      this.selectionAnnotation.y2 = 0.125;
+      this.selectionAnnotation.y1 = (1 / 6) * 0;
+      this.selectionAnnotation.y2 = (1 / 6) * 1;
       // console.log("y1=>",this.selectionAnnotation.y1,"y2=>",this.selectionAnnotation.y2);
     }
     // this.isSelecting = true;
@@ -222,7 +222,7 @@ export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
           leftXData = xCalc.getDataValue(this.endPoint.x);
           rightXData = xCalc.getDataValue(this.startPoint.x);
         }
-
+        console.log(leftXData, rightXData);
         let bottomYData, topYData;
 
         if (
@@ -235,6 +235,7 @@ export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
           bottomYData = yCalc.getDataValue(this.endPoint.y);
           topYData = yCalc.getDataValue(this.startPoint.y);
         }
+        console.log(bottomYData, topYData);
 
         for (let i = 0; i < dataSeries.count(); i++) {
           const x = dataSeries.getNativeXValues().get(i);
@@ -255,7 +256,10 @@ export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
     const xAxis = this.parentSurface.xAxes.get(0);
     const yAxis = this.parentSurface.yAxes.get(0);
     if (!xAxis || !yAxis) {
-      return { xCalc: undefined, yCalc: undefined };
+      return {
+        xCalc: undefined,
+        yCalc: undefined
+      };
     }
 
     const xCalc = xAxis.getCurrentCoordinateCalculator();
