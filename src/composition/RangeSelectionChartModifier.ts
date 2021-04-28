@@ -38,7 +38,7 @@ export class RangeSelectionChartModifier extends ChartModifierBase2D {
     this.selectionAnnotation.x1 = this.startPoint.x;
     this.selectionAnnotation.x2 = this.endPoint.x;
     this.isSelecting = true;
-    this.parentSurface.annotations.add(this.selectionAnnotation);
+    // this.parentSurface.annotations.add(this.selectionAnnotation);
   }
 
   // Called when mouse-move on the chart
@@ -57,12 +57,12 @@ export class RangeSelectionChartModifier extends ChartModifierBase2D {
     this.isSelecting = false;
     // this.parentSurface.annotations.remove(this.selectionAnnotation);
   }
-  // public onAttach() {
-  //   super.onAttach();
-  //   this.parentSurface.annotations.add(this.selectionAnnotation);
-  // }
-  // public onDetach() {
-  //   this.parentSurface.annotations.remove(this.selectionAnnotation);
-  //   super.onDetach();
-  // }
+  public onAttach() {
+    super.onAttach();
+    this.parentSurface.annotations.add(this.selectionAnnotation);
+  }
+  public onDetach() {
+    this.parentSurface.annotations.remove(this.selectionAnnotation);
+    super.onDetach();
+  }
 }

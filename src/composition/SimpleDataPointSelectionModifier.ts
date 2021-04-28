@@ -138,7 +138,7 @@ export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
       this.isSelecting = true;
 
       // this.parentSurface.annotations.remove(this.selectionAnnotation);
-      this.parentSurface.annotations.add(this.selectionAnnotation);
+      // this.parentSurface.annotations.add(this.selectionAnnotation);
     }
   }
 
@@ -266,5 +266,13 @@ export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
     const yCalc = yAxis.getCurrentCoordinateCalculator();
 
     return { xCalc, yCalc };
+  }
+  public onAttach() {
+    super.onAttach();
+    this.parentSurface.annotations.add(this.selectionAnnotation);
+  }
+  public onDetach() {
+    this.parentSurface.annotations.remove(this.selectionAnnotation);
+    super.onDetach();
   }
 }

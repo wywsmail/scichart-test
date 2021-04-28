@@ -27,17 +27,17 @@
       </el-table>
     </el-col>
   </el-row>
-  <el-row type="flex" justify="center" :gutter="20" style="width: 1200px">
-    <el-col :span="4" align="center">
+  <el-row type="flex" justify="center">
+    <el-col :span="2">
       <el-button type="primary" icon="el-icon-edit">標記備註</el-button>
     </el-col>
-    <el-col :span="4" align="center">
+    <el-col :span="2">
       <el-button type="primary">Evaluation Mode</el-button>
     </el-col>
-    <el-col :span="4" align="center">
+    <el-col :span="2">
       <el-button type="primary">Tag Mode</el-button>
     </el-col>
-    <el-col :span="4" align="center">
+    <el-col :span="2">
       <el-button type="primary">Change Model / Update</el-button>
     </el-col>
     <el-col :span="4">
