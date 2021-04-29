@@ -3,8 +3,16 @@
     <el-col :span="16">
       <h1>Chart</h1>
       <el-table :data="diagnoses.data" stripe style="width: 1200px">
-        <el-table-column prop="diagnosis_id" label="ID" width="180"></el-table-column>
-        <el-table-column prop="start_time" label="Time" width="180"></el-table-column>
+        <el-table-column
+          prop="diagnosis_id"
+          label="ID"
+          width="180"
+        ></el-table-column>
+        <el-table-column
+          prop="start_time"
+          label="Time"
+          width="180"
+        ></el-table-column>
         <el-table-column prop="hr_last" label="HR"></el-table-column>
         <el-table-column prop="gain" label="Gain"></el-table-column>
         <el-table-column prop="device_id" label="Device"></el-table-column>
@@ -27,7 +35,27 @@
       </el-table>
     </el-col>
   </el-row>
-  <el-row type="flex" justify="center">
+  <div style="margin: 10px; display:none">
+    <input type="checkbox" id="enable-pan" checked />
+    <label for="enable-pan">Enable Mouse-Drag to Pan</label><br />
+    <input type="checkbox" id="enable-zoom" />
+    <label for="enable-zoom">Enable Mouse-Drag to Zoom</label><br />
+    <input type="checkbox" id="enable-range-select" />
+    <label for="enable-range-select">Enable Range Select</label><br />
+    <input type="checkbox" id="enable-zoom-to-fit" checked />
+    <label for="enable-zoom-to-fit">Enable Double-Click to Zoom to Fit</label
+    ><br />
+    <input type="checkbox" id="enable-mouse-wheel-zoom" checked />
+    <label for="enable-mouse-wheel-zoom">Enable Mousewheel Zoom</label><br />
+  </div>
+  <el-button-group style="display:none">
+    <el-button type="primary" icon="el-icon-arrow-left">上一页</el-button>
+    <el-button type="primary"
+      >下一页<i class="el-icon-arrow-right el-icon--right"></i
+    ></el-button>
+  </el-button-group>
+  <br />
+  <el-row type="flex" justify="center" align="top">
     <el-col :span="2">
       <el-button type="primary" icon="el-icon-edit">標記備註</el-button>
     </el-col>
@@ -49,33 +77,12 @@
       <span>選項：{{ selected }}</span>
     </el-col>
   </el-row>
-  <div style="margin: 10px; display:none">
-    <input type="checkbox" id="enable-pan" checked />
-    <label for="enable-pan">Enable Mouse-Drag to Pan</label><br />
-    <input type="checkbox" id="enable-zoom" />
-    <label for="enable-zoom">Enable Mouse-Drag to Zoom</label><br />
-    <input type="checkbox" id="enable-range-select" />
-    <label for="enable-range-select">Enable Range Select</label><br />
-    <input type="checkbox" id="enable-zoom-to-fit" checked />
-    <label for="enable-zoom-to-fit">Enable Double-Click to Zoom to Fit</label><br />
-    <input type="checkbox" id="enable-mouse-wheel-zoom" checked />
-    <label for="enable-mouse-wheel-zoom">Enable Mousewheel Zoom</label><br />
-  </div>
-  <el-button-group style="display:none">
-    <el-button type="primary" icon="el-icon-arrow-left">上一页</el-button>
-    <el-button type="primary"
-      >下一页<i class="el-icon-arrow-right el-icon--right"></i
-    ></el-button>
-  </el-button-group>
-  <br />
-  <el-button-group style="display:none">
-    <el-button type="primary" icon="el-icon-edit">標記</el-button>
-    <el-button type="primary" icon="el-icon-share"></el-button>
-    <el-button type="primary" icon="el-icon-delete"></el-button>
-  </el-button-group>
   <el-row type="flex" justify="center">
     <el-col :span="16">
-      <div id="scichart-root" style="width: 100%; height: 800px; margin: auto"></div>
+      <div
+        id="scichart-root"
+        style="width: 100%; height: 800px; margin: auto"
+      ></div>
     </el-col>
   </el-row>
   <div id="result" style="white-space: pre"></div>
@@ -85,7 +92,13 @@
 import { useRoute } from "vue-router";
 import { computed, defineComponent, onMounted, ref, reactive } from "vue";
 // import SciChart from "@/components/SciChart.vue";
-import { dataInformation, showECGChart, diagnoses,getAnomalyModels, modelName } from "@/composition/store";
+import {
+  dataInformation,
+  showECGChart,
+  diagnoses,
+  getAnomalyModels,
+  modelName
+} from "@/composition/store";
 
 // about scichart
 
@@ -118,15 +131,18 @@ import { RangeSelectionChartModifier } from "@/composition/RangeSelectionChartMo
 import { SimpleDataPointSelectionModifier } from "@/composition/SimpleDataPointSelectionModifier";
 import { EllipsePointMarker } from "scichart/Charting/Visuals/PointMarkers/EllipsePointMarker";
 import { ZoomExtentsModifier } from "scichart/Charting/ChartModifiers/ZoomExtentsModifier";
-import { HorizontalLineAnnotation } from 'scichart/Charting/Visuals/Annotations/HorizontalLineAnnotation';
-import { EAutoRange } from 'scichart/types/AutoRange';
+import { HorizontalLineAnnotation } from "scichart/Charting/Visuals/Annotations/HorizontalLineAnnotation";
+import { EAutoRange } from "scichart/types/AutoRange";
 
-const initSciChart = async () =>{
+const initSciChart = async () => {
   // SciChartSurface.setRuntimeLicenseKey(
   //   "5ycxvf/fY4gXbo/ejlWy2JzrxfwiO3XxnN4QB5l327kqZNnGd+hs1lHuSmi2+TDeenf0kGGDk6rpjYWwpLJipt6qTvMzRx6zlZhY9Qyo+DYNuNieYzxrC/ZceJwv7E/2UdlYysxQLHMDEcp0txtbjJ++qVe4gjU1bgU8+mz92RzB7rZhonqZ6pCZyLYgONZ8ljZicebuSlOM0KQSeomou30SIE1S9wiP6W9YuuaIoCR/gZIwMZnioOHf8k3gsPB3EfCH0D/Mz+/eUq9RliOJkSm66r13+XgaDRp/fG9UAF2xoZmXSqzBX1v52A2Xn7NuXyxmOiQVRvIfuF7qW6e7XIZqHed6ZJ+rp9xXMs+q1JlF39LmZsMqChi0HuAM8eohJhRJ0dspyTAFH9aot6nBJCi1DmKu0DXumyXm9IdEOlXCWa5whtWDwoUnvkuKrI1KRDVZ1KjsDoZ+Pvw+7oX0+ERCeMeUrpgx0XhDFe8jzQB33hmiAu23FJ4OIike6RGYlWk5VczgpY+NXSVj5tjM0b0JiF/mFGjoFKsQ3noKqAHyosPrfhtGH830MYD44ObNWuvLWeLxNofC4a5odOwPFHvwDVVlNTAo9UFw2g3p7pF9WAsup7+YV7cjooMQPqrMD4GBSggeh+k26nQyc9nAT0qiceMSScuHENhbc+j8UFI0RZuP1x5d6xkJJ1A8TtJ41KDqxML8QrV/KijPP+y5iAxIOCexrjGlPTCTdUhTpw=="
   // );
+  // SciChartSurface.setRuntimeLicenseKey(
+  //   "LZSp787dL/Q4OmsvGywWQ6RZ8ql5O6jhjw92po8di9pP4KZZoQQ2uuoWMlO1sGNxc9grA4cGGd32r7vZkzLO1uhLsjXtowGqE090CV9L0BXDkhRrIsxtCYHIk1OXfbESEqVWSxeEKqx/OnKi3y51xIYc/VkxSq1GIO7sY0ZLjY9Sgmf/qupcwWmj/0xeni3FbW0IsX/NLIpAz3yt0YtUviMQc7GIdNpjnuLT9SF3xx8wUzWXyaUs55QpnRoE/7eX2W7BNqOaqtrLQyUBPp6Yp37PYYdGB6zs1Dsr63W8sFJjQui9uq12Ugmn+twLaZnY97++s9dAzDrj3RvCNZjGDaRDJNHBcnpg/whW+aYIIvOGjruyP8x6kUm01hXeo8iCt/+jT/AlJdLjVTy1UDbj1JCIy6YBJI/etfwc87Pn8JBSDVW37LHtrS8yHwpZV0M/0gdi9BtgxFTzT7pd7GYe6K+1EQZZJ2GV0/moZ4Jr8PYTXLdXE0M3pw04lOquC60A3KuH9shbXlBypWYL7+83s7Fpz850yve4UJWe+6M49WLQgznNjFezb6jF0ciOoywVvr/nx7zbilQjz6xpNPDHyMQMDWbTbsqAy9oQ5ePvkFx4tUsrMSSA3bmU0mDQHCKD2bwMQEO1rQYzLLTUVYHkBDl+idhoFraXDz0ISwrJZQsbfRcr62FvekndjRNSd+LwZa9DoZUuAhzoRsR5X4Q0F788K/u1UtaiFvlffPpTy7x5bzj2km0FHDEVxGg0ZxZ/3Bd2f2TiVQ=="
+  // );
   SciChartSurface.setRuntimeLicenseKey(
-    "LZSp787dL/Q4OmsvGywWQ6RZ8ql5O6jhjw92po8di9pP4KZZoQQ2uuoWMlO1sGNxc9grA4cGGd32r7vZkzLO1uhLsjXtowGqE090CV9L0BXDkhRrIsxtCYHIk1OXfbESEqVWSxeEKqx/OnKi3y51xIYc/VkxSq1GIO7sY0ZLjY9Sgmf/qupcwWmj/0xeni3FbW0IsX/NLIpAz3yt0YtUviMQc7GIdNpjnuLT9SF3xx8wUzWXyaUs55QpnRoE/7eX2W7BNqOaqtrLQyUBPp6Yp37PYYdGB6zs1Dsr63W8sFJjQui9uq12Ugmn+twLaZnY97++s9dAzDrj3RvCNZjGDaRDJNHBcnpg/whW+aYIIvOGjruyP8x6kUm01hXeo8iCt/+jT/AlJdLjVTy1UDbj1JCIy6YBJI/etfwc87Pn8JBSDVW37LHtrS8yHwpZV0M/0gdi9BtgxFTzT7pd7GYe6K+1EQZZJ2GV0/moZ4Jr8PYTXLdXE0M3pw04lOquC60A3KuH9shbXlBypWYL7+83s7Fpz850yve4UJWe+6M49WLQgznNjFezb6jF0ciOoywVvr/nx7zbilQjz6xpNPDHyMQMDWbTbsqAy9oQ5ePvkFx4tUsrMSSA3bmU0mDQHCKD2bwMQEO1rQYzLLTUVYHkBDl+idhoFraXDz0ISwrJZQsbfRcr62FvekndjRNSd+LwZa9DoZUuAhzoRsR5X4Q0F788K/u1UtaiFvlffPpTy7x5bzj2km0FHDEVxGg0ZxZ/3Bd2f2TiVQ=="
+    "fsC8ShOqUyzYgXr/skXvPhxfeOawLCs4Y3yFKW/wU9rDKjnvlMmrPhgzLBpOEhX2Bsk2v7z6E5tBreHZZffphKqKalYC6WTyaFHWsUSTgM0XvFVEXKNBmHCU+GyJ3DXi1SF5H2U73J3RgEs8JgLwSG4dd3qawMdhPbylEDTZvfV+rUv2h/GMoL8lKRcXCz+eR3NIBJSu8O4VAX3yirx0n1zwxX3izWjTDjqTNGqlrT5vkR44TEWWMoEh6oqL/aoHLewl1m0LtzO2XOyTL0oho7ufHAEomlIiQ2TkpXr69FvLzt/LqdcVKPFJEKgVnUfgDLsmmlX6rntwAOqrEj2bvcSb4G5GRGjylm8Nx0bJaNI94l89R+mISp8sPjoDqgP18XVKTlOy3172+xZcyFksISnHtRf5a2E6CjpccJXhplNfEKEM4Xs8NC0g/lgPX8ChTYOWvpJC9/RAPx6qAighr6ehWRjDSq75FzeHRMmsFCULaWQ0xrTFQGmVFzKNWSkzu8pUtazblJR3h8pfTqMLbRlBqqvPijQ+SUa5rSEp8jyjRztWkgYGZk8lqGSwQdpZ1FD0NzVrJxb4wr7bLMNDH9Oq7IIfoIt3QeyWhn8COKFfS0+hVL+V25IJEMgV8SlVEBvaLM1cCvEWTbpWeBipCgOowoeO2YzGZlu9CZqry/pEq1x9Nvfeo2PYDwBxO9kSl1EWYXQMPVp/TNR7GlQ+B6TdbIFTIGC/jX4+v3or9Q=="
   );
   // LICENSING //
   // Set your license code here
@@ -147,7 +163,9 @@ const initSciChart = async () =>{
   // Create the SciChartSurface in the div 'scichart-root'
   // The SciChartSurface, and webassembly context 'wasmContext' are paired. This wasmContext
   // instance must be passed to other types that exist on the same surface.
-  const { sciChartSurface, wasmContext } = await SciChartSurface.create("scichart-root");
+  const { sciChartSurface, wasmContext } = await SciChartSurface.create(
+    "scichart-root"
+  );
 
   sciChartSurface.applyTheme(new SciChartJSLightTheme());
 
@@ -216,8 +234,6 @@ const initSciChart = async () =>{
     }
   );
 
-
-
   // sciChartSurface.chartModifiers.add(new RolloverModifier());
   // const cursorModifier = new CursorModifier({
   //   crosshairStroke: "#ff6600",
@@ -233,7 +249,7 @@ const initSciChart = async () =>{
   // const zoomExtentsModifier = new ZoomExtentsModifier();
   // const rangeSelectionModifier = new RangeSelectionChartModifier();
   // sciChartSurface.chartModifiers.add(zoomExtentsModifier);
-  
+
   // sciChartSurface.chartModifiers.add(rubberBandZoomModifier);
   // sciChartSurface.chartModifiers.add(rangeSelectionModifier);
   // const inputEnablePan: HTMLElement = document.getElementById("enable-pan");
@@ -436,7 +452,6 @@ const initSciChart = async () =>{
   sciChartSurface.renderableSeries.add(lineSeries5);
   sciChartSurface.renderableSeries.add(lineSeries6);
 
-
   // const mouseWheelZoomModifier = new MouseWheelZoomModifier({
   //   xyDirection: EXyDirection.XDirection
   // });
@@ -475,7 +490,7 @@ export default {
       // console.log(route.params.diagnosesid);
       console.log(`b`);
       await getAnomalyModels();
-      await showECGChart(route.params.diagnosesid).catch((err) => {});
+      await showECGChart(route.params.diagnosesid).catch(err => {});
       console.log(`c`);
       initSciChart();
     });

@@ -32,12 +32,33 @@ export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
   y6 = 9;
   y7 = 11;
 
-  constructor() {
-    super();
+  // constructor() {
+  //   super();
 
-    // Create an annotation with YCoordinateMode Relative, and Y1, Y2 = 0,1
-    // This stretches the annotation to fit the viewport in the Y-direction
-    // Below in modifierMouseMove we will be updating the annotation X-values as the mouse is moved.
+  //   // Create an annotation with YCoordinateMode Relative, and Y1, Y2 = 0,1
+  //   // This stretches the annotation to fit the viewport in the Y-direction
+  //   // Below in modifierMouseMove we will be updating the annotation X-values as the mouse is moved.
+  //   this.selectionAnnotation = new BoxAnnotation({
+  //     // Pixel COORDINATE MODE EXAMPLE
+  //     // yCoordinateMode: ECoordinateMode.Pixel,
+  //     // xCoordinateMode: ECoordinateMode.Pixel,
+
+  //     // DataValue COORDINATE MODE EXAMPLE
+  //     yCoordinateMode: ECoordinateMode.Relative,
+  //     xCoordinateMode: ECoordinateMode.DataValue,
+  //     y1: 0,
+  //     y2: 0.1,
+  //     // fill: "#ffffff33",
+  //     fill: "#FFE66F33",
+  //     strokeThickness: 0
+  //   });
+  //   console.log(this.selectionAnnotation);
+  // }
+
+  // Called when mouse-down on the chart
+  public modifierMouseDown(args: ModifierMouseArgs): void {
+    super.modifierMouseDown(args);
+    
     this.selectionAnnotation = new BoxAnnotation({
       // Pixel COORDINATE MODE EXAMPLE
       // yCoordinateMode: ECoordinateMode.Pixel,
@@ -53,11 +74,7 @@ export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
       strokeThickness: 0
     });
     console.log(this.selectionAnnotation);
-  }
-
-  // Called when mouse-down on the chart
-  public modifierMouseDown(args: ModifierMouseArgs): void {
-    super.modifierMouseDown(args);
+    
     // Point coordinates relative to series view rectangle.
     const hitTestInfo = this.parentSurface.renderableSeries
       .get(0)
@@ -138,7 +155,7 @@ export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
       this.isSelecting = true;
 
       // this.parentSurface.annotations.remove(this.selectionAnnotation);
-      // this.parentSurface.annotations.add(this.selectionAnnotation);
+      this.parentSurface.annotations.add(this.selectionAnnotation);
     }
   }
 
@@ -267,12 +284,12 @@ export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
 
     return { xCalc, yCalc };
   }
-  public onAttach() {
-    super.onAttach();
-    this.parentSurface.annotations.add(this.selectionAnnotation);
-  }
-  public onDetach() {
-    this.parentSurface.annotations.remove(this.selectionAnnotation);
-    super.onDetach();
-  }
+  // public onAttach() {
+  //   super.onAttach();
+  //   this.parentSurface.annotations.add(this.selectionAnnotation);
+  // }
+  // public onDetach() {
+  //   this.parentSurface.annotations.remove(this.selectionAnnotation);
+  //   super.onDetach();
+  // }
 }

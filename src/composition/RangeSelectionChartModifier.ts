@@ -8,25 +8,24 @@ import { ECoordinateMode } from "scichart/Charting/Visuals/Annotations/Annotatio
 export class RangeSelectionChartModifier extends ChartModifierBase2D {
   private startPoint: Point | undefined;
   private endPoint: Point | undefined;
-  private readonly selectionAnnotation: BoxAnnotation;
+  private selectionAnnotation: BoxAnnotation;
   private isSelecting: boolean | undefined;
 
-  constructor() {
-    super();
+  // constructor() {
+  //   super();
 
-    // Create an annotation with YCoordinateMode Relative, and Y1, Y2 = 0,1
-    // This stretches the annotation to fit the viewport in the Y-direction
-    // Below in modifierMouseMove we will be updating the annotation X-values as the mouse is moved.
-    this.selectionAnnotation = new BoxAnnotation({
-      yCoordinateMode: ECoordinateMode.Relative,
-      y1: 0,
-      y2: 1,
-      xCoordinateMode: ECoordinateMode.Pixel,
-      fill: "#ffffff33",
-      strokeThickness: 0
-    });
-  }
-  
+  //   // Create an annotation with YCoordinateMode Relative, and Y1, Y2 = 0,1
+  //   // This stretches the annotation to fit the viewport in the Y-direction
+  //   // Below in modifierMouseMove we will be updating the annotation X-values as the mouse is moved.
+  //   // this.selectionAnnotation = new BoxAnnotation({
+  //   //   yCoordinateMode: ECoordinateMode.Relative,
+  //   //   y1: 0,
+  //   //   y2: 1,
+  //   //   xCoordinateMode: ECoordinateMode.Pixel,
+  //   //   fill: "#ffffff33",
+  //   //   strokeThickness: 0
+  //   // });
+  // }
 //   // 原版程式碼
 
 //   // Called when mouse-down on the chart
@@ -35,10 +34,19 @@ export class RangeSelectionChartModifier extends ChartModifierBase2D {
     this.startPoint = args.mousePoint;
     this.endPoint = args.mousePoint;
 
+    this.selectionAnnotation = new BoxAnnotation({
+      yCoordinateMode: ECoordinateMode.Relative,
+      y1: 0,
+      y2: 1,
+      xCoordinateMode: ECoordinateMode.Pixel,
+      fill: "#ffffff33",
+      strokeThickness: 0
+    });
+
     this.selectionAnnotation.x1 = this.startPoint.x;
     this.selectionAnnotation.x2 = this.endPoint.x;
     this.isSelecting = true;
-    // this.parentSurface.annotations.add(this.selectionAnnotation);
+    this.parentSurface.annotations.add(this.selectionAnnotation);
   }
 
   // Called when mouse-move on the chart
@@ -57,12 +65,12 @@ export class RangeSelectionChartModifier extends ChartModifierBase2D {
     this.isSelecting = false;
     // this.parentSurface.annotations.remove(this.selectionAnnotation);
   }
-  public onAttach() {
-    super.onAttach();
-    this.parentSurface.annotations.add(this.selectionAnnotation);
-  }
-  public onDetach() {
-    this.parentSurface.annotations.remove(this.selectionAnnotation);
-    super.onDetach();
-  }
+  // public onAttach() {
+  //   super.onAttach();
+  //   this.parentSurface.annotations.add(this.selectionAnnotation);
+  // }
+  // public onDetach() {
+  //   this.parentSurface.annotations.remove(this.selectionAnnotation);
+  //   super.onDetach();
+  // }
 }

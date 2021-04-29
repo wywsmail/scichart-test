@@ -1,10 +1,10 @@
 <template>
   <el-row type="flex" justify="center">
     <el-col :span="16">
-      <div :id="divElementId[0]" style="width: 100%; height: 400px; margin: auto"></div>
+      <!-- <div :id="divElementId[0]" style="width: 100%; height: 400px; margin: auto"></div> -->
       <div :id="divElementId[1]" style="width: 100%; height: 400px; margin: auto"></div>
-      <div :id="divElementId[2]" style="width: 100%; height: 400px; margin: auto"></div>
-      <div :id="divElementId[3]" style="width: 100%; height: 400px; margin: auto"></div>
+      <!-- <div :id="divElementId[2]" style="width: 100%; height: 400px; margin: auto"></div> -->
+      <!-- <div :id="divElementId[3]" style="width: 100%; height: 400px; margin: auto"></div> -->
       <div id="result" style="white-space: pre"></div>
     </el-col>
   </el-row>
