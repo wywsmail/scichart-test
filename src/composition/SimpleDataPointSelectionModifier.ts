@@ -1,17 +1,20 @@
+import { reactive } from "vue";
 import { ChartModifierBase2D } from "scichart/Charting/ChartModifiers/ChartModifierBase2D";
 import { ModifierMouseArgs } from "scichart/Charting/ChartModifiers/ModifierMouseArgs";
 import { Point } from "scichart/Core/Point";
 import { BoxAnnotation } from "scichart/Charting/Visuals/Annotations/BoxAnnotation";
 import { ECoordinateMode } from "scichart/Charting/Visuals/Annotations/AnnotationBase";
 import { translateFromCanvasToSeriesViewRect } from "scichart/utils/translate";
-import { testIsInBounds } from "scichart/utils/pointUtil";
+import { testIsInBounds, testIsInXBounds } from "scichart/utils/pointUtil";
 import { ENearestPointLogic } from "scichart/Charting/Visuals/RenderableSeries/HitTest/IHitTestProvider";
 
 // 設定
 type TDataPoint = {
-  index: number;
-  // xValue: number;
-  // yValue: number;
+  // index: number;
+  x1Value: number;
+  x2Value: number;
+  y1Value: number;
+  y2Value: number;
 };
 // type TDataPointArray = {
 //   data: TDataPoint;
@@ -23,8 +26,8 @@ export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
   private endPoint: Point | undefined;
   private selectionAnnotation: BoxAnnotation;
   private isSelecting: boolean | undefined;
-  private selectedPoints: TDataPoint[][] = [];
-  y1 = 0;
+  selectedPoints: TDataPoint[][] = reactive([]);
+  y1 = -1;
   y2 = 1;
   y3 = 3;
   y4 = 5;
@@ -58,7 +61,7 @@ export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
   // Called when mouse-down on the chart
   public modifierMouseDown(args: ModifierMouseArgs): void {
     super.modifierMouseDown(args);
-    
+
     this.selectionAnnotation = new BoxAnnotation({
       // Pixel COORDINATE MODE EXAMPLE
       // yCoordinateMode: ECoordinateMode.Pixel,
@@ -74,7 +77,7 @@ export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
       strokeThickness: 0
     });
     console.log(this.selectionAnnotation);
-    
+
     // Point coordinates relative to series view rectangle.
     const hitTestInfo = this.parentSurface.renderableSeries
       .get(0)
@@ -211,19 +214,24 @@ export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
     if (!(this.startPoint && this.endPoint)) {
       return;
     }
+    console.log(this.parentSurface.renderableSeries);
 
     this.parentSurface.renderableSeries
       .asArray()
       .filter(rs => rs.isVisible)
+
       .forEach((rs, index) => {
+        // console.log(rs);
         this.selectedPoints[index] = [];
         const dataSeries = rs.dataSeries;
         if (!dataSeries) {
           return;
         }
-
+        console.log(rs);
         const xCalc = rs.xAxis.getCurrentCoordinateCalculator();
         const yCalc = rs.yAxis.getCurrentCoordinateCalculator();
+        console.log(xCalc);
+        console.log(yCalc);
 
         // Find the bounds of the data inside the rectangle
 
@@ -242,31 +250,116 @@ export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
         console.log(leftXData, rightXData);
         let bottomYData, topYData;
 
+        // if (
+        //   yCalc.getDataValue(this.startPoint.y) <=
+        //   yCalc.getDataValue(this.endPoint.y)
+        // ) {
+        //   bottomYData = yCalc.getDataValue(this.startPoint.y);
+        //   topYData = yCalc.getDataValue(this.endPoint.y);
+        // } else {
+        //   bottomYData = yCalc.getDataValue(this.endPoint.y);
+        //   topYData = yCalc.getDataValue(this.startPoint.y);
+        // }
+        // for (let i = 0; i < 8; i++) {
+        //   if(yCalc.getDataValue(this.startPoint.y) > this.y1 +i &&
+        //       yCalc.getDataValue(this.endPoint.y) < this.y2+i)
+        // {
+        //   bottomYData = this.y1;
+        //   topYData = this.y2;
+        // }
+        // for (let i = 0; i < 12; i + 2) {
+        //   if (
+        //     yCalc.getDataValue(this.startPoint.y) > this.y1 + i &&
+        //     yCalc.getDataValue(this.endPoint.y) < this.y2 + i
+        //   ) {
+        //     bottomYData = this.y1 + i;
+        //     topYData = this.y2 + i;
+        //   }
+        // }
         if (
-          yCalc.getDataValue(this.startPoint.y) <=
-          yCalc.getDataValue(this.endPoint.y)
+          // yCalc.getDataValue(this.startPoint.y) <=
+          //   yCalc.getDataValue(this.endPoint.y) &&
+          yCalc.getDataValue(this.startPoint.y) > this.y1 &&
+          yCalc.getDataValue(this.endPoint.y) < this.y2
         ) {
-          bottomYData = yCalc.getDataValue(this.startPoint.y);
-          topYData = yCalc.getDataValue(this.endPoint.y);
-        } else {
-          bottomYData = yCalc.getDataValue(this.endPoint.y);
-          topYData = yCalc.getDataValue(this.startPoint.y);
+          bottomYData = this.y1;
+          topYData = this.y2;
+        } else if (
+          yCalc.getDataValue(this.startPoint.y) <=
+            yCalc.getDataValue(this.endPoint.y) &&
+          yCalc.getDataValue(this.startPoint.y) > this.y2 &&
+          yCalc.getDataValue(this.endPoint.y) < this.y3
+        ) {
+          bottomYData = this.y2;
+          topYData = this.y3;
+        } else if (
+          // yCalc.getDataValue(this.startPoint.y) <=
+          //   yCalc.getDataValue(this.endPoint.y) &&
+          yCalc.getDataValue(this.startPoint.y) > this.y3 &&
+          yCalc.getDataValue(this.endPoint.y) < this.y4
+        ) {
+          bottomYData = this.y3;
+          topYData = this.y4;
+        } else if (
+          // yCalc.getDataValue(this.startPoint.y) <=
+          //   yCalc.getDataValue(this.endPoint.y) &&
+          yCalc.getDataValue(this.startPoint.y) > this.y4 &&
+          yCalc.getDataValue(this.endPoint.y) < this.y5
+        ) {
+          bottomYData = this.y4;
+          topYData = this.y5;
+        } else if (
+          // yCalc.getDataValue(this.startPoint.y) <=
+          //   yCalc.getDataValue(this.endPoint.y) &&
+          yCalc.getDataValue(this.startPoint.y) > this.y5 &&
+          yCalc.getDataValue(this.endPoint.y) < this.y6
+        ) {
+          bottomYData = this.y5;
+          topYData = this.y6;
+        } else if (
+          // yCalc.getDataValue(this.startPoint.y) <=
+          //   yCalc.getDataValue(this.endPoint.y) &&
+          yCalc.getDataValue(this.startPoint.y) > this.y6 &&
+          yCalc.getDataValue(this.endPoint.y) < this.y7
+        ) {
+          bottomYData = this.y6;
+          topYData = this.y7;
         }
         console.log(bottomYData, topYData);
-
+        // const x = dataSeries.getNativeXValues().get(1);
+        // const y = dataSeries.getNativeYValues().get(1);
+        // const x = dataSeries.getNativeXValues();
+        // const y = dataSeries.getNativeYValues();
+        // if (
+        //   testIsInBounds(x, y, leftXData, topYData, rightXData, bottomYData)
+        //   //     // testIsInXBounds(x, leftXData, rightXData)
+        // ) {
+        //   this.selectedPoints[index].push({
+        //     // index: i,
+        //     x1Value: leftXData,
+        //     x2Value: rightXData,
+        //     y1Value: bottomYData,
+        //     y2Value: topYData
+        //   });
+        // }
         for (let i = 0; i < dataSeries.count(); i++) {
           const x = dataSeries.getNativeXValues().get(i);
           const y = dataSeries.getNativeYValues().get(i);
+          // console.log(x, y);
           if (
             testIsInBounds(x, y, leftXData, topYData, rightXData, bottomYData)
+            // testIsInXBounds(x, leftXData, rightXData)
           ) {
             this.selectedPoints[index].push({
-              index: i
-              // xValue: x,
-              // yValue: y
+              // index: i,
+              x1Value: leftXData,
+              x2Value: rightXData,
+              y1Value: bottomYData,
+              y2Value: topYData
             });
           }
         }
+        console.log(this.selectedPoints);
       });
   }
   private getDefaultCoordCalculators() {

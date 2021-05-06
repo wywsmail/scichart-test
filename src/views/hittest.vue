@@ -4,7 +4,7 @@
       <!-- <div :id="divElementId[0]" style="width: 100%; height: 400px; margin: auto"></div> -->
       <div :id="divElementId[1]" style="width: 100%; height: 400px; margin: auto"></div>
       <!-- <div :id="divElementId[2]" style="width: 100%; height: 400px; margin: auto"></div> -->
-      <!-- <div :id="divElementId[3]" style="width: 100%; height: 400px; margin: auto"></div> -->
+      <div :id="divElementId[3]" style="width: 100%; height: 400px; margin: auto"></div>
       <div id="result" style="white-space: pre"></div>
     </el-col>
   </el-row>
@@ -46,7 +46,6 @@ import { TextAnnotation } from "scichart/Charting/Visuals/Annotations/TextAnnota
 import { EHorizontalAnchorPoint, EVerticalAnchorPoint } from "scichart/types/AnchorPoint";
 import { ECoordinateMode } from "scichart/Charting/Visuals/Annotations/AnnotationBase";
 import { ELabelPlacement } from "scichart/types/LabelPlacement";
-
 
 export default {
   setup() {
