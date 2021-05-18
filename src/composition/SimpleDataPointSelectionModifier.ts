@@ -1,4 +1,8 @@
+/* eslint-disable prefer-const */
+/* eslint-disable @typescript-eslint/camelcase */
 import { reactive } from "vue";
+import axios from "axios";
+import apiUrl from "../../api_url.global";
 import { ChartModifierBase2D } from "scichart/Charting/ChartModifiers/ChartModifierBase2D";
 import { ModifierMouseArgs } from "scichart/Charting/ChartModifiers/ModifierMouseArgs";
 import { Point } from "scichart/Core/Point";
@@ -7,7 +11,7 @@ import { ECoordinateMode } from "scichart/Charting/Visuals/Annotations/Annotatio
 import { translateFromCanvasToSeriesViewRect } from "scichart/utils/translate";
 import { testIsInBounds, testIsInXBounds } from "scichart/utils/pointUtil";
 import { ENearestPointLogic } from "scichart/Charting/Visuals/RenderableSeries/HitTest/IHitTestProvider";
-
+import { diagnoses } from "@/composition/store";
 // 設定
 type TDataPoint = {
   // index: number;
@@ -16,10 +20,18 @@ type TDataPoint = {
   y1Value: number;
   y2Value: number;
 };
+type TNote = {
+  id: string;
+  diagnosis_id: string;
+  x1: string;
+  x2: string;
+  channel: string;
+  note: string;
+};
 // type TDataPointArray = {
 //   data: TDataPoint;
 // }
-
+// export const selectedPoints: TDataPoint[][] = reactive([]);
 // Create a TypeScript class which inherits ChartModifierbase2D to insert into SciChartSurface.chartModifiers collection
 export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
   private startPoint: Point | undefined;
@@ -199,7 +211,7 @@ export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
     // });
     // console.log(selectedPointArray);
     // localStorage.setItem("selectedPoints", JSON.stringify(this.selectedPoints));
-    // console.log(this.selectedPoints[0]);
+    // console.log(this.selectedPoints);
     document.getElementById("result").innerText = JSON.stringify(
       this.selectedPoints,
       null,
@@ -207,6 +219,8 @@ export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
     );
     this.startPoint = undefined;
     this.endPoint = undefined;
+
+    this.addNote();
   }
 
   private performSelection() {
@@ -214,7 +228,7 @@ export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
     if (!(this.startPoint && this.endPoint)) {
       return;
     }
-    console.log(this.parentSurface.renderableSeries);
+    // console.log(this.parentSurface.renderableSeries);
 
     this.parentSurface.renderableSeries
       .asArray()
@@ -227,11 +241,11 @@ export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
         if (!dataSeries) {
           return;
         }
-        console.log(rs);
+        // console.log(rs);
         const xCalc = rs.xAxis.getCurrentCoordinateCalculator();
         const yCalc = rs.yAxis.getCurrentCoordinateCalculator();
-        console.log(xCalc);
-        console.log(yCalc);
+        // console.log(xCalc);
+        // console.log(yCalc);
 
         // Find the bounds of the data inside the rectangle
 
@@ -247,7 +261,7 @@ export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
           leftXData = xCalc.getDataValue(this.endPoint.x);
           rightXData = xCalc.getDataValue(this.startPoint.x);
         }
-        console.log(leftXData, rightXData);
+        // console.log(leftXData, rightXData);
         let bottomYData, topYData;
 
         // if (
@@ -325,7 +339,7 @@ export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
           bottomYData = this.y6;
           topYData = this.y7;
         }
-        console.log(bottomYData, topYData);
+        // console.log(bottomYData, topYData);
         // const x = dataSeries.getNativeXValues().get(1);
         // const y = dataSeries.getNativeYValues().get(1);
         // const x = dataSeries.getNativeXValues();
@@ -359,9 +373,11 @@ export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
             });
           }
         }
-        console.log(this.selectedPoints);
       });
+    console.log(this.selectedPoints);
+    return this.selectedPoints;
   }
+
   private getDefaultCoordCalculators() {
     const xAxis = this.parentSurface.xAxes.get(0);
     const yAxis = this.parentSurface.yAxes.get(0);
@@ -385,4 +401,60 @@ export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
   //   this.parentSurface.annotations.remove(this.selectionAnnotation);
   //   super.onDetach();
   // }
+  private addNote() {
+    console.log(this.selectedPoints);
+    console.log(diagnoses.data);
+    let x1: string;
+    let x2: string;
+    let theChannel: string;
+    for (let i = 0; i < this.selectedPoints.length; i++) {
+      // console.log(this.selectedPoints[i].length);
+      if (this.selectedPoints[i].length !== 0) {
+        // x1 = this.selectedPoints[i][0].toString();
+        // x2 = this.selectedPoints[i][this.selectedPoints.length - 1].toString();
+        x1 = this.selectedPoints[i][0].x1Value.toString();
+        x2 = this.selectedPoints[i][0].x2Value.toString();
+        theChannel = i.toString();
+      }
+    }
+    // theChannel = () => {
+    //   for (let i = 0; i < this.selectedPoints.length; i++) {
+    //     console.log(this.selectedPoints[i].length);
+    //     // if (!this.selectedPoints[i].length) {
+    //     //   x1 = this.selectedPoints[i][0].toString();
+    //     //   x2 = this.selectedPoints[i][
+    //     //     this.selectedPoints.length - 1
+    //     //   ].toString();
+    //     //   return i.toString();
+    //     // }
+    //   }
+    // };
+    const note: TNote = {
+      id: "",
+      diagnosis_id: diagnoses.data[0].diagnosis_id,
+      x1: x1,
+      x2: x2,
+      channel: theChannel,
+      note: `["ST-D"]`
+    };
+    const token = localStorage.getItem("token");
+    console.log(note);
+    const config: any = {
+      url: apiUrl.url + "notes/create",
+      headers: {
+        Authorization: "Bearer " + token,
+        "Content-Type": "application/json"
+      },
+      method: "post",
+      data: note
+    };
+    console.log(config);
+    axios(config)
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
 }

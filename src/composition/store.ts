@@ -1,5 +1,9 @@
 /* eslint-disable @typescript-eslint/camelcase */
 
+interface Idiagnoses<T> {
+  data: T;
+}
+
 import { reactive, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import router from "../router/index";
@@ -15,7 +19,7 @@ export const tableData = reactive({
 export const role = localStorage.getItem("role") ?? ref("");
 // export const diagnoses = reactive([]);
 // export const diagnosesid = ref(localStorage.getItem("diagnosesid"));
-export const diagnoses = reactive({
+export const diagnoses: Idiagnoses<object> = reactive({
   data: []
 });
 export const dataInformation = reactive({ data: [] });
@@ -81,10 +85,11 @@ export const retrieveToken = (phone: string, password: string) => {
   console.log("送的資料", loginConfig);
   axios(loginConfig)
     .then(res => {
-      token.value = res.data.access_token;
+      // token.value = res.data.access_token;
       localStorage.setItem("role", res.data.role);
-      console.log(res.data.user_id);
+      // console.log(res.data.user_id);
       localStorage.setItem("userid", res.data.user_id);
+      localStorage.setItem("token", res.data.access_token);
       window.setTimeout(() => {
         router.push({
           name: "Diagnoses"
@@ -93,6 +98,7 @@ export const retrieveToken = (phone: string, password: string) => {
       localStorage.setItem("isLogin", JSON.stringify(true));
       isLogin.value = true;
       console.log(isLogin.value);
+      console.log(token.value);
     })
     .catch(err => {
       console.log(err);
