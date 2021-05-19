@@ -25,9 +25,9 @@
             <el-button
               width="100"
               size="medium"
-              @click.prevent="changePage('hittest')"
+              @click.prevent="changePage('testarea')"
               native-type="submit"
-              >Hit Test
+              >Test Area
             </el-button>
             <el-button
               width="100"

@@ -38,6 +38,7 @@ export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
   private endPoint: Point | undefined;
   private selectionAnnotation: BoxAnnotation;
   private isSelecting: boolean | undefined;
+  config:any = reactive([]);
   selectedPoints: TDataPoint[][] = reactive([]);
   y1 = -1;
   y2 = 1;
@@ -401,7 +402,7 @@ export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
   //   this.parentSurface.annotations.remove(this.selectionAnnotation);
   //   super.onDetach();
   // }
-  private addNote() {
+  public addNote() {
     console.log(this.selectedPoints);
     console.log(diagnoses.data);
     let x1: string;
@@ -439,7 +440,7 @@ export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
     };
     const token = localStorage.getItem("token");
     console.log(note);
-    const config: any = {
+    this.config = {
       url: apiUrl.url + "notes/create",
       headers: {
         Authorization: "Bearer " + token,
@@ -448,13 +449,14 @@ export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
       method: "post",
       data: note
     };
-    console.log(config);
-    axios(config)
-      .then(res => {
-        console.log(res);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    console.log(this.config);
+    // return this.configData;
+    // axios(this.config)
+    //   .then(res => {
+    //     console.log(res);
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //   });
   }
 }
