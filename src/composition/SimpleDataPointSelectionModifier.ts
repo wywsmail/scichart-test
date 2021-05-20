@@ -375,8 +375,6 @@ export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
           }
         }
       });
-    console.log(this.selectedPoints);
-    return this.selectedPoints;
   }
 
   private getDefaultCoordCalculators() {
@@ -413,8 +411,8 @@ export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
       if (this.selectedPoints[i].length !== 0) {
         // x1 = this.selectedPoints[i][0].toString();
         // x2 = this.selectedPoints[i][this.selectedPoints.length - 1].toString();
-        x1 = this.selectedPoints[i][0].x1Value.toString();
-        x2 = this.selectedPoints[i][0].x2Value.toString();
+        x1 = this.selectedPoints[i][0].x1Value.toFixed(0);
+        x2 = this.selectedPoints[i][0].x2Value.toFixed(0);
         theChannel = i.toString();
       }
     }
@@ -450,7 +448,7 @@ export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
       data: note
     };
     console.log(this.config);
-    // return this.configData;
+    return this.config;
     // axios(this.config)
     //   .then(res => {
     //     console.log(res);
