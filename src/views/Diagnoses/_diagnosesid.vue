@@ -27,17 +27,17 @@
       </el-table>
     </el-col>
   </el-row>
-  <div style="margin: 10px; display: none">
-    <input type="checkbox" id="enable-pan" checked />
-    <label for="enable-pan">Enable Mouse-Drag to Pan</label><br />
-    <input type="checkbox" id="enable-zoom" />
+  <div style="margin: 10px">
+    <!-- <input type="checkbox" id="enable-pan" />
+    <label for="enable-pan">Enable Tag Mode</label><br /> -->
+    <!-- <input type="checkbox" id="enable-zoom" />
     <label for="enable-zoom">Enable Mouse-Drag to Zoom</label><br />
     <input type="checkbox" id="enable-range-select" />
     <label for="enable-range-select">Enable Range Select</label><br />
     <input type="checkbox" id="enable-zoom-to-fit" checked />
     <label for="enable-zoom-to-fit">Enable Double-Click to Zoom to Fit</label><br />
     <input type="checkbox" id="enable-mouse-wheel-zoom" checked />
-    <label for="enable-mouse-wheel-zoom">Enable Mousewheel Zoom</label><br />
+    <label for="enable-mouse-wheel-zoom">Enable Mousewheel Zoom</label><br /> -->
   </div>
   <el-button-group style="display: none">
     <el-button type="primary" icon="el-icon-arrow-left">上一页</el-button>
@@ -46,21 +46,31 @@
     ></el-button>
   </el-button-group>
   <br />
-  <el-row type="flex" justify="center" align="top">
+  <!-- <el-row type="flex" justify="start" align="top">
     <el-col :span="2">
-      <el-button type="primary" icon="el-icon-edit">標記備註</el-button>
+      <button type="button" class="btn btn-primary">標記備註</button>
     </el-col>
     <el-col :span="2">
-      <el-button type="primary">Evaluation Mode</el-button>
+      <button type="button" class="btn btn-primary">EvaluationMode</button>
     </el-col>
-    <el-col :span="2">
-      <el-button type="primary">Tag Mode</el-button>
+    <el-col :span="6">
+      <button type="button" class="btn btn-primary">Change Model / Update</button>
     </el-col>
-    <el-col :span="2">
-      <el-button type="primary">Change Model / Update</el-button>
+  </el-row> -->
+  <el-row type="flex" justify="center">
+    <el-col :span="6">
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" id="tag-mode" />
+        <label class="form-check-label" for="tag-mode">Enable Tag Mode</label>
+      </div>
     </el-col>
-    <el-col :span="4">
-      <select v-model="selected" placeholder="請選擇 Model">
+    <el-col :span="6">
+      <select
+        v-model="selected"
+        placeholder="請選擇 Model"
+        class="form-select"
+        aria-label="Default select example"
+      >
         <option v-for="item in modelName" :key="item.value" :value="item.value">
           {{ item.label }}
         </option>
@@ -70,12 +80,7 @@
   </el-row>
   <el-row type="flex" justify="center">
     <el-col :span="16">
-      <div
-        id="scichart-root"
-        style="width: 100%; height: 800px; margin: auto"
-        data-bs-toggle="modal"
-        data-bs-target="#exampleModal"
-      ></div>
+      <div id="scichart-root" style="width: 100%; height: 800px; margin: auto"></div>
     </el-col>
   </el-row>
   <!-- Modal -->
@@ -207,7 +212,12 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+            @click="new SimpleDataPointSelectionModifier().cancelSelectionData()"
+          >
             Close
           </button>
           <button type="button" class="btn btn-primary">Save changes</button>
@@ -231,7 +241,8 @@ import {
   modelName,
   initSciChart,
   selectedPoints,
-  login
+  login,
+  SimpleDataPointSelectionModifier
 } from "@/composition/store";
 
 export default {
@@ -273,7 +284,8 @@ export default {
       diagnoses,
       selected,
       selectModel,
-      selectedPoints
+      selectedPoints,
+      SimpleDataPointSelectionModifier
       // tagNoteEvent
     };
   }

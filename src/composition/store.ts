@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/consistent-type-assertions */
 /* eslint-disable @typescript-eslint/camelcase */
 
 // About interface
@@ -93,6 +94,7 @@ import { EXyDirection } from "scichart/types/XyDirection";
 import { SciChartJSLightTheme } from "scichart/Charting/Themes/SciChartJSLightTheme";
 import { EDragMode } from "scichart/types/DragMode";
 import { XAxisDragModifier } from "scichart/Charting/ChartModifiers/XAxisDragModifier";
+import { ZoomPanModifier } from "scichart/Charting/ChartModifiers/ZoomPanModifier";
 import { HorizontalLineAnnotation } from "scichart/Charting/Visuals/Annotations/HorizontalLineAnnotation";
 
 // 原 SimpleDataPointSelectionModifier.ts 內容
@@ -112,7 +114,7 @@ import { ENearestPointLogic } from "scichart/Charting/Visuals/RenderableSeries/H
 export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
   private startPoint: Point | undefined;
   private endPoint: Point | undefined;
-  private selectionAnnotation: BoxAnnotation;
+  selectionAnnotation: BoxAnnotation;
   private isSelecting: boolean | undefined;
   config: any = reactive([]);
   y1 = -1;
@@ -280,6 +282,9 @@ export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
     console.log(args);
     this.isSelecting = false;
     this.performSelection();
+    // const scichartRoot = document.getElementById("scichart-root");
+    // scichartRoot.setAttribute("data-bs-toggle", "modal");
+    // scichartRoot.setAttribute("data-bs-target", "#exampleModal");
     // const selectedPointArray = [];
     // this.selectedPoints.forEach(item => {
     //   if (item.length !== 0) {
@@ -289,11 +294,11 @@ export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
     // console.log(selectedPointArray);
     // localStorage.setItem("selectedPoints", JSON.stringify(this.selectedPoints));
     // console.log(this.selectedPoints);
-    document.getElementById("result").innerText = JSON.stringify(
-      selectedPoints,
-      null,
-      4
-    );
+    // document.getElementById("result").innerText = JSON.stringify(
+    //   selectedPoints,
+    //   null,
+    //   4
+    // );
     this.startPoint = undefined;
     this.endPoint = undefined;
 
@@ -532,6 +537,10 @@ export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
     //     console.log(err);
     //   });
   }
+  public cancelSelectionData() {
+    this.parentSurface.annotations.remove(this.selectionAnnotation);
+    console.log("Hello");
+  }
 }
 
 // 原 SimpleDataPointSelectionModifier.ts 內容
@@ -670,9 +679,6 @@ export const initSciChart = async () => {
   //   "enable-range-select"
   // );
 
-  // const inputEnablePan2: HTMLInputElement = <HTMLInputElement>(
-  //   document.getElementById("enable-pan")
-  // );
   // const inputEnableZoom2: HTMLInputElement = <HTMLInputElement>(
   //   document.getElementById("enable-zoom")
   // );
@@ -686,13 +692,6 @@ export const initSciChart = async () => {
   //   document.getElementById("enable-range-select")
   // );
 
-  // inputEnablePan.addEventListener("change", () => {
-  //   zoomPanModifier.isEnabled = inputEnablePan2.checked;
-  //   rubberBandZoomModifier.isEnabled = !inputEnablePan2.checked;
-  //   rangeSelectionModifier.isEnabled = !inputEnablePan2.checked;
-  //   inputEnableZoom2.checked = !inputEnablePan2.checked;
-  //   inputEnableRangeSelect2.checked = !inputEnablePan2.checked;
-  // });
   // inputEnableZoom.addEventListener("change", () => {
   //   rubberBandZoomModifier.isEnabled = inputEnableZoom2.checked;
   //   zoomPanModifier.isEnabled = !inputEnableZoom2.checked;
@@ -869,20 +868,38 @@ export const initSciChart = async () => {
 
   // sciChartSurface.chartModifiers.add(zoomPanModifier);
   // sciChartSurface.chartModifiers.add(mouseWheelZoomModifier);
-  const simpleDataPointSelectionModifier = new SimpleDataPointSelectionModifier();
-  const data = simpleDataPointSelectionModifier.modifierMouseUp;
-  console.log(data);
-  sciChartSurface.chartModifiers.add(
-    new XAxisDragModifier({ dragMode: EDragMode.Scaling }),
-    new SimpleDataPointSelectionModifier(),
-    new MouseWheelZoomModifier({
-      xyDirection: EXyDirection.XDirection
-    })
-    // new ZoomPanModifier({
-    //   xyDirection: EXyDirection.XDirection
-    // }),
-    // new YAxisDragModifier({ dragMode: EDragMode.Panning })
+  // const simpleDataPointSelectionModifier = new SimpleDataPointSelectionModifier();
+  // const data = simpleDataPointSelectionModifier.modifierMouseUp;
+  // console.log(data);
+
+  const tagModeEnable: HTMLInputElement = <HTMLInputElement>(
+    document.getElementById("tag-mode")
   );
+  const scichartRoot = document.getElementById("scichart-root");
+  const zoomPanModifier = new ZoomPanModifier();
+  const simpleDataPointSelectionModifier = new SimpleDataPointSelectionModifier();
+  const mouseWheelZoomModifier = new MouseWheelZoomModifier();
+
+  sciChartSurface.chartModifiers.add(zoomPanModifier);
+  sciChartSurface.chartModifiers.add(simpleDataPointSelectionModifier);
+  sciChartSurface.chartModifiers.add(mouseWheelZoomModifier);
+
+  mouseWheelZoomModifier.xyDirection = EXyDirection.XDirection;
+  zoomPanModifier.xyDirection = EXyDirection.XDirection;
+
+  tagModeEnable.addEventListener("change", () => {
+    if (tagModeEnable.checked === true) {
+      simpleDataPointSelectionModifier.isEnabled = true;
+      zoomPanModifier.isEnabled = false;
+      scichartRoot.setAttribute("data-bs-toggle", "modal");
+      scichartRoot.setAttribute("data-bs-target", "#exampleModal");
+    } else {
+      simpleDataPointSelectionModifier.isEnabled = false;
+      zoomPanModifier.isEnabled = true;
+      scichartRoot.removeAttribute("data-bs-toggle");
+      scichartRoot.removeAttribute("data-bs-target");
+    }
+  });
 };
 
 // HOME PAGE
