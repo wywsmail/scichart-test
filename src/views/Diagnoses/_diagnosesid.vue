@@ -62,6 +62,7 @@
       <div class="form-check form-switch">
         <input class="form-check-input" type="checkbox" id="tag-mode" />
         <label class="form-check-label" for="tag-mode">Enable Tag Mode</label>
+        <span>{{ tagMode }}</span>
       </div>
     </el-col>
     <el-col :span="6">
@@ -113,6 +114,8 @@
                     name="flexRadioDefault"
                     id="flexRadioDefault2"
                     checked
+                    value="ST-E"
+                    v-model="noteMode"
                   />
                   <label class="form-check-label" for="flexRadioDefault2"> ST-E </label>
                 </div>
@@ -122,6 +125,8 @@
                     type="radio"
                     name="flexRadioDefault"
                     id="flexRadioDefault2"
+                    value="ST-D"
+                    v-model="noteMode"
                   />
                   <label class="form-check-label" for="flexRadioDefault2"> ST-D </label>
                 </div>
@@ -131,6 +136,8 @@
                     type="radio"
                     name="flexRadioDefault"
                     id="flexRadioDefault2"
+                    value="OMI"
+                    v-model="noteMode"
                   />
                   <label class="form-check-label" for="flexRadioDefault2"> OMI </label>
                 </div>
@@ -142,6 +149,8 @@
                     type="radio"
                     name="flexRadioDefault"
                     id="flexRadioDefault2"
+                    value="APC"
+                    v-model="noteMode"
                   />
                   <label class="form-check-label" for="flexRadioDefault2"> APC </label>
                 </div>
@@ -151,6 +160,8 @@
                     type="radio"
                     name="flexRadioDefault"
                     id="flexRadioDefault2"
+                    value="Atrial Fibrillation"
+                    v-model="noteMode"
                   />
                   <label class="form-check-label" for="flexRadioDefault2">
                     Atrial Fibrillation
@@ -162,6 +173,8 @@
                     type="radio"
                     name="flexRadioDefault"
                     id="flexRadioDefault2"
+                    value="VPC"
+                    v-model="noteMode"
                   />
                   <label class="form-check-label" for="flexRadioDefault2"> VPC </label>
                 </div>
@@ -171,6 +184,8 @@
                     type="radio"
                     name="flexRadioDefault"
                     id="flexRadioDefault2"
+                    value="BBB"
+                    v-model="noteMode"
                   />
                   <label class="form-check-label" for="flexRadioDefault2"> BBB </label>
                 </div>
@@ -182,6 +197,8 @@
                     type="radio"
                     name="flexRadioDefault"
                     id="flexRadioDefault1"
+                    value="Normal Sinus Rhythm"
+                    v-model="noteMode"
                   />
                   <label class="form-check-label" for="flexRadioDefault1">
                     Normal Sinus Rhythm
@@ -193,15 +210,8 @@
                     type="radio"
                     name="flexRadioDefault"
                     id="flexRadioDefault2"
-                  />
-                  <label class="form-check-label" for="flexRadioDefault2"> Noise </label>
-                </div>
-                <div class="form-check mb-3">
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    name="flexRadioDefault"
-                    id="flexRadioDefault2"
+                    value="UnKnown"
+                    v-model="noteMode"
                   />
                   <label class="form-check-label" for="flexRadioDefault2">
                     Unknown
@@ -212,15 +222,17 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-secondary"
-            data-bs-dismiss="modal"
-            @click="new SimpleDataPointSelectionModifier().cancelSelectionData()"
-          >
-            Close
+          <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">
+            Cancel
           </button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            data-bs-dismiss="modal"
+            @click="saveData(tagMode)"
+          >
+            Save
+          </button>
         </div>
       </div>
     </div>
@@ -241,8 +253,10 @@ import {
   modelName,
   initSciChart,
   selectedPoints,
-  login,
-  SimpleDataPointSelectionModifier
+  SimpleDataPointSelectionModifier,
+  noteMode,
+  saveData,
+  tagMode
 } from "@/composition/store";
 
 export default {
@@ -271,6 +285,7 @@ export default {
     const selectModel = computed(() => {
       return selected.value;
     });
+
     // const resetSelectedPoints = computed(() => {
     //   // return selectedPoints;
     //   console.log(selectedPoints);
@@ -285,8 +300,10 @@ export default {
       selected,
       selectModel,
       selectedPoints,
-      SimpleDataPointSelectionModifier
-      // tagNoteEvent
+      SimpleDataPointSelectionModifier,
+      noteMode,
+      saveData,
+      tagMode
     };
   }
 };

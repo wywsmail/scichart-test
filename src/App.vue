@@ -1,5 +1,5 @@
 <template>
-  <el-container>
+  <!-- <el-container>
     <el-header>
       <el-row type="flex" justify="space-between">
         <el-col :span="5">
@@ -51,7 +51,47 @@
     </el-header>
     <el-main><router-view /></el-main>
     <el-footer>inCare © 2021</el-footer>
-  </el-container>
+  </el-container> -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#" @click.prevent="changePage('')">inCare</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mb-2 mb-lg-0 me-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#" @click.prevent="changePage('diagnoses')"
+              >Diagnoses</a
+            >
+          </li>
+        </ul>
+        <ul class="navbar-nav mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="#" @click.prevent="changePage('testarea')"
+              >Test Area</a
+            >
+          </li>
+          <li class="nav-item" v-if="!isLogin">
+            <a class="nav-link" href="#" @click.prevent="changePage('login')">Log in</a>
+          </li>
+          <li class="nav-item" v-else>
+            <a class="nav-link" href="#" @click.prevent="logout">Log out</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <router-view />
+  <footer>inCare © 2021</footer>
 </template>
 
 <script>

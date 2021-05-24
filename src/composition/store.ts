@@ -24,7 +24,7 @@ interface TNote {
   note: string;
 }
 
-import { reactive, ref } from "vue";
+import { reactive, ref, computed } from "vue";
 import router from "../router/index";
 import axios from "axios";
 import apiUrl from "../../api_url.global";
@@ -70,7 +70,7 @@ export const colums = ref([
 ]);
 export const numberOfElements = ref(0);
 export const diagnosesUpdateTime = ref(null);
-export const noteMode = ref("");
+
 export const anomalyMode = ref(false);
 export const anomalySequence = ref([]);
 export const evaluationTags = ref([]);
@@ -302,7 +302,7 @@ export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
     this.startPoint = undefined;
     this.endPoint = undefined;
 
-    this.addNote();
+    // this.addNote();
   }
 
   private performSelection() {
@@ -481,62 +481,62 @@ export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
   //   this.parentSurface.annotations.remove(this.selectionAnnotation);
   //   super.onDetach();
   // }
-  public addNote() {
-    console.log(selectedPoints);
-    console.log(diagnoses.data);
-    let x1: string;
-    let x2: string;
-    let theChannel: string;
-    for (let i = 0; i < selectedPoints.length; i++) {
-      // console.log(this.selectedPoints[i].length);
-      if (selectedPoints[i].length !== 0) {
-        // x1 = this.selectedPoints[i][0].toString();
-        // x2 = this.selectedPoints[i][this.selectedPoints.length - 1].toString();
-        x1 = selectedPoints[i][0].x1Value.toFixed(0);
-        x2 = selectedPoints[i][0].x2Value.toFixed(0);
-        theChannel = i.toString();
-      }
-    }
-    // theChannel = () => {
-    //   for (let i = 0; i < this.selectedPoints.length; i++) {
-    //     console.log(this.selectedPoints[i].length);
-    //     // if (!this.selectedPoints[i].length) {
-    //     //   x1 = this.selectedPoints[i][0].toString();
-    //     //   x2 = this.selectedPoints[i][
-    //     //     this.selectedPoints.length - 1
-    //     //   ].toString();
-    //     //   return i.toString();
-    //     // }
-    //   }
-    // };
-    const note: TNote = {
-      id: "",
-      diagnosis_id: diagnoses.data[0].diagnosis_id,
-      x1: x1,
-      x2: x2,
-      channel: theChannel,
-      note: `["ST-D"]`
-    };
-    console.log(note);
-    this.config = {
-      url: apiUrl.url + "notes/create",
-      headers: {
-        Authorization: "Bearer " + token,
-        "Content-Type": "application/json"
-      },
-      method: "post",
-      data: note
-    };
-    console.log(this.config);
-    return this.config;
-    // axios(this.config)
-    //   .then(res => {
-    //     console.log(res);
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   });
-  }
+  // public addNote() {
+  //   console.log(selectedPoints);
+  //   console.log(diagnoses.data);
+  //   let x1: string;
+  //   let x2: string;
+  //   let theChannel: string;
+  //   for (let i = 0; i < selectedPoints.length; i++) {
+  //     // console.log(this.selectedPoints[i].length);
+  //     if (selectedPoints[i].length !== 0) {
+  //       // x1 = this.selectedPoints[i][0].toString();
+  //       // x2 = this.selectedPoints[i][this.selectedPoints.length - 1].toString();
+  //       x1 = selectedPoints[i][0].x1Value.toFixed(0);
+  //       x2 = selectedPoints[i][0].x2Value.toFixed(0);
+  //       theChannel = i.toString();
+  //     }
+  //   }
+  //   // theChannel = () => {
+  //   //   for (let i = 0; i < this.selectedPoints.length; i++) {
+  //   //     console.log(this.selectedPoints[i].length);
+  //   //     // if (!this.selectedPoints[i].length) {
+  //   //     //   x1 = this.selectedPoints[i][0].toString();
+  //   //     //   x2 = this.selectedPoints[i][
+  //   //     //     this.selectedPoints.length - 1
+  //   //     //   ].toString();
+  //   //     //   return i.toString();
+  //   //     // }
+  //   //   }
+  //   // };
+  //   const note: TNote = {
+  //     id: "",
+  //     diagnosis_id: diagnoses.data[0].diagnosis_id,
+  //     x1: x1,
+  //     x2: x2,
+  //     channel: theChannel,
+  //     note: `["ST-D"]`
+  //   };
+  //   console.log(note);
+  //   this.config = {
+  //     url: apiUrl.url + "notes/create",
+  //     headers: {
+  //       Authorization: "Bearer " + token,
+  //       "Content-Type": "application/json"
+  //     },
+  //     method: "post",
+  //     data: note
+  //   };
+  //   console.log(this.config);
+  //   // return this.config;
+  //   axios(this.config)
+  //     .then(res => {
+  //       console.log(res);
+  //     })
+  //     .catch(err => {
+  //       console.log(err);
+  //     });
+  // }
   public cancelSelectionData() {
     this.parentSurface.annotations.remove(this.selectionAnnotation);
     console.log("Hello");
@@ -901,6 +901,149 @@ export const initSciChart = async () => {
     }
   });
 };
+
+export const noteMode = ref("");
+export const tagMode = computed(() => {
+  return noteMode.value;
+});
+
+export const saveData = (val) => {
+  console.log(selectedPoints);
+  console.log(diagnoses.data);
+  let x1: string;
+  let x2: string;
+  let theChannel: string;
+  for (let i = 0; i < selectedPoints.length; i++) {
+    if (selectedPoints[i].length !== 0) {
+      x1 = selectedPoints[i][0].x1Value.toFixed(0);
+      x2 = selectedPoints[i][0].x2Value.toFixed(0);
+      theChannel = i.toString();
+    }
+  }
+  const config:any = {
+    url: apiUrl.url + "notes/create",
+    headers: {
+      Authorization: "Bearer " + token,
+      "Content-Type": "application/json"
+    },
+    method: "post",
+    data: {
+      id: "",
+      diagnosis_id: diagnoses.data[0].diagnosis_id,
+      x1: x1,
+      x2: x2,
+      channel: theChannel,
+      note: `["${val}"]`
+    }
+  };
+  console.log(config);
+  axios(config)
+    .then(res => {
+      console.log(res);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};
+
+// deleteNote({ commit, rootState }, data) {
+//   const config = {
+//     url: apiUrl.url + "/medical/v1/notes/delete/" + data.note_id,
+//     headers: {
+//       Authorization: "Bearer " + rootState.token,
+//       "Content-Type": "application/json"
+//     },
+//     method: "delete"
+//   };
+//   return new Promise((resolve, reject) => {
+//     axios(config)
+//       .then(() => {
+//         commit("DELETE_NOTE_BY_ID", data.note_id.toString());
+//         resolve(data.note_id);
+//       })
+//       .catch(err => console.log(err));
+//   });
+// },
+// editNote({ commit, rootState }, data) {
+//   const note = {
+//     id: data.id.toString(),
+//     diagnosis_id: "",
+//     x1: data.x1.toFixed(0).toString(),
+//     x2: data.x2.toFixed(0).toString(),
+//     channel: data.channel.toString(),
+//     note: '["' + data.note.toString() + '"]'
+//   };
+//   const config = {
+//     url: apiUrl.url + "/medical/v1/notes/modify",
+//     headers: {
+//       Authorization: "Bearer " + rootState.token,
+//       "Content-Type": "application/json"
+//     },
+//     method: "put",
+//     data: note
+//   };
+//   axios(config)
+//     .then(() => {
+//       commit("UPDATE_NOTE", note);
+//     })
+//     .catch(err => console.log(err));
+// }
+
+// call api 顯示已 tag 的範圍
+// const notes = fetch(url + "/medical/v1/notes/" + diagnosis_id, {
+//   headers: myHeaders
+// })
+//   .then(response => response.json())
+//   .then(json => {
+//     return json.data;
+//   });
+
+// const main_code = Promise.all([diagnosis, notes]).then(d => {
+//   var diagnosis_data = d[0];
+//   var notes_data = d[1];
+
+//   $(".sn_serial_no").text(diagnosis_data.sn_serial_no);
+//   $(".diagnosis_type").text(diagnosis_data.diagnosis_type);
+//   $(".measure_times").text(diagnosis_data.measure_times);
+//   $(".measure_type").text(diagnosis_data.measure_type);
+//   $(".measure_person").text(diagnosis_data.measure_person);
+//   $(".age").text(diagnosis_data.age);
+//   $(".gender").text(diagnosis_data.gender);
+//   dataset = [
+//     diagnosis_data.measures[0].values[0].raw_datas.map(function(x) {
+//       return { y: x };
+//     }), // ch1
+//     diagnosis_data.measures[0].values[1].raw_datas.map(function(x) {
+//       return { y: x };
+//     }), // ch2
+//     diagnosis_data.measures[0].values[2].raw_datas.map(function(x) {
+//       return { y: x };
+//     }), // ch3
+//     diagnosis_data.measures[0].values[3].raw_datas.map(function(x) {
+//       return { y: x };
+//     }), // ch4
+//     diagnosis_data.measures[0].values[4].raw_datas.map(function(x) {
+//       return { y: x };
+//     }), // ch5
+//     diagnosis_data.measures[0].values[5].raw_datas.map(function(x) {
+//       return { y: x };
+//     }) // ch6
+//   ];
+  // NumberOfMeasurements = dataset[0].length;
+
+// export const saveData = (val) => {
+//   console.log(val);
+//   console.log(selectedPoints);
+//   const note: TNote = {
+//     id: "",
+//     diagnosis_id: diagnoses.data[0].diagnosis_id,
+//     x1: x1,
+//     x2: x2,
+//     channel: theChannel,
+//     note: `["ST-D"]`
+//   };
+//   console.log(note);
+// };
 
 // HOME PAGE
 export const isLogin = ref(JSON.parse(localStorage.getItem("isLogin")));

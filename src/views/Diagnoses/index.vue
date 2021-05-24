@@ -3,7 +3,7 @@
   <el-row type="flex" justify="center">
     <el-col :span="16">
       <h1>Diagnoses</h1>
-      <el-table :data="tableData.data" stripe style="width:100%;">
+      <el-table :data="tableData.data" stripe style="width: 100%">
         <el-table-column prop="diagnosis_id" label="ID"></el-table-column>
         <el-table-column prop="start_time" label="Time"></el-table-column>
         <el-table-column prop="hr_last" label="HR"></el-table-column>
@@ -56,7 +56,7 @@ export default {
 </script>
 
 <style scoped>
-*{
+* {
   box-sizing: border-box;
 }
 </style>
