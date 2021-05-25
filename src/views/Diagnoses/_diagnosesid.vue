@@ -1,63 +1,82 @@
 <template>
-  <el-row type="flex" justify="center">
-    <el-col :span="16">
-      <h1>Chart</h1>
-      <el-table :data="diagnoses.data" stripe style="width: 1200px">
-        <el-table-column prop="diagnosis_id" label="ID" width="180"></el-table-column>
-        <el-table-column prop="start_time" label="Time" width="180"></el-table-column>
-        <el-table-column prop="hr_last" label="HR"></el-table-column>
-        <el-table-column prop="gain" label="Gain"></el-table-column>
-        <el-table-column prop="device_id" label="Device"></el-table-column>
-      </el-table>
-    </el-col>
-  </el-row>
-  <el-row type="flex" justify="center">
-    <el-col :span="16">
-      <el-table :data="diagnoses.data" id="diagnosesTagList">
-        <el-table-column label="Channel Name">LEAD1</el-table-column>
-        <el-table-column label="Time">1s-5s</el-table-column>
-        <el-table-column label="備註">ST-E</el-table-column>
-        <el-table-column label="操作">
-          <template v-slot>
-            <el-button size="mini" type="primary">編輯</el-button>
-            <el-button size="mini" type="danger">刪除</el-button>
-            <el-button size="mini" type="info">離開</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-    </el-col>
-  </el-row>
-  <div style="margin: 10px">
-    <!-- <input type="checkbox" id="enable-pan" />
-    <label for="enable-pan">Enable Tag Mode</label><br /> -->
-    <!-- <input type="checkbox" id="enable-zoom" />
-    <label for="enable-zoom">Enable Mouse-Drag to Zoom</label><br />
-    <input type="checkbox" id="enable-range-select" />
-    <label for="enable-range-select">Enable Range Select</label><br />
-    <input type="checkbox" id="enable-zoom-to-fit" checked />
-    <label for="enable-zoom-to-fit">Enable Double-Click to Zoom to Fit</label><br />
-    <input type="checkbox" id="enable-mouse-wheel-zoom" checked />
-    <label for="enable-mouse-wheel-zoom">Enable Mousewheel Zoom</label><br /> -->
+  <div class="container">
+    <h1>Chart Information</h1>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Time</th>
+          <th scope="col">HR</th>
+          <th scope="col">Gain</th>
+          <th scope="col">Device</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="item in diagnoses.data" :key="item.diagnosis_id">
+          <th scope="row">{{ item.diagnosis_id }}</th>
+          <td>{{ item.start_time }}</td>
+          <td>{{ item.hr_last }}</td>
+          <td>{{ item.gain }}</td>
+          <td>{{ item.device_id }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <h2>Tag Information</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Channel Name</th>
+          <th scope="col">Time</th>
+          <th scope="col">備註</th>
+          <th scope="col">操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="item in tagList.data" :key="item.id">
+          <th>{{ item.channel }}</th>
+          <td>{{ item.x1 }} ~ {{ item.x2 }}</td>
+          <td>{{ item.note }}</td>
+          <td>
+            <div
+              class="btn-toolbar justify-content-around"
+              role="toolbar"
+              aria-label="Toolbar with button groups"
+            >
+              <div class="btn-group me-2" role="group" aria-label="First group">
+                <button type="button" class="btn btn-primary mr-1">編輯</button>
+              </div>
+              <div class="btn-group me-2" role="group" aria-label="Second group">
+                <button type="button" class="btn btn-danger">刪除</button>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="row">
+      <div class="col-6">
+        <div class="form-check form-switch">
+          <input class="form-check-input" type="checkbox" id="tag-mode" />
+          <label class="form-check-label" for="tag-mode">Enable Tag Mode</label>
+        </div>
+      </div>
+      <div class="col-6">
+        <select
+          v-model="selected"
+          placeholder="請選擇 Model"
+          class="form-select"
+          aria-label="Default select example"
+        >
+          <option value="" selected disabled>Select Model</option>
+          <option v-for="item in modelName" :key="item.value" :value="item.value">
+            {{ item.label }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div id="scichart-root" style="width: 100%; height: 800px; margin: auto"></div>
   </div>
-  <el-button-group style="display: none">
-    <el-button type="primary" icon="el-icon-arrow-left">上一页</el-button>
-    <el-button type="primary"
-      >下一页<i class="el-icon-arrow-right el-icon--right"></i
-    ></el-button>
-  </el-button-group>
-  <br />
-  <!-- <el-row type="flex" justify="start" align="top">
-    <el-col :span="2">
-      <button type="button" class="btn btn-primary">標記備註</button>
-    </el-col>
-    <el-col :span="2">
-      <button type="button" class="btn btn-primary">EvaluationMode</button>
-    </el-col>
-    <el-col :span="6">
-      <button type="button" class="btn btn-primary">Change Model / Update</button>
-    </el-col>
-  </el-row> -->
-  <el-row type="flex" justify="center">
+  <!-- <el-row type="flex" justify="center">
     <el-col :span="6">
       <div class="form-check form-switch">
         <input class="form-check-input" type="checkbox" id="tag-mode" />
@@ -76,14 +95,13 @@
           {{ item.label }}
         </option>
       </select>
-      <span>選項：{{ selected }}</span>
     </el-col>
   </el-row>
   <el-row type="flex" justify="center">
     <el-col :span="16">
       <div id="scichart-root" style="width: 100%; height: 800px; margin: auto"></div>
     </el-col>
-  </el-row>
+  </el-row> -->
   <!-- Modal -->
   <div
     class="modal fade"
@@ -256,7 +274,10 @@ import {
   SimpleDataPointSelectionModifier,
   noteMode,
   saveData,
-  tagMode
+  tagMode,
+  showTagList,
+  tagListData,
+  tagList
 } from "@/composition/store";
 
 export default {
@@ -278,6 +299,7 @@ export default {
       await showECGChart(route.params.diagnosesid).catch((err) => {});
       console.log(`c`);
       initSciChart();
+      await showTagList();
     });
     // const selectModel = value => {
     //   console.log(value);
@@ -303,7 +325,10 @@ export default {
       SimpleDataPointSelectionModifier,
       noteMode,
       saveData,
-      tagMode
+      tagMode,
+      showTagList,
+      tagListData,
+      tagList
     };
   }
 };

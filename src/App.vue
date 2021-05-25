@@ -54,7 +54,16 @@
   </el-container> -->
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#" @click.prevent="changePage('')">inCare</a>
+      <a class="navbar-brand" href="#" @click.prevent="changePage('')">
+        <img
+          src="../src/assets/logo.png"
+          alt=""
+          width="30"
+          height="24"
+          class="d-inline-block align-top"
+        />
+        inCare
+      </a>
       <button
         class="navbar-toggler"
         type="button"

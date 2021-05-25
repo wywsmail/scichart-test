@@ -3,7 +3,7 @@
 
 // About interface
 
-interface Idiagnoses<T> {
+interface Iapidata<T> {
   data: T;
 }
 
@@ -37,7 +37,7 @@ export const tableData = reactive({
   data: []
 });
 export const role = localStorage.getItem("role") ?? ref("");
-export const diagnoses: Idiagnoses<object> = reactive({
+export const diagnoses: Iapidata<object> = reactive({
   data: []
 });
 export const dataInformation = reactive({ data: [] });
@@ -906,8 +906,14 @@ export const noteMode = ref("");
 export const tagMode = computed(() => {
   return noteMode.value;
 });
+export const tagListData: Iapidata<object> = reactive({
+  data: []
+});
+export const tagList = computed(()=>{
+  return tagListData;
+})
 
-export const saveData = (val) => {
+export const saveData = val => {
   console.log(selectedPoints);
   console.log(diagnoses.data);
   let x1: string;
@@ -920,7 +926,7 @@ export const saveData = (val) => {
       theChannel = i.toString();
     }
   }
-  const config:any = {
+  const config: any = {
     url: apiUrl.url + "notes/create",
     headers: {
       Authorization: "Bearer " + token,
@@ -944,6 +950,36 @@ export const saveData = (val) => {
     .catch(err => {
       console.log(err);
     });
+  axios
+    .get(apiUrl.url + "notes/" + diagnoses.data[0].diagnosis_id, {
+      headers: { Authorization: "Bearer " + token }
+    })
+    .then(res => {
+      console.log(res);
+      tagListData.data = res.data.data;
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};
+
+// export const tagList = computed(() => {
+// });
+
+export const showTagList = (): Promise<any> => {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(apiUrl.url + "notes/" + diagnoses.data[0].diagnosis_id, {
+        headers: { Authorization: "Bearer " + token }
+      })
+      .then(res => {
+        console.log(res);
+        tagListData.data = res.data.data;
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  });
 };
 
 // deleteNote({ commit, rootState }, data) {
@@ -1029,7 +1065,7 @@ export const saveData = (val) => {
 //       return { y: x };
 //     }) // ch6
 //   ];
-  // NumberOfMeasurements = dataset[0].length;
+// NumberOfMeasurements = dataset[0].length;
 
 // export const saveData = (val) => {
 //   console.log(val);
