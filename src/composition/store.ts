@@ -78,6 +78,17 @@ export const anomalyModels = ref([]);
 
 export const selectedPoints: TDataPoint[][] = reactive([]);
 
+export const noteMode = ref("");
+export const tagMode = computed(() => {
+  return noteMode.value;
+});
+export const tagListData: Iapidata<object> = reactive({
+  data: []
+});
+export const tagList = computed(() => {
+  return tagListData;
+});
+
 // about scichart
 
 import { SciChartSurface } from "scichart/Charting/Visuals/SciChartSurface";
@@ -797,28 +808,6 @@ export const initSciChart = async () => {
       strokeThickness: 2,
       y1: 9
     })
-    // // Add TextAnnotations with anchor points
-    // new TextAnnotation({
-    //   text: "Anchor Center (X1, Y1)",
-    //   horizontalAnchorPoint: EHorizontalAnchorPoint.Center,
-    //   verticalAnchorPoint: EVerticalAnchorPoint.Bottom,
-    //   x1: 2,
-    //   y1: 8,
-    // }),
-    // new TextAnnotation({
-    //   text: "Anchor Right",
-    //   horizontalAnchorPoint: EHorizontalAnchorPoint.Right,
-    //   verticalAnchorPoint: EVerticalAnchorPoint.Top,
-    //   x1: 2,
-    //   y1: 8,
-    // }),
-    // new TextAnnotation({
-    //   text: "or Anchor Left",
-    //   horizontalAnchorPoint: EHorizontalAnchorPoint.Left,
-    //   verticalAnchorPoint: EVerticalAnchorPoint.Top,
-    //   x1: 2,
-    //   y1: 8,
-    // })
   );
 
   // Add a line series to the SciChartSurface
@@ -900,18 +889,172 @@ export const initSciChart = async () => {
       scichartRoot.removeAttribute("data-bs-target");
     }
   });
+  axios
+    .get(apiUrl.url + "notes/" + diagnoses.data[0].diagnosis_id, {
+      headers: { Authorization: "Bearer " + token }
+    })
+    .then(res => {
+      console.log(res);
+      tagListData.data = res.data.data;
+      for (let i = 0; i < res.data.data.length; i++) {
+        if (res.data.data[i].channel === "0") {
+          sciChartSurface.annotations.add(
+            new BoxAnnotation({
+              fill: "#FFE66F33",
+              strokeThickness: 0,
+              x1: parseInt(res.data.data[i].x1),
+              x2: parseInt(res.data.data[i].x2),
+              y1: -1,
+              y2: 1
+            })
+          );
+        } else if (res.data.data[i].channel === "1") {
+          sciChartSurface.annotations.add(
+            new BoxAnnotation({
+              fill: "#FFE66F33",
+              strokeThickness: 0,
+              x1: parseInt(res.data.data[i].x1),
+              x2: parseInt(res.data.data[i].x2),
+              y1: 1,
+              y2: 3
+            })
+          );
+        } else if (res.data.data[i].channel === "2") {
+          sciChartSurface.annotations.add(
+            new BoxAnnotation({
+              fill: "#FFE66F33",
+              strokeThickness: 0,
+              x1: parseInt(res.data.data[i].x1),
+              x2: parseInt(res.data.data[i].x2),
+              y1: 3,
+              y2: 5
+            })
+          );
+        } else if (res.data.data[i].channel === "3") {
+          sciChartSurface.annotations.add(
+            new BoxAnnotation({
+              fill: "#FFE66F33",
+              strokeThickness: 0,
+              x1: parseInt(res.data.data[i].x1),
+              x2: parseInt(res.data.data[i].x2),
+              y1: 5,
+              y2: 7
+            })
+          );
+        } else if (res.data.data[i].channel === "4") {
+          sciChartSurface.annotations.add(
+            new BoxAnnotation({
+              fill: "#FFE66F33",
+              strokeThickness: 0,
+              x1: parseInt(res.data.data[i].x1),
+              x2: parseInt(res.data.data[i].x2),
+              y1: 7,
+              y2: 9
+            })
+          );
+        } else {
+          sciChartSurface.annotations.add(
+            new BoxAnnotation({
+              fill: "#FFE66F33",
+              strokeThickness: 0,
+              x1: parseInt(res.data.data[i].x1),
+              x2: parseInt(res.data.data[i].x2),
+              y1: 9,
+              y2: 11
+            })
+          );
+        }
+      }
+    })
+    .catch(err => {
+      console.log(err);
+    });
+  // const showTagList = (): Promise<any> => {
+  //   return new Promise((resolve, reject) => {
+  //     axios
+  //       .get(apiUrl.url + "notes/" + diagnoses.data[0].diagnosis_id, {
+  //         headers: { Authorization: "Bearer " + token }
+  //       })
+  //       .then(res => {
+  //         console.log(res);
+  //         tagListData.data = res.data.data;
+  //         for (let i = 0; i < res.data.data.length; i++) {
+  //           if (res.data.data[i].channel === 0) {
+  //             sciChartSurface.annotations.add(
+  //               new BoxAnnotation({
+  //                 fill: "#FFE66F33",
+  //                 strokeThickness: 0,
+  //                 x1: res.data.data[i].x1,
+  //                 x2: res.data.data[i].x2,
+  //                 y1: -1,
+  //                 y2: 1
+  //               })
+  //             );
+  //           } else if (res.data.data[i].channel === 1) {
+  //             sciChartSurface.annotations.add(
+  //               new BoxAnnotation({
+  //                 fill: "#FFE66F33",
+  //                 strokeThickness: 0,
+  //                 x1: res.data.data[i].x1,
+  //                 x2: res.data.data[i].x2,
+  //                 y1: -1,
+  //                 y2: 3
+  //               })
+  //             );
+  //           } else if (res.data.data[i].channel === 2) {
+  //             sciChartSurface.annotations.add(
+  //               new BoxAnnotation({
+  //                 fill: "#FFE66F33",
+  //                 strokeThickness: 0,
+  //                 x1: res.data.data[i].x1,
+  //                 x2: res.data.data[i].x2,
+  //                 y1: 3,
+  //                 y2: 5
+  //               })
+  //             );
+  //           } else if (res.data.data[i].channel === 3){
+  //             sciChartSurface.annotations.add(
+  //               new BoxAnnotation({
+  //                 fill: "#FFE66F33",
+  //                 strokeThickness: 0,
+  //                 x1: res.data.data[i].x1,
+  //                 x2: res.data.data[i].x2,
+  //                 y1: 5,
+  //                 y2: 7
+  //               })
+  //             );
+  //           } else if (res.data.data[i].channel === 4){
+  //             sciChartSurface.annotations.add(
+  //               new BoxAnnotation({
+  //                 fill: "#FFE66F33",
+  //                 strokeThickness: 0,
+  //                 x1: res.data.data[i].x1,
+  //                 x2: res.data.data[i].x2,
+  //                 y1: 5,
+  //                 y2: 7
+  //               })
+  //             );
+  //           } else {
+  //             sciChartSurface.annotations.add(
+  //               new BoxAnnotation({
+  //                 fill: "#FFE66F33",
+  //                 strokeThickness: 0,
+  //                 x1: res.data.data[i].x1,
+  //                 x2: res.data.data[i].x2,
+  //                 y1: 7,
+  //                 y2: 9
+  //               })
+  //             );
+  //           }
+  //         }
+  //       })
+  //       .catch(err => {
+  //         console.log(err);
+  //       });
+  //   });
+  // };
+  // showTagList();
 };
-
-export const noteMode = ref("");
-export const tagMode = computed(() => {
-  return noteMode.value;
-});
-export const tagListData: Iapidata<object> = reactive({
-  data: []
-});
-export const tagList = computed(()=>{
-  return tagListData;
-})
 
 export const saveData = val => {
   console.log(selectedPoints);
@@ -963,8 +1106,9 @@ export const saveData = val => {
     });
 };
 
-// export const tagList = computed(() => {
-// });
+// export const deleteData = val =>{
+//   axios.delete(apiUrl.url +"notes/" + "ta")
+// }
 
 export const showTagList = (): Promise<any> => {
   return new Promise((resolve, reject) => {

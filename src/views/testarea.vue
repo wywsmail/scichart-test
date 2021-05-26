@@ -189,6 +189,7 @@ import { ZoomExtentsModifier } from "scichart/Charting/ChartModifiers/ZoomExtent
 // drawEditableAnnotations
 
 import { ZoomPanModifier } from "scichart/Charting/ChartModifiers/ZoomPanModifier";
+import { CursorModifier } from "scichart/Charting/ChartModifiers/CursorModifier";
 import { LineAnnotation } from "scichart/Charting/Visuals/Annotations/LineAnnotation";
 import { HorizontalLineAnnotation } from "scichart/Charting/Visuals/Annotations/HorizontalLineAnnotation";
 import { VerticalLineAnnotation } from "scichart/Charting/Visuals/Annotations/VerticalLineAnnotation";
@@ -406,6 +407,16 @@ export default {
           })
         })
       );
+      const cursorModifier = new CursorModifier({
+        // crosshairStroke: "#ff6600",
+        // crosshairStrokeThickness: 1,
+        tooltipContainerBackground: "#000",
+        tooltipTextStroke: "#ff6600",
+        showTooltip: true
+        // axisLabelsFill: "#b36200",
+        // axisLabelsStroke: "#fff"
+      });
+      sciChartSurface.chartModifiers.add(cursorModifier);
 
       // Add a custom modifier to select ranges
       sciChartSurface.chartModifiers.add(
