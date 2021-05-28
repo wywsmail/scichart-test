@@ -4,6 +4,7 @@
 // About interface
 
 interface Iapidata<T> {
+  // length: number;
   data: T;
 }
 
@@ -38,8 +39,12 @@ export const tableData = reactive({
 });
 export const role = localStorage.getItem("role") ?? ref("");
 export const diagnoses: Iapidata<object> = reactive({
-  data: []
+  data: [],
+  length
 });
+// export const diagnoses = reactive({
+//   data: []
+// });
 export const dataInformation = reactive({ data: [] });
 export const rows = ref([]);
 export const colums = ref([
@@ -82,12 +87,26 @@ export const noteMode = ref("");
 export const tagMode = computed(() => {
   return noteMode.value;
 });
-export const tagListData: Iapidata<object> = reactive({
+export const tagListData: any = reactive({
   data: []
 });
+// export const tagListData: Iapidata<Array<string>> = reactive({
+//   data: []
+// });
+// export const tagListData = reactive({
+//   data: []
+// });
 export const tagList = computed(() => {
   return tagListData;
 });
+export const isEnabled = ref(false);
+export const isChecked = computed(() => isEnabled.value);
+// export const isChecked = computed({
+//   get: () => isEnabled.value,
+//   set: val => {
+//     isEnabled.value = !isEnabled.value;
+//   }
+// });
 
 // about scichart
 
@@ -103,8 +122,6 @@ import { TextAnnotation } from "scichart/Charting/Visuals/Annotations/TextAnnota
 import { MouseWheelZoomModifier } from "scichart/Charting/ChartModifiers/MouseWheelZoomModifier";
 import { EXyDirection } from "scichart/types/XyDirection";
 import { SciChartJSLightTheme } from "scichart/Charting/Themes/SciChartJSLightTheme";
-import { EDragMode } from "scichart/types/DragMode";
-import { XAxisDragModifier } from "scichart/Charting/ChartModifiers/XAxisDragModifier";
 import { ZoomPanModifier } from "scichart/Charting/ChartModifiers/ZoomPanModifier";
 import { HorizontalLineAnnotation } from "scichart/Charting/Visuals/Annotations/HorizontalLineAnnotation";
 
@@ -290,9 +307,108 @@ export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
   // Called when mouse-up on the chart
   public modifierMouseUp(args: ModifierMouseArgs) {
     super.modifierMouseUp(args);
-    console.log(args);
+    // console.log(args);
     this.isSelecting = false;
     this.performSelection();
+
+    // const tagModeEnable: HTMLInputElement = <HTMLInputElement>(
+    //   document.getElementById("tag-mode")
+    // );
+    // const scichartRoot = document.getElementById("scichart-root");
+
+    // tagModeEnable.addEventListener("change", () => {
+    //   if (tagModeEnable.checked === true) {
+    //     this.simpleDataPointSelectionModifier.isEnabled = true;
+    //     zoomPanModifier.isEnabled = false;
+    //     scichartRoot.setAttribute("data-bs-toggle", "modal");
+    //     scichartRoot.setAttribute("data-bs-target", "#exampleModal");
+    //   } else {
+    //     simpleDataPointSelectionModifier.isEnabled = false;
+    //     zoomPanModifier.isEnabled = true;
+    //     scichartRoot.removeAttribute("data-bs-toggle");
+    //     scichartRoot.removeAttribute("data-bs-target");
+    //   }
+    // });
+    // axios
+    //   .get(apiUrl.url + "notes/" + diagnoses.data[0].diagnosis_id, {
+    //     headers: { Authorization: "Bearer " + token }
+    //   })
+    //   .then(res => {
+    //     console.log(res);
+    //     tagListData.data = res.data.data;
+    //     for (let i = 0; i < res.data.data.length; i++) {
+    //       if (res.data.data[i].channel === "0") {
+    //         sciChartSurface.annotations.add(
+    //           new BoxAnnotation({
+    //             fill: "#FFE66F33",
+    //             strokeThickness: 0,
+    //             x1: parseInt(res.data.data[i].x1),
+    //             x2: parseInt(res.data.data[i].x2),
+    //             y1: -1,
+    //             y2: 1
+    //           })
+    //         );
+    //       } else if (res.data.data[i].channel === "1") {
+    //         sciChartSurface.annotations.add(
+    //           new BoxAnnotation({
+    //             fill: "#FFE66F33",
+    //             strokeThickness: 0,
+    //             x1: parseInt(res.data.data[i].x1),
+    //             x2: parseInt(res.data.data[i].x2),
+    //             y1: 1,
+    //             y2: 3
+    //           })
+    //         );
+    //       } else if (res.data.data[i].channel === "2") {
+    //         sciChartSurface.annotations.add(
+    //           new BoxAnnotation({
+    //             fill: "#FFE66F33",
+    //             strokeThickness: 0,
+    //             x1: parseInt(res.data.data[i].x1),
+    //             x2: parseInt(res.data.data[i].x2),
+    //             y1: 3,
+    //             y2: 5
+    //           })
+    //         );
+    //       } else if (res.data.data[i].channel === "3") {
+    //         sciChartSurface.annotations.add(
+    //           new BoxAnnotation({
+    //             fill: "#FFE66F33",
+    //             strokeThickness: 0,
+    //             x1: parseInt(res.data.data[i].x1),
+    //             x2: parseInt(res.data.data[i].x2),
+    //             y1: 5,
+    //             y2: 7
+    //           })
+    //         );
+    //       } else if (res.data.data[i].channel === "4") {
+    //         sciChartSurface.annotations.add(
+    //           new BoxAnnotation({
+    //             fill: "#FFE66F33",
+    //             strokeThickness: 0,
+    //             x1: parseInt(res.data.data[i].x1),
+    //             x2: parseInt(res.data.data[i].x2),
+    //             y1: 7,
+    //             y2: 9
+    //           })
+    //         );
+    //       } else {
+    //         sciChartSurface.annotations.add(
+    //           new BoxAnnotation({
+    //             fill: "#FFE66F33",
+    //             strokeThickness: 0,
+    //             x1: parseInt(res.data.data[i].x1),
+    //             x2: parseInt(res.data.data[i].x2),
+    //             y1: 9,
+    //             y2: 11
+    //           })
+    //         );
+    //       }
+    //     }
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //   });
     // const scichartRoot = document.getElementById("scichart-root");
     // scichartRoot.setAttribute("data-bs-toggle", "modal");
     // scichartRoot.setAttribute("data-bs-target", "#exampleModal");
@@ -484,73 +600,157 @@ export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
 
     return { xCalc, yCalc };
   }
-  // public onAttach() {
-  //   super.onAttach();
-  //   this.parentSurface.annotations.add(this.selectionAnnotation);
-  // }
-  // public onDetach() {
-  //   this.parentSurface.annotations.remove(this.selectionAnnotation);
-  //   super.onDetach();
-  // }
-  // public addNote() {
-  //   console.log(selectedPoints);
-  //   console.log(diagnoses.data);
-  //   let x1: string;
-  //   let x2: string;
-  //   let theChannel: string;
-  //   for (let i = 0; i < selectedPoints.length; i++) {
-  //     // console.log(this.selectedPoints[i].length);
-  //     if (selectedPoints[i].length !== 0) {
-  //       // x1 = this.selectedPoints[i][0].toString();
-  //       // x2 = this.selectedPoints[i][this.selectedPoints.length - 1].toString();
-  //       x1 = selectedPoints[i][0].x1Value.toFixed(0);
-  //       x2 = selectedPoints[i][0].x2Value.toFixed(0);
-  //       theChannel = i.toString();
-  //     }
+}
+
+export class MouseClickShowdataModifier extends ChartModifierBase2D {
+  // public modifierMouseMove(args: ModifierMouseArgs): void {
+  //   super.modifierMouseMove(args);
+  //   const translatedPoint = translateFromCanvasToSeriesViewRect(
+  //     args.mousePoint,
+  //     this.parentSurface.seriesViewRect
+  //   );
+  //   console.log(translatedPoint);
+  //   // if (translatedPoint && this.isSelecting) {
+  //   //   this.endPoint = args.mousePoint;
+  //   // // Pixel COORDINATE MODE EXAMPLE
+  //   // this.selectionAnnotation.x2 = translatedPoint.x;
+  //   // this.selectionAnnotation.y2 = translatedPoint.y;
+
+  //   // DataValue COORDINATE MODE EXAMPLE
+  //   const { xCalc, yCalc } = this.getDefaultCoordCalculators();
+  //   if (!xCalc) {
+  //     return;
   //   }
-  //   // theChannel = () => {
-  //   //   for (let i = 0; i < this.selectedPoints.length; i++) {
-  //   //     console.log(this.selectedPoints[i].length);
-  //   //     // if (!this.selectedPoints[i].length) {
-  //   //     //   x1 = this.selectedPoints[i][0].toString();
-  //   //     //   x2 = this.selectedPoints[i][
-  //   //     //     this.selectedPoints.length - 1
-  //   //     //   ].toString();
-  //   //     //   return i.toString();
-  //   //     // }
-  //   //   }
-  //   // };
-  //   const note: TNote = {
-  //     id: "",
-  //     diagnosis_id: diagnoses.data[0].diagnosis_id,
-  //     x1: x1,
-  //     x2: x2,
-  //     channel: theChannel,
-  //     note: `["ST-D"]`
-  //   };
-  //   console.log(note);
-  //   this.config = {
-  //     url: apiUrl.url + "notes/create",
-  //     headers: {
-  //       Authorization: "Bearer " + token,
-  //       "Content-Type": "application/json"
-  //     },
-  //     method: "post",
-  //     data: note
-  //   };
-  //   console.log(this.config);
-  //   // return this.config;
-  //   axios(this.config)
-  //     .then(res => {
-  //       console.log(res);
-  //     })
-  //     .catch(err => {
-  //       console.log(err);
-  //     });
+  //   // console.log(xCalc, yCalc);
+  //   console.log(xCalc.getDataValue(translatedPoint.x));
+  //   console.log(yCalc.getDataValue(translatedPoint.y));
+  //   // this.selectionAnnotation.x2 = xCalc.getDataValue(translatedPoint.x);
+  //   // this.selectionAnnotation.y2 = yCalc.getDataValue(translatedPoint.y);
   // }
-  public cancelSelectionData() {
-    this.parentSurface.annotations.remove(this.selectionAnnotation);
-    console.log("Hello");
+  public modifierMouseUp(args: ModifierMouseArgs) {
+    super.modifierMouseUp(args);
+    // console.log(args);
+    const translatedPoint = translateFromCanvasToSeriesViewRect(
+      args.mousePoint,
+      this.parentSurface.seriesViewRect
+    );
+    // console.log(translatedPoint);
+    const { xCalc, yCalc } = this.getDefaultCoordCalculators();
+    if (!xCalc) {
+      return;
+    }
+    // console.log(xCalc.getDataValue(translatedPoint.x));
+    // console.log(yCalc.getDataValue(translatedPoint.y));
+    console.log(tagList.value.data);
+    // console.log(
+    //   tagList.value.data[0].channel,
+    //   Number(tagList.value.data[0].x1),
+    //   Number(tagList.value.data[0].x2)
+    // );
+    // console.log(
+    //   tagList.value.data[1].channel,
+    //   Number(tagList.value.data[1].x1),
+    //   Number(tagList.value.data[1].x2)
+    // );
+    // console.log(
+    //   tagList.value.data[2].channel,
+    //   Number(tagList.value.data[2].x1),
+    //   Number(tagList.value.data[2].x2)
+    // );
+    // console.log(
+    //   tagList.value.data[3].channel,
+    //   Number(tagList.value.data[3].x1),
+    //   Number(tagList.value.data[3].x2)
+    // );
+    // console.log(
+    //   tagList.value.data[4].channel,
+    //   Number(tagList.value.data[4].x1),
+    //   Number(tagList.value.data[4].x2)
+    // );
+    // console.log(
+    //   tagList.value.data[5].channel,
+    //   Number(tagList.value.data[5].x1),
+    //   Number(tagList.value.data[5].x2)
+    // );
+    // console.log(
+    //   tagList.value.data[6].channel,
+    //   Number(tagList.value.data[6].x1),
+    //   Number(tagList.value.data[6].x2)
+    // );
+    // console.log(
+    //   tagList.value.data[6].channel === "5" &&
+    //     Number(tagList.value.data[6].x1) <
+    //       xCalc.getDataValue(translatedPoint.x) &&
+    //     xCalc.getDataValue(translatedPoint.x) < Number(tagList.value.data[6].x2)
+    // );
+    for (let i = 0; i < tagList.value.data.length; i++) {
+      if (
+        tagList.value.data[i].channel === "0" &&
+        Number(tagList.value.data[i].x1) <
+          xCalc.getDataValue(translatedPoint.x) &&
+        xCalc.getDataValue(translatedPoint.x) < Number(tagList.value.data[i].x2)
+      ) {
+        console.log(tagList.value.data[i].x1);
+        console.log(tagList.value.data[i].x2);
+      } else if (
+        tagList.value.data[i].channel === "1" &&
+        Number(tagList.value.data[i].x1) <
+          xCalc.getDataValue(translatedPoint.x) &&
+        xCalc.getDataValue(translatedPoint.x) < Number(tagList.value.data[i].x2)
+      ) {
+        console.log(tagList.value.data[i].x1);
+        console.log(tagList.value.data[i].x2);
+      } else if (
+        tagList.value.data[i].channel === "2" &&
+        Number(tagList.value.data[i].x1) <
+          xCalc.getDataValue(translatedPoint.x) &&
+        xCalc.getDataValue(translatedPoint.x) < Number(tagList.value.data[i].x2)
+      ) {
+        console.log(tagList.value.data[i].x1);
+        console.log(tagList.value.data[i].x2);
+      } else if (
+        tagList.value.data[i].channel === "3" &&
+        Number(tagList.value.data[i].x1) <
+          xCalc.getDataValue(translatedPoint.x) &&
+        xCalc.getDataValue(translatedPoint.x) < Number(tagList.value.data[i].x2)
+      ) {
+        console.log(tagList.value.data[i].x1);
+        console.log(tagList.value.data[i].x2);
+      } else if (
+        tagList.value.data[i].channel === "4" &&
+        Number(tagList.value.data[i].x1) <
+          xCalc.getDataValue(translatedPoint.x) &&
+        xCalc.getDataValue(translatedPoint.x) < Number(tagList.value.data[i].x2)
+      ) {
+        console.log(tagList.value.data[i].x1);
+        console.log(tagList.value.data[i].x2);
+      } else if (
+        tagList.value.data[i].channel === "5" &&
+        Number(tagList.value.data[i].x1) <
+          xCalc.getDataValue(translatedPoint.x) &&
+        xCalc.getDataValue(translatedPoint.x) < Number(tagList.value.data[i].x2)
+      ) {
+        console.log(tagList.value.data[i].x1);
+        console.log(tagList.value.data[i].x2);
+      } else {
+        return;
+      }
+    }
+  }
+  private getDefaultCoordCalculators() {
+    const xAxis = this.parentSurface.xAxes.get(0);
+    const yAxis = this.parentSurface.yAxes.get(0);
+    if (!xAxis || !yAxis) {
+      return {
+        xCalc: undefined,
+        yCalc: undefined
+      };
+    }
+
+    const xCalc = xAxis.getCurrentCoordinateCalculator();
+    const yCalc = yAxis.getCurrentCoordinateCalculator();
+
+    return { xCalc, yCalc };
   }
 }
 
@@ -865,13 +1065,16 @@ export const initSciChart = async () => {
     document.getElementById("tag-mode")
   );
   const scichartRoot = document.getElementById("scichart-root");
+
   const zoomPanModifier = new ZoomPanModifier();
   const simpleDataPointSelectionModifier = new SimpleDataPointSelectionModifier();
   const mouseWheelZoomModifier = new MouseWheelZoomModifier();
+  const mouseMoveShowdataModifier = new MouseClickShowdataModifier();
 
   sciChartSurface.chartModifiers.add(zoomPanModifier);
   sciChartSurface.chartModifiers.add(simpleDataPointSelectionModifier);
   sciChartSurface.chartModifiers.add(mouseWheelZoomModifier);
+  sciChartSurface.chartModifiers.add(mouseMoveShowdataModifier);
 
   mouseWheelZoomModifier.xyDirection = EXyDirection.XDirection;
   zoomPanModifier.xyDirection = EXyDirection.XDirection;
@@ -969,91 +1172,28 @@ export const initSciChart = async () => {
     .catch(err => {
       console.log(err);
     });
-  // const showTagList = (): Promise<any> => {
-  //   return new Promise((resolve, reject) => {
-  //     axios
-  //       .get(apiUrl.url + "notes/" + diagnoses.data[0].diagnosis_id, {
-  //         headers: { Authorization: "Bearer " + token }
-  //       })
-  //       .then(res => {
-  //         console.log(res);
-  //         tagListData.data = res.data.data;
-  //         for (let i = 0; i < res.data.data.length; i++) {
-  //           if (res.data.data[i].channel === 0) {
-  //             sciChartSurface.annotations.add(
-  //               new BoxAnnotation({
-  //                 fill: "#FFE66F33",
-  //                 strokeThickness: 0,
-  //                 x1: res.data.data[i].x1,
-  //                 x2: res.data.data[i].x2,
-  //                 y1: -1,
-  //                 y2: 1
-  //               })
-  //             );
-  //           } else if (res.data.data[i].channel === 1) {
-  //             sciChartSurface.annotations.add(
-  //               new BoxAnnotation({
-  //                 fill: "#FFE66F33",
-  //                 strokeThickness: 0,
-  //                 x1: res.data.data[i].x1,
-  //                 x2: res.data.data[i].x2,
-  //                 y1: -1,
-  //                 y2: 3
-  //               })
-  //             );
-  //           } else if (res.data.data[i].channel === 2) {
-  //             sciChartSurface.annotations.add(
-  //               new BoxAnnotation({
-  //                 fill: "#FFE66F33",
-  //                 strokeThickness: 0,
-  //                 x1: res.data.data[i].x1,
-  //                 x2: res.data.data[i].x2,
-  //                 y1: 3,
-  //                 y2: 5
-  //               })
-  //             );
-  //           } else if (res.data.data[i].channel === 3){
-  //             sciChartSurface.annotations.add(
-  //               new BoxAnnotation({
-  //                 fill: "#FFE66F33",
-  //                 strokeThickness: 0,
-  //                 x1: res.data.data[i].x1,
-  //                 x2: res.data.data[i].x2,
-  //                 y1: 5,
-  //                 y2: 7
-  //               })
-  //             );
-  //           } else if (res.data.data[i].channel === 4){
-  //             sciChartSurface.annotations.add(
-  //               new BoxAnnotation({
-  //                 fill: "#FFE66F33",
-  //                 strokeThickness: 0,
-  //                 x1: res.data.data[i].x1,
-  //                 x2: res.data.data[i].x2,
-  //                 y1: 5,
-  //                 y2: 7
-  //               })
-  //             );
-  //           } else {
-  //             sciChartSurface.annotations.add(
-  //               new BoxAnnotation({
-  //                 fill: "#FFE66F33",
-  //                 strokeThickness: 0,
-  //                 x1: res.data.data[i].x1,
-  //                 x2: res.data.data[i].x2,
-  //                 y1: 7,
-  //                 y2: 9
-  //               })
-  //             );
-  //           }
-  //         }
-  //       })
-  //       .catch(err => {
-  //         console.log(err);
-  //       });
-  //   });
-  // };
-  // showTagList();
+};
+
+export const cancelSelectionData = () => {
+  const tagModeEnable: HTMLInputElement = <HTMLInputElement>(
+    document.getElementById("tag-mode")
+  );
+  // tagModeEnable.addEventListener("change", () => {
+  //   if (tagModeEnable.checked === true) {
+  //     new SimpleDataPointSelectionModifier({isEnabled : true})
+  //     ZoomPanModifier.isEnabled = false;
+  //     scichartRoot.setAttribute("data-bs-toggle", "modal");
+  //     scichartRoot.setAttribute("data-bs-target", "#exampleModal");
+  //   } else {
+  //     SimpleDataPointSelectionModifier.isEnabled = false;
+  //     ZoomPanModifier.isEnabled = true;
+  //     scichartRoot.removeAttribute("data-bs-toggle");
+  //     scichartRoot.removeAttribute("data-bs-target");
+  //   }
+  // });
+  tagModeEnable.checked = false;
+  console.log("Hello");
+  initSciChart();
 };
 
 export const saveData = val => {
@@ -1126,24 +1266,53 @@ export const showTagList = (): Promise<any> => {
   });
 };
 
-// deleteNote({ commit, rootState }, data) {
-//   const config = {
-//     url: apiUrl.url + "/medical/v1/notes/delete/" + data.note_id,
-//     headers: {
-//       Authorization: "Bearer " + rootState.token,
-//       "Content-Type": "application/json"
-//     },
-//     method: "delete"
-//   };
-//   return new Promise((resolve, reject) => {
-//     axios(config)
-//       .then(() => {
-//         commit("DELETE_NOTE_BY_ID", data.note_id.toString());
-//         resolve(data.note_id);
-//       })
-//       .catch(err => console.log(err));
-//   });
-// },
+export const deleteData = val => {
+  const config: any = {
+    url: apiUrl.url + "notes/delete/" + val,
+    headers: {
+      Authorization: "Bearer " + token,
+      "Content-Type": "application/json"
+    },
+    method: "delete"
+  };
+  console.log(config);
+  axios(config)
+    .then(res => {
+      console.log(res);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+  initSciChart();
+};
+
+export const modifyData = (tagData, val) => {
+  console.log(tagData);
+  console.log(val);
+  const config: any = {
+    url: apiUrl.url + "notes/modify",
+    headers: {
+      Authorization: "Bearer " + token,
+      "Content-Type": "application/json"
+    },
+    method: "put",
+    data: {
+      id: tagData.id,
+      diagnosis_id: diagnoses.data[0].diagnosis_id,
+      x1: tagData.x1,
+      x2: tagData.x2,
+      channel: tagData.channel,
+      note: `["${val}"]`
+    }
+  };
+  axios(config)
+    .then(res => {
+      console.log(res);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};
 // editNote({ commit, rootState }, data) {
 //   const note = {
 //     id: data.id.toString(),

@@ -6,6 +6,7 @@
       <!-- <div :id="divElementId[2]" style="width: 100%; height: 400px; margin: auto"></div> -->
       <div :id="divElementId[3]" style="width: 100%; height: 400px; margin: auto"></div>
       <!-- <div id="result" style="white-space: pre"></div> -->
+      <div :id="divElementId[4]" style="width: 100%; height: 400px; margin: auto"></div>
     </el-col>
   </el-row>
   <!-- Button trigger modal -->
@@ -200,13 +201,20 @@ import { EHorizontalAnchorPoint, EVerticalAnchorPoint } from "scichart/types/Anc
 import { ECoordinateMode } from "scichart/Charting/Visuals/Annotations/AnnotationBase";
 import { ELabelPlacement } from "scichart/types/LabelPlacement";
 
+// hitTest methods
+
+import { Point } from "scichart/Core/Point";
+import { ENearestPointLogic } from "scichart/Charting/Visuals/RenderableSeries/HitTest/IHitTestProvider";
+
 export default {
   setup() {
+    const HIT_TEST_RADIUS = 10;
     const divElementId = [
       "scichart-root-1",
       "scichart-root-2",
       "scichart-root-3",
-      "scichart-root-4"
+      "scichart-root-4",
+      "scichart-root-5"
     ];
     const drawEditableAnnotations = async () => {
       const { sciChartSurface, wasmContext } = await SciChartSurface.create(
@@ -425,11 +433,50 @@ export default {
         new MouseWheelZoomModifier()
       );
     };
+    const hitTest = async () => {
+      const { wasmContext, sciChartSurface } = await SciChartSurface.create(
+        divElementId[4]
+      );
+      sciChartSurface.xAxes.add(new NumericAxis(wasmContext));
+      sciChartSurface.yAxes.add(new NumericAxis(wasmContext));
+      // Create a Line Series with XyDataSeries and some data
+      const lineSeries = new FastLineRenderableSeries(wasmContext);
+      lineSeries.dataSeries = new XyDataSeries(wasmContext, {
+        dataSeriesName: "Line Series",
+        xValues: [0, 1, 2],
+        yValues: [3, 4, 5]
+      });
+      // Add the line series to the SciChartSurface
+      sciChartSurface.renderableSeries.add(lineSeries);
+      // add an event listener for mouse down. You can access the actual SciChartSurface canvas as
+      // follows, or find element by ID=divElementId in the dom
+      sciChartSurface.domCanvas2D.addEventListener(
+        "mousedown",
+        (mouseEvent: MouseEvent) => {
+          // call renderableSeries.hitTestProvider.hitTest passing in the mouse point
+          // other parameters determine the type of hit-test operation to perform
+          const hitTestInfo = lineSeries.hitTestProvider.hitTest(
+            new Point(mouseEvent.offsetX, mouseEvent.offsetY),
+            ENearestPointLogic.NearestPoint2D,
+            HIT_TEST_RADIUS,
+            false
+          );
+          // Log the result to console. HitTestInfo contains information about the hit-test operation
+          console.log(
+            `${hitTestInfo.dataSeriesName} hit test result: ` +
+              `MouseCoord=(${hitTestInfo.xCoord}, ${hitTestInfo.yCoord}) ` +
+              `IsHit? ${hitTestInfo.isHit} ` +
+              `Result=(${hitTestInfo.xValue}, ${hitTestInfo.yValue}) `
+          );
+        }
+      );
+    };
     onMounted(() => {
       drawRangeSelect();
       drawSimpleDataPointSelect();
       drawCreateAnnotation();
       drawEditableAnnotations();
+      hitTest();
     });
     return { divElementId };
   }

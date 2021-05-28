@@ -45,10 +45,19 @@
               aria-label="Toolbar with button groups"
             >
               <div class="btn-group me-2" role="group" aria-label="First group">
-                <button type="button" class="btn btn-primary mr-1">編輯</button>
+                <button
+                  type="button"
+                  class="btn btn-primary mr-1"
+                  data-bs-toggle="modal"
+                  data-bs-target="#modifyModal"
+                >
+                  編輯
+                </button>
               </div>
               <div class="btn-group me-2" role="group" aria-label="Second group">
-                <button type="button" class="btn btn-danger">刪除</button>
+                <button type="button" class="btn btn-danger" @click="deleteData(item.id)">
+                  刪除
+                </button>
               </div>
             </div>
           </td>
@@ -124,6 +133,7 @@
     tabindex="-1"
     aria-labelledby="exampleModalLabel"
     aria-hidden="true"
+    @click="cancelSelectionData()"
   >
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
@@ -255,7 +265,12 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">
+          <button
+            type="submit"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+            @click="cancelSelectionData()"
+          >
             Cancel
           </button>
           <button
@@ -290,7 +305,12 @@
           ></button>
         </div>
         <div class="modal-body">
-          <select class="form-select" size="3" aria-label="size 3 select example">
+          <select
+            class="form-select"
+            size="3"
+            aria-label="size 3 select example"
+            v-model="reSelectedNote"
+          >
             <option value="ST-E">ST-E</option>
             <option value="ST-D">ST-D</option>
             <option value="OMI">OMI</option>
@@ -306,7 +326,12 @@
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
             Cancel
           </button>
-          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+          <button
+            type="button"
+            class="btn btn-primary"
+            data-bs-dismiss="modal"
+            @click="modifyData(reSelectedNote)"
+          >
             Save
           </button>
         </div>
@@ -367,7 +392,10 @@ import {
   tagMode,
   showTagList,
   tagListData,
-  tagList
+  tagList,
+  cancelSelectionData,
+  deleteData,
+  modifyData
 } from "@/composition/store";
 
 export default {
@@ -418,7 +446,10 @@ export default {
       tagMode,
       showTagList,
       tagListData,
-      tagList
+      tagList,
+      cancelSelectionData,
+      deleteData,
+      modifyData
     };
   }
 };
