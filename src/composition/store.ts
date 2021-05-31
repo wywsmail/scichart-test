@@ -99,8 +99,24 @@ export const tagListData: any = reactive({
 export const tagList = computed(() => {
   return tagListData;
 });
+export const selectTagData = reactive({
+  data: [
+    {
+      channel: "",
+      created_at: "",
+      diagnosis_id: "",
+      note: "",
+      x1: "",
+      x2: ""
+    }
+  ]
+});
+export const tagDataShow = computed(()=>{
+  return selectTagData;
+})
 export const isEnabled = ref(false);
 export const isChecked = computed(() => isEnabled.value);
+
 // export const isChecked = computed({
 //   get: () => isEnabled.value,
 //   set: val => {
@@ -310,126 +326,8 @@ export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
     // console.log(args);
     this.isSelecting = false;
     this.performSelection();
-
-    // const tagModeEnable: HTMLInputElement = <HTMLInputElement>(
-    //   document.getElementById("tag-mode")
-    // );
-    // const scichartRoot = document.getElementById("scichart-root");
-
-    // tagModeEnable.addEventListener("change", () => {
-    //   if (tagModeEnable.checked === true) {
-    //     this.simpleDataPointSelectionModifier.isEnabled = true;
-    //     zoomPanModifier.isEnabled = false;
-    //     scichartRoot.setAttribute("data-bs-toggle", "modal");
-    //     scichartRoot.setAttribute("data-bs-target", "#exampleModal");
-    //   } else {
-    //     simpleDataPointSelectionModifier.isEnabled = false;
-    //     zoomPanModifier.isEnabled = true;
-    //     scichartRoot.removeAttribute("data-bs-toggle");
-    //     scichartRoot.removeAttribute("data-bs-target");
-    //   }
-    // });
-    // axios
-    //   .get(apiUrl.url + "notes/" + diagnoses.data[0].diagnosis_id, {
-    //     headers: { Authorization: "Bearer " + token }
-    //   })
-    //   .then(res => {
-    //     console.log(res);
-    //     tagListData.data = res.data.data;
-    //     for (let i = 0; i < res.data.data.length; i++) {
-    //       if (res.data.data[i].channel === "0") {
-    //         sciChartSurface.annotations.add(
-    //           new BoxAnnotation({
-    //             fill: "#FFE66F33",
-    //             strokeThickness: 0,
-    //             x1: parseInt(res.data.data[i].x1),
-    //             x2: parseInt(res.data.data[i].x2),
-    //             y1: -1,
-    //             y2: 1
-    //           })
-    //         );
-    //       } else if (res.data.data[i].channel === "1") {
-    //         sciChartSurface.annotations.add(
-    //           new BoxAnnotation({
-    //             fill: "#FFE66F33",
-    //             strokeThickness: 0,
-    //             x1: parseInt(res.data.data[i].x1),
-    //             x2: parseInt(res.data.data[i].x2),
-    //             y1: 1,
-    //             y2: 3
-    //           })
-    //         );
-    //       } else if (res.data.data[i].channel === "2") {
-    //         sciChartSurface.annotations.add(
-    //           new BoxAnnotation({
-    //             fill: "#FFE66F33",
-    //             strokeThickness: 0,
-    //             x1: parseInt(res.data.data[i].x1),
-    //             x2: parseInt(res.data.data[i].x2),
-    //             y1: 3,
-    //             y2: 5
-    //           })
-    //         );
-    //       } else if (res.data.data[i].channel === "3") {
-    //         sciChartSurface.annotations.add(
-    //           new BoxAnnotation({
-    //             fill: "#FFE66F33",
-    //             strokeThickness: 0,
-    //             x1: parseInt(res.data.data[i].x1),
-    //             x2: parseInt(res.data.data[i].x2),
-    //             y1: 5,
-    //             y2: 7
-    //           })
-    //         );
-    //       } else if (res.data.data[i].channel === "4") {
-    //         sciChartSurface.annotations.add(
-    //           new BoxAnnotation({
-    //             fill: "#FFE66F33",
-    //             strokeThickness: 0,
-    //             x1: parseInt(res.data.data[i].x1),
-    //             x2: parseInt(res.data.data[i].x2),
-    //             y1: 7,
-    //             y2: 9
-    //           })
-    //         );
-    //       } else {
-    //         sciChartSurface.annotations.add(
-    //           new BoxAnnotation({
-    //             fill: "#FFE66F33",
-    //             strokeThickness: 0,
-    //             x1: parseInt(res.data.data[i].x1),
-    //             x2: parseInt(res.data.data[i].x2),
-    //             y1: 9,
-    //             y2: 11
-    //           })
-    //         );
-    //       }
-    //     }
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   });
-    // const scichartRoot = document.getElementById("scichart-root");
-    // scichartRoot.setAttribute("data-bs-toggle", "modal");
-    // scichartRoot.setAttribute("data-bs-target", "#exampleModal");
-    // const selectedPointArray = [];
-    // this.selectedPoints.forEach(item => {
-    //   if (item.length !== 0) {
-    //     selectedPointArray.push(item);
-    //   }
-    // });
-    // console.log(selectedPointArray);
-    // localStorage.setItem("selectedPoints", JSON.stringify(this.selectedPoints));
-    // console.log(this.selectedPoints);
-    // document.getElementById("result").innerText = JSON.stringify(
-    //   selectedPoints,
-    //   null,
-    //   4
-    // );
     this.startPoint = undefined;
     this.endPoint = undefined;
-
-    // this.addNote();
   }
 
   private performSelection() {
@@ -642,100 +540,93 @@ export class MouseClickShowdataModifier extends ChartModifierBase2D {
     // console.log(xCalc.getDataValue(translatedPoint.x));
     // console.log(yCalc.getDataValue(translatedPoint.y));
     console.log(tagList.value.data);
-    // console.log(
-    //   tagList.value.data[0].channel,
-    //   Number(tagList.value.data[0].x1),
-    //   Number(tagList.value.data[0].x2)
-    // );
-    // console.log(
-    //   tagList.value.data[1].channel,
-    //   Number(tagList.value.data[1].x1),
-    //   Number(tagList.value.data[1].x2)
-    // );
-    // console.log(
-    //   tagList.value.data[2].channel,
-    //   Number(tagList.value.data[2].x1),
-    //   Number(tagList.value.data[2].x2)
-    // );
-    // console.log(
-    //   tagList.value.data[3].channel,
-    //   Number(tagList.value.data[3].x1),
-    //   Number(tagList.value.data[3].x2)
-    // );
-    // console.log(
-    //   tagList.value.data[4].channel,
-    //   Number(tagList.value.data[4].x1),
-    //   Number(tagList.value.data[4].x2)
-    // );
-    // console.log(
-    //   tagList.value.data[5].channel,
-    //   Number(tagList.value.data[5].x1),
-    //   Number(tagList.value.data[5].x2)
-    // );
-    // console.log(
-    //   tagList.value.data[6].channel,
-    //   Number(tagList.value.data[6].x1),
-    //   Number(tagList.value.data[6].x2)
-    // );
-    // console.log(
-    //   tagList.value.data[6].channel === "5" &&
-    //     Number(tagList.value.data[6].x1) <
-    //       xCalc.getDataValue(translatedPoint.x) &&
-    //     xCalc.getDataValue(translatedPoint.x) < Number(tagList.value.data[6].x2)
-    // );
+
+    // for (let i = 0; i < tagList.value.data.length; i++) {
+    //   console.log(i);
+    // }
+
     for (let i = 0; i < tagList.value.data.length; i++) {
       if (
         tagList.value.data[i].channel === "0" &&
+        -1 < yCalc.getDataValue(translatedPoint.y) &&
+        yCalc.getDataValue(translatedPoint.y) < 1 &&
         Number(tagList.value.data[i].x1) <
           xCalc.getDataValue(translatedPoint.x) &&
         xCalc.getDataValue(translatedPoint.x) < Number(tagList.value.data[i].x2)
       ) {
+        console.log(tagList.value.data[i].channel);
         console.log(tagList.value.data[i].x1);
         console.log(tagList.value.data[i].x2);
+        selectTagData.data.length = 0;
+        selectTagData.data.push(tagList.value.data[i]);
       } else if (
         tagList.value.data[i].channel === "1" &&
+        1 < yCalc.getDataValue(translatedPoint.y) &&
+        yCalc.getDataValue(translatedPoint.y) < 3 &&
         Number(tagList.value.data[i].x1) <
           xCalc.getDataValue(translatedPoint.x) &&
         xCalc.getDataValue(translatedPoint.x) < Number(tagList.value.data[i].x2)
       ) {
+        console.log(tagList.value.data[i].channel);
         console.log(tagList.value.data[i].x1);
         console.log(tagList.value.data[i].x2);
+        selectTagData.data.length = 0;
+        selectTagData.data.push(tagList.value.data[i]);
       } else if (
         tagList.value.data[i].channel === "2" &&
+        3 < yCalc.getDataValue(translatedPoint.y) &&
+        yCalc.getDataValue(translatedPoint.y) < 5 &&
         Number(tagList.value.data[i].x1) <
           xCalc.getDataValue(translatedPoint.x) &&
         xCalc.getDataValue(translatedPoint.x) < Number(tagList.value.data[i].x2)
       ) {
+        console.log(tagList.value.data[i].channel);
         console.log(tagList.value.data[i].x1);
         console.log(tagList.value.data[i].x2);
+        selectTagData.data.length = 0;
+        selectTagData.data.push(tagList.value.data[i]);
       } else if (
         tagList.value.data[i].channel === "3" &&
+        5 < yCalc.getDataValue(translatedPoint.y) &&
+        yCalc.getDataValue(translatedPoint.y) < 7 &&
         Number(tagList.value.data[i].x1) <
           xCalc.getDataValue(translatedPoint.x) &&
         xCalc.getDataValue(translatedPoint.x) < Number(tagList.value.data[i].x2)
       ) {
+        console.log(tagList.value.data[i].channel);
         console.log(tagList.value.data[i].x1);
         console.log(tagList.value.data[i].x2);
+        selectTagData.data.length = 0;
+        selectTagData.data.push(tagList.value.data[i]);
       } else if (
         tagList.value.data[i].channel === "4" &&
+        7 < yCalc.getDataValue(translatedPoint.y) &&
+        yCalc.getDataValue(translatedPoint.y) < 9 &&
         Number(tagList.value.data[i].x1) <
           xCalc.getDataValue(translatedPoint.x) &&
         xCalc.getDataValue(translatedPoint.x) < Number(tagList.value.data[i].x2)
       ) {
+        console.log(tagList.value.data[i].channel);
         console.log(tagList.value.data[i].x1);
         console.log(tagList.value.data[i].x2);
+        selectTagData.data.length = 0;
+        selectTagData.data.push(tagList.value.data[i]);
       } else if (
         tagList.value.data[i].channel === "5" &&
+        9 < yCalc.getDataValue(translatedPoint.y) &&
+        yCalc.getDataValue(translatedPoint.y) < 11 &&
         Number(tagList.value.data[i].x1) <
           xCalc.getDataValue(translatedPoint.x) &&
         xCalc.getDataValue(translatedPoint.x) < Number(tagList.value.data[i].x2)
       ) {
+        console.log(tagList.value.data[i].channel);
         console.log(tagList.value.data[i].x1);
         console.log(tagList.value.data[i].x2);
-      } else {
-        return;
+        selectTagData.data.length = 0;
+        selectTagData.data.push(tagList.value.data[i]);
       }
     }
+    console.log(selectTagData.data);
   }
   private getDefaultCoordCalculators() {
     const xAxis = this.parentSurface.xAxes.get(0);
@@ -774,22 +665,6 @@ export const initSciChart = async () => {
   SciChartSurface.setRuntimeLicenseKey(
     "v/0WAay88q5K5d+TsxglfrXiVkYIvp214hdjRXm5ISMTAaue7nTmdIbTIgH+AzBpZIuE20RKtPWFXOrKmbhLyy7y6ozcbKUqTlcTWpUalDb72gnqx6YxAAwGhe16TAoG/GKdNsFDdHax+ke/AvlVRyUuMaqQFs50nwgMJp51klnoJsuEEdbw6A3P8iR9JyPpSxgQ/ODg9790GRnhSecEA5smLRQBA3qBE9kDRwDZHQxO+DR4NFjiaoZTR88ZLb8dcVkU+YZNCg4VLyohjCjcCMfOnAUGGywkF+444aWZE5djzhps+xoJYyfbfrkD1ZMS51bApQEkEydOG+h0BN1PUSf1fLBhv5ltN7/+jLMKVshVErAgsXRscIkLYb3J5K2ZxjIvk0HeHnn2rtYfxX+j94Ta06h7ClwNcT3LFZnBLKe9yH8RUv6iOEQPQAXT50UlRLRCRYMViccc061CqZCmHVw5WD7HLzTfipk5VLxyqlmjf7v8mjpf2oBCNd05quIqSpLXUBzJZShBk9+Z2VGKOzeSVel7ZbRY0ReBm2BMaZ9Vx+hchrKWX+YCcbynD10mMx4FB2SL+fXxgzUp+7W67K/6YgCxlw0wHs/b5r9+gpqgMa6Zg7GF3nqp2yhpyXvPHhVIdNcmYfRGiPju5YuKY/Dsu0I3+QnCp5CDHgNqdsIEBTIbFd+734qGh6uaEcwKZcSnAWFmmWnW7WoqoX4twdahNOYR3+rDhu3KZvppeIx7cjKsCFz0EVnyVIEm4CD5inCbTWbYaQ=="
   );
-
-  // LICENSING //
-  // Set your license code here
-  // You can get a trial license key from https://www.scichart.com/licensing-scichart-js/
-  // Purchased license keys can be viewed at https://www.scichart.com/profile
-  //
-  // e.g.
-  //
-  // SciChartSurface.setRuntimeLicenseKey("YOUR_RUNTIME_KEY");
-  //
-  // Also, once activated (trial or paid license) having the licensing wizard open on your machine
-  // will mean any or all applications you run locally will be fully licensed.
-
-  // Create the SciChartSurface in the div 'scichart-root'
-  // The SciChartSurface, and webassembly context 'wasmContext' are paired. This wasmContext
-  // instance must be passed to other types that exist on the same surface.
 
   const { sciChartSurface, wasmContext } = await SciChartSurface.create(
     "scichart-root"
@@ -1201,11 +1076,15 @@ export const saveData = val => {
   console.log(diagnoses.data);
   let x1: string;
   let x2: string;
+  let y1: string;
+  let y2: string;
   let theChannel: string;
   for (let i = 0; i < selectedPoints.length; i++) {
     if (selectedPoints[i].length !== 0) {
       x1 = selectedPoints[i][0].x1Value.toFixed(0);
       x2 = selectedPoints[i][0].x2Value.toFixed(0);
+      y1 = selectedPoints[i][0].y1Value.toFixed(0);
+      y2 = selectedPoints[i][0].y2Value.toFixed(0);
       theChannel = i.toString();
     }
   }
@@ -1221,6 +1100,8 @@ export const saveData = val => {
       diagnosis_id: diagnoses.data[0].diagnosis_id,
       x1: x1,
       x2: x2,
+      y1: y1,
+      y2: y2,
       channel: theChannel,
       note: `["${val}"]`
     }
@@ -1601,16 +1482,3 @@ export const getAnomalyModels = (): Promise<any> => {
       });
   });
 };
-// axios
-//   .get("https://dev.intelliances.com/broker/medical/v1/models/name")
-//   .then(res => {
-//     console.log("modelNAme", res);
-//     models.push({ value: 0, label: res.data.default });
-//     res.data.challengers.forEach((item, index ) => {
-//       models.push({ value: index + 1, label: item });
-//     });
-//     console.log(models);
-//   })
-//   .catch(err => {
-//     console.log(err);
-//   });

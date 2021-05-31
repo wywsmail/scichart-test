@@ -98,9 +98,9 @@
               </thead>
               <tbody>
                 <tr>
-                  <th>LEAD 1</th>
-                  <td>500-1000</td>
-                  <td>ST-D</td>
+                  <th>{{ tagDataShow.data[0].channel }}</th>
+                  <td>{{ tagDataShow.data[0].x1 }} ~ {{ tagDataShow.data[0].x2 }}</td>
+                  <td>{{ tagDataShow.data[0].note }}</td>
                 </tr>
               </tbody>
             </table>
@@ -395,7 +395,9 @@ import {
   tagList,
   cancelSelectionData,
   deleteData,
-  modifyData
+  modifyData,
+  selectTagData,
+  tagDataShow
 } from "@/composition/store";
 
 export default {
@@ -449,7 +451,9 @@ export default {
       tagList,
       cancelSelectionData,
       deleteData,
-      modifyData
+      modifyData,
+      selectTagData,
+      tagDataShow
     };
   }
 };
