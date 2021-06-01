@@ -111,9 +111,9 @@ export const selectTagData = reactive({
     }
   ]
 });
-export const tagDataShow = computed(()=>{
+export const tagDataShow = computed(() => {
   return selectTagData;
-})
+});
 export const isEnabled = ref(false);
 export const isChecked = computed(() => isEnabled.value);
 
@@ -1149,7 +1149,7 @@ export const showTagList = (): Promise<any> => {
 
 export const deleteData = val => {
   const config: any = {
-    url: apiUrl.url + "notes/delete/" + val,
+    url: apiUrl.url + "notes/delete/" + val.data[0].id,
     headers: {
       Authorization: "Bearer " + token,
       "Content-Type": "application/json"
@@ -1164,6 +1164,15 @@ export const deleteData = val => {
     .catch(err => {
       console.log(err);
     });
+  selectTagData.data.length = 0;
+  selectTagData.data.push({
+    channel: "",
+    created_at: "",
+    diagnosis_id: "",
+    note: "",
+    x1: "",
+    x2: ""
+  });
   initSciChart();
 };
 
@@ -1178,21 +1187,38 @@ export const modifyData = (tagData, val) => {
     },
     method: "put",
     data: {
-      id: tagData.id,
+      id: tagData.data[0].id,
       diagnosis_id: diagnoses.data[0].diagnosis_id,
-      x1: tagData.x1,
-      x2: tagData.x2,
-      channel: tagData.channel,
+      x1: tagData.data[0].x1,
+      x2: tagData.data[0].x2,
+      channel: tagData.data[0].channel,
       note: `["${val}"]`
     }
   };
+  console.log(config);
   axios(config)
     .then(res => {
       console.log(res);
+      console.log(config);
+      selectTagData.data.length = 0;
+      // selectTagData.data.push({
+      //   channel: "",
+      //   created_at: "",
+      //   diagnosis_id: "",
+      //   note: "",
+      //   x1: "",
+      //   x2: ""
+      // });
+      selectTagData.data.push(config.data)
     })
     .catch(err => {
       console.log(err);
     });
+  // console.log(tagData.data[0].channel);
+  // console.log(tagData.data[0].x1);
+  // console.log(tagData.data[0].x2);
+  // console.log(`["${val}"]`);
+  initSciChart();
 };
 // editNote({ commit, rootState }, data) {
 //   const note = {
