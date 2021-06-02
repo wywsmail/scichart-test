@@ -1185,7 +1185,7 @@ export const saveData = val => {
         x1: config.data.x1,
         x2: config.data.x2,
         diagnosis_id: config.data.diagmosis_id
-      })
+      });
       // tagListData.length = 0;
       // tagListData.data.push({});
     })
@@ -1289,6 +1289,7 @@ export const modifyData = (tagData, val) => {
       //   x2: ""
       // });
       selectTagData.data.push(config.data);
+      tagListData.data[selectTagData.index] = config.data;
     })
     .catch(err => {
       console.log(err);
