@@ -100,6 +100,7 @@ export const tagList = computed(() => {
   return tagListData;
 });
 export const selectTagData = reactive({
+  index: 0,
   data: [
     {
       channel: "",
@@ -191,11 +192,9 @@ export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
   //   });
   //   console.log(this.selectionAnnotation);
   // }
-
   // Called when mouse-down on the chart
   public modifierMouseDown(args: ModifierMouseArgs): void {
     super.modifierMouseDown(args);
-
     this.selectionAnnotation = new BoxAnnotation({
       // Pixel COORDINATE MODE EXAMPLE
       // yCoordinateMode: ECoordinateMode.Pixel,
@@ -291,7 +290,7 @@ export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
       // this.selectionAnnotation.y2 = yCalc.getDataValue(translatedPoint.y);
       this.isSelecting = true;
 
-      // this.parentSurface.annotations.remove(this.selectionAnnotation);
+      this.parentSurface.annotations.remove(this.selectionAnnotation);
       this.parentSurface.annotations.add(this.selectionAnnotation);
     }
   }
@@ -328,6 +327,8 @@ export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
     this.performSelection();
     this.startPoint = undefined;
     this.endPoint = undefined;
+    this.cancelSelectionData();
+    // this.saveData();
   }
 
   private performSelection() {
@@ -498,6 +499,67 @@ export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
 
     return { xCalc, yCalc };
   }
+
+  private cancelSelectionData() {
+    const cancelSelectButton_1 = document.getElementById(
+      "cancelSelectButton-1"
+    );
+    const cancelSelectButton_2 = document.getElementById(
+      "cancelSelectButton-2"
+    );
+    cancelSelectButton_1.addEventListener("click", () => {
+      this.parentSurface.annotations.remove(this.selectionAnnotation);
+    });
+    cancelSelectButton_2.addEventListener("click", () => {
+      this.parentSurface.annotations.remove(this.selectionAnnotation);
+    });
+  }
+  // private saveData() {
+  //   const saveSelectButton = document.getElementById("saveSelectButton");
+  //   // const selectNote = document.getElementById()
+  //   saveSelectButton.addEventListener("click", () =>{
+  //     let x1: string;
+  //     let x2: string;
+  //     let y1: string;
+  //     let y2: string;
+  //     let theChannel: string;
+  //     for (let i = 0; i < selectedPoints.length; i++) {
+  //       if (selectedPoints[i].length !== 0) {
+  //         x1 = selectedPoints[i][0].x1Value.toFixed(0);
+  //         x2 = selectedPoints[i][0].x2Value.toFixed(0);
+  //         y1 = selectedPoints[i][0].y1Value.toFixed(0);
+  //         y2 = selectedPoints[i][0].y2Value.toFixed(0);
+  //         theChannel = i.toString();
+  //       }
+  //     }
+  //     const config: any = {
+  //       url: apiUrl.url + "notes/create",
+  //       headers: {
+  //         Authorization: "Bearer " + token,
+  //         "Content-Type": "application/json"
+  //       },
+  //       method: "post",
+  //       data: {
+  //         id: "",
+  //         diagnosis_id: diagnoses.data[0].diagnosis_id,
+  //         x1: x1,
+  //         x2: x2,
+  //         y1: y1,
+  //         y2: y2,
+  //         channel: theChannel,
+  //         note: `["${noteMode.value}"]`
+  //       }
+  //     };
+  //     console.log(config);
+  //     axios(config)
+  //       .then(res => {
+  //         console.log(res);
+  //       })
+  //       .catch(err => {
+  //         console.log(err);
+  //       });
+  //   })
+  // }
 }
 
 export class MouseClickShowdataModifier extends ChartModifierBase2D {
@@ -557,7 +619,9 @@ export class MouseClickShowdataModifier extends ChartModifierBase2D {
         console.log(tagList.value.data[i].channel);
         console.log(tagList.value.data[i].x1);
         console.log(tagList.value.data[i].x2);
+        selectTagData.index = 0;
         selectTagData.data.length = 0;
+        selectTagData.index = i;
         selectTagData.data.push(tagList.value.data[i]);
       } else if (
         tagList.value.data[i].channel === "1" &&
@@ -570,7 +634,9 @@ export class MouseClickShowdataModifier extends ChartModifierBase2D {
         console.log(tagList.value.data[i].channel);
         console.log(tagList.value.data[i].x1);
         console.log(tagList.value.data[i].x2);
+        selectTagData.index = 0;
         selectTagData.data.length = 0;
+        selectTagData.index = i;
         selectTagData.data.push(tagList.value.data[i]);
       } else if (
         tagList.value.data[i].channel === "2" &&
@@ -583,7 +649,9 @@ export class MouseClickShowdataModifier extends ChartModifierBase2D {
         console.log(tagList.value.data[i].channel);
         console.log(tagList.value.data[i].x1);
         console.log(tagList.value.data[i].x2);
+        selectTagData.index = 0;
         selectTagData.data.length = 0;
+        selectTagData.index = i;
         selectTagData.data.push(tagList.value.data[i]);
       } else if (
         tagList.value.data[i].channel === "3" &&
@@ -596,7 +664,9 @@ export class MouseClickShowdataModifier extends ChartModifierBase2D {
         console.log(tagList.value.data[i].channel);
         console.log(tagList.value.data[i].x1);
         console.log(tagList.value.data[i].x2);
+        selectTagData.index = 0;
         selectTagData.data.length = 0;
+        selectTagData.index = i;
         selectTagData.data.push(tagList.value.data[i]);
       } else if (
         tagList.value.data[i].channel === "4" &&
@@ -609,7 +679,9 @@ export class MouseClickShowdataModifier extends ChartModifierBase2D {
         console.log(tagList.value.data[i].channel);
         console.log(tagList.value.data[i].x1);
         console.log(tagList.value.data[i].x2);
+        selectTagData.index = 0;
         selectTagData.data.length = 0;
+        selectTagData.index = i;
         selectTagData.data.push(tagList.value.data[i]);
       } else if (
         tagList.value.data[i].channel === "5" &&
@@ -622,11 +694,13 @@ export class MouseClickShowdataModifier extends ChartModifierBase2D {
         console.log(tagList.value.data[i].channel);
         console.log(tagList.value.data[i].x1);
         console.log(tagList.value.data[i].x2);
+        selectTagData.index = 0;
         selectTagData.data.length = 0;
+        selectTagData.index = i;
         selectTagData.data.push(tagList.value.data[i]);
       }
     }
-    console.log(selectTagData.data);
+    console.log(selectTagData);
   }
   private getDefaultCoordCalculators() {
     const xAxis = this.parentSurface.xAxes.get(0);
@@ -974,14 +1048,18 @@ export const initSciChart = async () => {
     .then(res => {
       console.log(res);
       tagListData.data = res.data.data;
+      console.log(tagListData);
+      console.log(tagList.value.data);
       for (let i = 0; i < res.data.data.length; i++) {
         if (res.data.data[i].channel === "0") {
           sciChartSurface.annotations.add(
             new BoxAnnotation({
               fill: "#FFE66F33",
               strokeThickness: 0,
-              x1: parseInt(res.data.data[i].x1),
-              x2: parseInt(res.data.data[i].x2),
+              // x1: parseInt(res.data.data[i].x1),
+              // x2: parseInt(res.data.data[i].x2),
+              x1: parseInt(tagList.value.data[i].x1),
+              x2: parseInt(tagList.value.data[i].x2),
               y1: -1,
               y2: 1
             })
@@ -991,8 +1069,10 @@ export const initSciChart = async () => {
             new BoxAnnotation({
               fill: "#FFE66F33",
               strokeThickness: 0,
-              x1: parseInt(res.data.data[i].x1),
-              x2: parseInt(res.data.data[i].x2),
+              // x1: parseInt(res.data.data[i].x1),
+              // x2: parseInt(res.data.data[i].x2),
+              x1: parseInt(tagList.value.data[i].x1),
+              x2: parseInt(tagList.value.data[i].x2),
               y1: 1,
               y2: 3
             })
@@ -1002,8 +1082,10 @@ export const initSciChart = async () => {
             new BoxAnnotation({
               fill: "#FFE66F33",
               strokeThickness: 0,
-              x1: parseInt(res.data.data[i].x1),
-              x2: parseInt(res.data.data[i].x2),
+              // x1: parseInt(res.data.data[i].x1),
+              // x2: parseInt(res.data.data[i].x2),
+              x1: parseInt(tagList.value.data[i].x1),
+              x2: parseInt(tagList.value.data[i].x2),
               y1: 3,
               y2: 5
             })
@@ -1013,8 +1095,10 @@ export const initSciChart = async () => {
             new BoxAnnotation({
               fill: "#FFE66F33",
               strokeThickness: 0,
-              x1: parseInt(res.data.data[i].x1),
-              x2: parseInt(res.data.data[i].x2),
+              // x1: parseInt(res.data.data[i].x1),
+              // x2: parseInt(res.data.data[i].x2),
+              x1: parseInt(tagList.value.data[i].x1),
+              x2: parseInt(tagList.value.data[i].x2),
               y1: 5,
               y2: 7
             })
@@ -1024,8 +1108,10 @@ export const initSciChart = async () => {
             new BoxAnnotation({
               fill: "#FFE66F33",
               strokeThickness: 0,
-              x1: parseInt(res.data.data[i].x1),
-              x2: parseInt(res.data.data[i].x2),
+              // x1: parseInt(res.data.data[i].x1),
+              // x2: parseInt(res.data.data[i].x2),
+              x1: parseInt(tagList.value.data[i].x1),
+              x2: parseInt(tagList.value.data[i].x2),
               y1: 7,
               y2: 9
             })
@@ -1035,8 +1121,10 @@ export const initSciChart = async () => {
             new BoxAnnotation({
               fill: "#FFE66F33",
               strokeThickness: 0,
-              x1: parseInt(res.data.data[i].x1),
-              x2: parseInt(res.data.data[i].x2),
+              // x1: parseInt(res.data.data[i].x1),
+              // x2: parseInt(res.data.data[i].x2),
+              x1: parseInt(tagList.value.data[i].x1),
+              x2: parseInt(tagList.value.data[i].x2),
               y1: 9,
               y2: 11
             })
@@ -1047,28 +1135,6 @@ export const initSciChart = async () => {
     .catch(err => {
       console.log(err);
     });
-};
-
-export const cancelSelectionData = () => {
-  const tagModeEnable: HTMLInputElement = <HTMLInputElement>(
-    document.getElementById("tag-mode")
-  );
-  // tagModeEnable.addEventListener("change", () => {
-  //   if (tagModeEnable.checked === true) {
-  //     new SimpleDataPointSelectionModifier({isEnabled : true})
-  //     ZoomPanModifier.isEnabled = false;
-  //     scichartRoot.setAttribute("data-bs-toggle", "modal");
-  //     scichartRoot.setAttribute("data-bs-target", "#exampleModal");
-  //   } else {
-  //     SimpleDataPointSelectionModifier.isEnabled = false;
-  //     ZoomPanModifier.isEnabled = true;
-  //     scichartRoot.removeAttribute("data-bs-toggle");
-  //     scichartRoot.removeAttribute("data-bs-target");
-  //   }
-  // });
-  tagModeEnable.checked = false;
-  console.log("Hello");
-  initSciChart();
 };
 
 export const saveData = val => {
@@ -1109,27 +1175,36 @@ export const saveData = val => {
   console.log(config);
   axios(config)
     .then(res => {
-      console.log(res);
+      console.log(tagListData.data);
+      console.log(res.data.data.datas[0].note_id);
+      tagListData.data.push({
+        id: res.data.data.datas[0].note_id,
+        channel: config.data.channel,
+        created_at: "",
+        note: config.data.note,
+        x1: config.data.x1,
+        x2: config.data.x2,
+        diagnosis_id: config.data.diagmosis_id
+      })
+      // tagListData.length = 0;
+      // tagListData.data.push({});
     })
     .catch(err => {
       console.log(err);
     });
-  axios
-    .get(apiUrl.url + "notes/" + diagnoses.data[0].diagnosis_id, {
-      headers: { Authorization: "Bearer " + token }
-    })
-    .then(res => {
-      console.log(res);
-      tagListData.data = res.data.data;
-    })
-    .catch(err => {
-      console.log(err);
-    });
+  // initSciChart();
+  // axios
+  //   .get(apiUrl.url + "notes/" + diagnoses.data[0].diagnosis_id, {
+  //     headers: { Authorization: "Bearer " + token }
+  //   })
+  //   .then(res => {
+  //     console.log(res);
+  //     tagListData.data = res.data.data;
+  //   })
+  //   .catch(err => {
+  //     console.log(err);
+  //   });
 };
-
-// export const deleteData = val =>{
-//   axios.delete(apiUrl.url +"notes/" + "ta")
-// }
 
 export const showTagList = (): Promise<any> => {
   return new Promise((resolve, reject) => {
@@ -1148,6 +1223,9 @@ export const showTagList = (): Promise<any> => {
 };
 
 export const deleteData = val => {
+  console.log(tagListData);
+  console.log(val.data[0].id);
+  // console.log(tagListData.data.indexOf(val.data[0].id));
   const config: any = {
     url: apiUrl.url + "notes/delete/" + val.data[0].id,
     headers: {
@@ -1164,6 +1242,7 @@ export const deleteData = val => {
     .catch(err => {
       console.log(err);
     });
+  tagListData.data.splice(selectTagData.index);
   selectTagData.data.length = 0;
   selectTagData.data.push({
     channel: "",
@@ -1209,7 +1288,7 @@ export const modifyData = (tagData, val) => {
       //   x1: "",
       //   x2: ""
       // });
-      selectTagData.data.push(config.data)
+      selectTagData.data.push(config.data);
     })
     .catch(err => {
       console.log(err);
@@ -1218,7 +1297,7 @@ export const modifyData = (tagData, val) => {
   // console.log(tagData.data[0].x1);
   // console.log(tagData.data[0].x2);
   // console.log(`["${val}"]`);
-  initSciChart();
+  // initSciChart();
 };
 // editNote({ commit, rootState }, data) {
 //   const note = {

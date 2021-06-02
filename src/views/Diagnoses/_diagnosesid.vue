@@ -55,7 +55,7 @@
                 </button>
               </div>
               <div class="btn-group me-2" role="group" aria-label="Second group">
-                <button type="button" class="btn btn-danger" @click="deleteData(item.id)">
+                <button type="button" class="btn btn-danger" @click="deleteData(index)">
                   刪除
                 </button>
               </div>
@@ -134,13 +134,13 @@
     tabindex="-1"
     aria-labelledby="exampleModalLabel"
     aria-hidden="true"
-    @click="cancelSelectionData()"
   >
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">請選擇 Tag Note 類型</h5>
           <button
+            id="cancelSelectButton-1"
             type="button"
             class="btn-close"
             data-bs-dismiss="modal"
@@ -270,15 +270,16 @@
             type="submit"
             class="btn btn-secondary"
             data-bs-dismiss="modal"
-            @click="cancelSelectionData()"
+            id="cancelSelectButton-2"
           >
             Cancel
           </button>
           <button
+            id="saveSelectButton"
             type="submit"
             class="btn btn-primary"
             data-bs-dismiss="modal"
-            @click="saveData(tagMode)"
+            @click="saveData(noteMode)"
           >
             Save
           </button>
@@ -397,12 +398,11 @@ import {
   selectedPoints,
   SimpleDataPointSelectionModifier,
   noteMode,
-  saveData,
   tagMode,
   showTagList,
   tagListData,
   tagList,
-  cancelSelectionData,
+  saveData,
   deleteData,
   modifyData,
   selectTagData,
@@ -470,12 +470,11 @@ export default {
       selectedPoints,
       SimpleDataPointSelectionModifier,
       noteMode,
-      saveData,
       tagMode,
       showTagList,
       tagListData,
       tagList,
-      cancelSelectionData,
+      saveData,
       deleteData,
       modifyData,
       selectTagData,
