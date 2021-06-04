@@ -90,12 +90,6 @@ export const tagMode = computed(() => {
 export const tagListData: any = reactive({
   data: []
 });
-// export const tagListData: Iapidata<Array<string>> = reactive({
-//   data: []
-// });
-// export const tagListData = reactive({
-//   data: []
-// });
 export const tagList = computed(() => {
   return tagListData;
 });
@@ -114,112 +108,10 @@ export const selectTagData: any = reactive({
 });
 console.log(selectTagData.data);
 export const tagDataShow = computed(() => {
-  // if (selectTagData.data[0].channel === "0") {
-  //   return [
-  //     {
-  //       index: selectTagData.data[0].index,
-  //       channel: "aVF",
-  //       created_at: selectTagData.data[0].created_at,
-  //       diagnosis_id: selectTagData.data[0].diagnosis_id,
-  //       note: selectTagData.data[0].note,
-  //       x1: (Number(selectTagData.data[0].x1) / 250).toFixed(2) + "s",
-  //       x2: (Number(selectTagData.data[0].x2) / 250).toFixed(2) + "s"
-  //     }
-  //   ];
-  // } else if (selectTagData.data[0].channel === "1") {
-  //   return [
-  //     {
-  //       index: selectTagData.data[0].index,
-  //       channel: "aVL",
-  //       created_at: selectTagData.data[0].created_at,
-  //       diagnosis_id: selectTagData.data[0].diagnosis_id,
-  //       note: selectTagData.data[0].note,
-  //       x1: (Number(selectTagData.data[0].x1) / 250).toFixed(2) + "s",
-  //       x2: (Number(selectTagData.data[0].x2) / 250).toFixed(2) + "s"
-  //     }
-  //   ];
-  // } else if (selectTagData.data[0].channel === "2") {
-  //   return [
-  //     {
-  //       index: selectTagData.data[0].index,
-  //       channel: "aVR",
-  //       created_at: selectTagData.data[0].created_at,
-  //       diagnosis_id: selectTagData.data[0].diagnosis_id,
-  //       note: selectTagData.data[0].note,
-  //       x1: (Number(selectTagData.data[0].x1) / 250).toFixed(2) + "s",
-  //       x2: (Number(selectTagData.data[0].x2) / 250).toFixed(2) + "s"
-  //     }
-  //   ];
-  // } else if (selectTagData.data[0].channel === "3") {
-  //   return [
-  //     {
-  //       index: selectTagData.data[0].index,
-  //       channel: "LEAD 3",
-  //       created_at: selectTagData.data[0].created_at,
-  //       diagnosis_id: selectTagData.data[0].diagnosis_id,
-  //       note: selectTagData.data[0].note,
-  //       x1: (Number(selectTagData.data[0].x1) / 250).toFixed(2) + "s",
-  //       x2: (Number(selectTagData.data[0].x2) / 250).toFixed(2) + "s"
-  //     }
-  //   ];
-  // } else if (selectTagData.data[0].channel === "4") {
-  // return [
-  //   {
-  //     index: selectTagData.data[0].index,
-  //     channel: "LEAD 2",
-  //     created_at: selectTagData.data[0].created_at,
-  //     diagnosis_id: selectTagData.data[0].diagnosis_id,
-  //     note: selectTagData.data[0].note,
-  //     x1: (Number(selectTagData.data[0].x1) / 250).toFixed(2) + "s",
-  //     x2: (Number(selectTagData.data[0].x2) / 250).toFixed(2) + "s"
-  //   }
-  // ];
-  // } else if (selectTagData.data[0].channel === "5") {
-  //   return [
-  //     {
-  //       index: selectTagData.data[0].index,
-  //       channel: "LEAD 1",
-  //       created_at: selectTagData.data[0].created_at,
-  //       diagnosis_id: selectTagData.data[0].diagnosis_id,
-  //       note: selectTagData.data[0].note,
-  //       x1: (Number(selectTagData.data[0].x1) / 250).toFixed(2) + "s",
-  //       x2: (Number(selectTagData.data[0].x2) / 250).toFixed(2) + "s"
-  //     }
-  //   ];
-  // }
-  // return [
-  //   {
-  //     index: selectTagData.data[0].index,
-  //     channel: selectTagData.data[0].channel,
-  //     created_at: selectTagData.data[0].created_at,
-  //     diagnosis_id: selectTagData.data[0].diagnosis_id,
-  //     note: selectTagData.data[0].note,
-  //     x1: (Number(selectTagData.data[0].x1) / 250).toFixed(2) + "s",
-  //     x2: (Number(selectTagData.data[0].x2) / 250).toFixed(2) + "s"
-  //   }
-  // ];
   return selectTagData.data;
 });
 export const isEnabled = ref(false);
 export const isChecked = computed(() => isEnabled.value);
-// export const tagDataShowTest = computed(() =>{
-//   return {
-//     index: selectTagData.data[0].index,
-//     channel: selectTagData.data[0].channel,
-//     created_at: selectTagData.data[0].created_at,
-//     diagnosis_id: selectTagData.data[0].diagnosis_id,
-//     note: selectTagData.data[0].note,
-//     x1: Number(selectTagData.data[0].x1).toFixed(2) + "s",
-//     x2: Number(selectTagData.data[0].x2).toFixed(2) + "s"
-//   };
-// });
-
-// export const isChecked = computed({
-//   get: () => isEnabled.value,
-//   set: val => {
-//     isEnabled.value = !isEnabled.value;
-//   }
-// });
 
 // about scichart
 
@@ -266,36 +158,10 @@ export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
   y6 = 9;
   y7 = 11;
 
-  // constructor() {
-  //   super();
-
-  //   // Create an annotation with YCoordinateMode Relative, and Y1, Y2 = 0,1
-  //   // This stretches the annotation to fit the viewport in the Y-direction
-  //   // Below in modifierMouseMove we will be updating the annotation X-values as the mouse is moved.
-  //   this.selectionAnnotation = new BoxAnnotation({
-  //     // Pixel COORDINATE MODE EXAMPLE
-  //     // yCoordinateMode: ECoordinateMode.Pixel,
-  //     // xCoordinateMode: ECoordinateMode.Pixel,
-
-  //     // DataValue COORDINATE MODE EXAMPLE
-  //     yCoordinateMode: ECoordinateMode.Relative,
-  //     xCoordinateMode: ECoordinateMode.DataValue,
-  //     y1: 0,
-  //     y2: 0.1,
-  //     // fill: "#ffffff33",
-  //     fill: "#FFE66F33",
-  //     strokeThickness: 0
-  //   });
-  //   console.log(this.selectionAnnotation);
-  // }
   // Called when mouse-down on the chart
   public modifierMouseDown(args: ModifierMouseArgs): void {
     super.modifierMouseDown(args);
     this.selectionAnnotation = new BoxAnnotation({
-      // Pixel COORDINATE MODE EXAMPLE
-      // yCoordinateMode: ECoordinateMode.Pixel,
-      // xCoordinateMode: ECoordinateMode.Pixel,
-
       // DataValue COORDINATE MODE EXAMPLE
       yCoordinateMode: ECoordinateMode.Relative,
       xCoordinateMode: ECoordinateMode.DataValue,
@@ -305,7 +171,6 @@ export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
       fill: "#FFE66F33",
       strokeThickness: 0
     });
-    console.log(this.selectionAnnotation);
 
     // Point coordinates relative to series view rectangle.
     const hitTestInfo = this.parentSurface.renderableSeries
@@ -316,49 +181,26 @@ export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
         1,
         false
       );
-    // console.log(hitTestInfo);
     const yClickDataValue = hitTestInfo.hitTestPointValues.y;
-    // console.log(yClickDataValue);
-    // console.log(this.y1);
-    // console.log(this.y2);
     if (this.y1 < yClickDataValue && this.y2 > yClickDataValue) {
-      // this.selectionAnnotation.y1 = this.y1;
-      // this.selectionAnnotation.y2 = this.y2;
       this.selectionAnnotation.y1 = (1 / 6) * 5;
       this.selectionAnnotation.y2 = (1 / 6) * 6;
-      // console.log("y1=>",this.selectionAnnotation.y1,"y2=>",this.selectionAnnotation.y2);
     } else if (this.y2 < yClickDataValue && this.y3 > yClickDataValue) {
-      // this.selectionAnnotation.y1 = this.y2;
-      // this.selectionAnnotation.y2 = this.y3;
       this.selectionAnnotation.y1 = (1 / 6) * 4;
       this.selectionAnnotation.y2 = (1 / 6) * 5;
-      // console.log("y1=>",this.selectionAnnotation.y1,"y2=>",this.selectionAnnotation.y2);
     } else if (this.y3 < yClickDataValue && this.y4 > yClickDataValue) {
-      // this.selectionAnnotation.y1 = this.y3;
-      // this.selectionAnnotation.y2 = this.y4;
       this.selectionAnnotation.y1 = (1 / 6) * 3;
       this.selectionAnnotation.y2 = (1 / 6) * 4;
-      // console.log("y1=>",this.selectionAnnotation.y1,"y2=>",this.selectionAnnotation.y2);
     } else if (this.y4 < yClickDataValue && this.y5 > yClickDataValue) {
-      // this.selectionAnnotation.y1 = this.y4;
-      // this.selectionAnnotation.y2 = this.y5;
       this.selectionAnnotation.y1 = (1 / 6) * 2;
       this.selectionAnnotation.y2 = (1 / 6) * 3;
-      // console.log("y1=>",this.selectionAnnotation.y1,"y2=>",this.selectionAnnotation.y2);
     } else if (this.y5 < yClickDataValue && this.y6 > yClickDataValue) {
-      // this.selectionAnnotation.y1 = this.y5;
-      // this.selectionAnnotation.y2 = this.y6;
       this.selectionAnnotation.y1 = (1 / 6) * 1;
       this.selectionAnnotation.y2 = (1 / 6) * 2;
-      // console.log("y1=>",this.selectionAnnotation.y1,"y2=>",this.selectionAnnotation.y2);
     } else if (this.y6 < yClickDataValue && this.y7 > yClickDataValue) {
       this.selectionAnnotation.y1 = (1 / 6) * 0;
       this.selectionAnnotation.y2 = (1 / 6) * 1;
-      // console.log("y1=>",this.selectionAnnotation.y1,"y2=>",this.selectionAnnotation.y2);
     }
-    // this.isSelecting = true;
-    // this.parentSurface.annotations.remove(this.selectionAnnotation);
-    // this.parentSurface.annotations.add(this.selectionAnnotation);
 
     const translatedPoint = translateFromCanvasToSeriesViewRect(
       args.mousePoint,
@@ -368,11 +210,6 @@ export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
     if (translatedPoint) {
       this.startPoint = translatedPoint;
       this.endPoint = translatedPoint;
-      // // Pixel COORDINATE MODE EXAMPLE
-      // this.selectionAnnotation.x1 = translatedPoint.x;
-      // this.selectionAnnotation.x2 = translatedPoint.x;
-      // this.selectionAnnotation.y1 = translatedPoint.y;
-      // this.selectionAnnotation.y2 = translatedPoint.y;
 
       // DataValue COORDINATE MODE EXAMPLE
       const { xCalc, yCalc } = this.getDefaultCoordCalculators();
@@ -382,8 +219,6 @@ export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
 
       this.selectionAnnotation.x1 = xCalc.getDataValue(translatedPoint.x);
       this.selectionAnnotation.x2 = xCalc.getDataValue(translatedPoint.x);
-      // this.selectionAnnotation.y1 = yCalc.getDataValue(translatedPoint.y);
-      // this.selectionAnnotation.y2 = yCalc.getDataValue(translatedPoint.y);
       this.isSelecting = true;
 
       this.parentSurface.annotations.remove(this.selectionAnnotation);
@@ -401,9 +236,6 @@ export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
 
     if (translatedPoint && this.isSelecting) {
       this.endPoint = args.mousePoint;
-      // // Pixel COORDINATE MODE EXAMPLE
-      // this.selectionAnnotation.x2 = translatedPoint.x;
-      // this.selectionAnnotation.y2 = translatedPoint.y;
 
       // DataValue COORDINATE MODE EXAMPLE
       const { xCalc, yCalc } = this.getDefaultCoordCalculators();
@@ -411,20 +243,17 @@ export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
         return;
       }
       this.selectionAnnotation.x2 = xCalc.getDataValue(translatedPoint.x);
-      // this.selectionAnnotation.y2 = yCalc.getDataValue(translatedPoint.y);
     }
   }
 
   // Called when mouse-up on the chart
   public modifierMouseUp(args: ModifierMouseArgs) {
     super.modifierMouseUp(args);
-    // console.log(args);
     this.isSelecting = false;
     this.performSelection();
     this.startPoint = undefined;
     this.endPoint = undefined;
     this.cancelSelectionData();
-    // this.saveData();
   }
 
   private performSelection() {
@@ -432,24 +261,18 @@ export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
     if (!(this.startPoint && this.endPoint)) {
       return;
     }
-    // console.log(this.parentSurface.renderableSeries);
-
     this.parentSurface.renderableSeries
       .asArray()
       .filter(rs => rs.isVisible)
 
       .forEach((rs, index) => {
-        // console.log(rs);
         selectedPoints[index] = [];
         const dataSeries = rs.dataSeries;
         if (!dataSeries) {
           return;
         }
-        // console.log(rs);
         const xCalc = rs.xAxis.getCurrentCoordinateCalculator();
         const yCalc = rs.yAxis.getCurrentCoordinateCalculator();
-        // console.log(xCalc);
-        // console.log(yCalc);
 
         // Find the bounds of the data inside the rectangle
 
@@ -465,111 +288,52 @@ export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
           leftXData = xCalc.getDataValue(this.endPoint.x);
           rightXData = xCalc.getDataValue(this.startPoint.x);
         }
-        // console.log(leftXData, rightXData);
         let bottomYData, topYData;
 
-        // if (
-        //   yCalc.getDataValue(this.startPoint.y) <=
-        //   yCalc.getDataValue(this.endPoint.y)
-        // ) {
-        //   bottomYData = yCalc.getDataValue(this.startPoint.y);
-        //   topYData = yCalc.getDataValue(this.endPoint.y);
-        // } else {
-        //   bottomYData = yCalc.getDataValue(this.endPoint.y);
-        //   topYData = yCalc.getDataValue(this.startPoint.y);
-        // }
-        // for (let i = 0; i < 8; i++) {
-        //   if(yCalc.getDataValue(this.startPoint.y) > this.y1 +i &&
-        //       yCalc.getDataValue(this.endPoint.y) < this.y2+i)
-        // {
-        //   bottomYData = this.y1;
-        //   topYData = this.y2;
-        // }
-        // for (let i = 0; i < 12; i + 2) {
-        //   if (
-        //     yCalc.getDataValue(this.startPoint.y) > this.y1 + i &&
-        //     yCalc.getDataValue(this.endPoint.y) < this.y2 + i
-        //   ) {
-        //     bottomYData = this.y1 + i;
-        //     topYData = this.y2 + i;
-        //   }
-        // }
         if (
-          // yCalc.getDataValue(this.startPoint.y) <=
-          //   yCalc.getDataValue(this.endPoint.y) &&
           yCalc.getDataValue(this.startPoint.y) > this.y1 &&
           yCalc.getDataValue(this.endPoint.y) < this.y2
         ) {
           bottomYData = this.y1;
           topYData = this.y2;
         } else if (
-          yCalc.getDataValue(this.startPoint.y) <=
-            yCalc.getDataValue(this.endPoint.y) &&
           yCalc.getDataValue(this.startPoint.y) > this.y2 &&
           yCalc.getDataValue(this.endPoint.y) < this.y3
         ) {
           bottomYData = this.y2;
           topYData = this.y3;
         } else if (
-          // yCalc.getDataValue(this.startPoint.y) <=
-          //   yCalc.getDataValue(this.endPoint.y) &&
           yCalc.getDataValue(this.startPoint.y) > this.y3 &&
           yCalc.getDataValue(this.endPoint.y) < this.y4
         ) {
           bottomYData = this.y3;
           topYData = this.y4;
         } else if (
-          // yCalc.getDataValue(this.startPoint.y) <=
-          //   yCalc.getDataValue(this.endPoint.y) &&
           yCalc.getDataValue(this.startPoint.y) > this.y4 &&
           yCalc.getDataValue(this.endPoint.y) < this.y5
         ) {
           bottomYData = this.y4;
           topYData = this.y5;
         } else if (
-          // yCalc.getDataValue(this.startPoint.y) <=
-          //   yCalc.getDataValue(this.endPoint.y) &&
           yCalc.getDataValue(this.startPoint.y) > this.y5 &&
           yCalc.getDataValue(this.endPoint.y) < this.y6
         ) {
           bottomYData = this.y5;
           topYData = this.y6;
         } else if (
-          // yCalc.getDataValue(this.startPoint.y) <=
-          //   yCalc.getDataValue(this.endPoint.y) &&
           yCalc.getDataValue(this.startPoint.y) > this.y6 &&
           yCalc.getDataValue(this.endPoint.y) < this.y7
         ) {
           bottomYData = this.y6;
           topYData = this.y7;
         }
-        // console.log(bottomYData, topYData);
-        // const x = dataSeries.getNativeXValues().get(1);
-        // const y = dataSeries.getNativeYValues().get(1);
-        // const x = dataSeries.getNativeXValues();
-        // const y = dataSeries.getNativeYValues();
-        // if (
-        //   testIsInBounds(x, y, leftXData, topYData, rightXData, bottomYData)
-        //   //     // testIsInXBounds(x, leftXData, rightXData)
-        // ) {
-        //   this.selectedPoints[index].push({
-        //     // index: i,
-        //     x1Value: leftXData,
-        //     x2Value: rightXData,
-        //     y1Value: bottomYData,
-        //     y2Value: topYData
-        //   });
-        // }
         for (let i = 0; i < dataSeries.count(); i++) {
           const x = dataSeries.getNativeXValues().get(i);
           const y = dataSeries.getNativeYValues().get(i);
-          // console.log(x, y);
           if (
             testIsInBounds(x, y, leftXData, topYData, rightXData, bottomYData)
-            // testIsInXBounds(x, leftXData, rightXData)
           ) {
             selectedPoints[index].push({
-              // index: i,
               x1Value: leftXData,
               x2Value: rightXData,
               y1Value: bottomYData,
@@ -610,98 +374,21 @@ export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
       this.parentSurface.annotations.remove(this.selectionAnnotation);
     });
   }
-  // private saveData() {
-  //   const saveSelectButton = document.getElementById("saveSelectButton");
-  //   // const selectNote = document.getElementById()
-  //   saveSelectButton.addEventListener("click", () =>{
-  //     let x1: string;
-  //     let x2: string;
-  //     let y1: string;
-  //     let y2: string;
-  //     let theChannel: string;
-  //     for (let i = 0; i < selectedPoints.length; i++) {
-  //       if (selectedPoints[i].length !== 0) {
-  //         x1 = selectedPoints[i][0].x1Value.toFixed(0);
-  //         x2 = selectedPoints[i][0].x2Value.toFixed(0);
-  //         y1 = selectedPoints[i][0].y1Value.toFixed(0);
-  //         y2 = selectedPoints[i][0].y2Value.toFixed(0);
-  //         theChannel = i.toString();
-  //       }
-  //     }
-  //     const config: any = {
-  //       url: apiUrl.url + "notes/create",
-  //       headers: {
-  //         Authorization: "Bearer " + token,
-  //         "Content-Type": "application/json"
-  //       },
-  //       method: "post",
-  //       data: {
-  //         id: "",
-  //         diagnosis_id: diagnoses.data[0].diagnosis_id,
-  //         x1: x1,
-  //         x2: x2,
-  //         y1: y1,
-  //         y2: y2,
-  //         channel: theChannel,
-  //         note: `["${noteMode.value}"]`
-  //       }
-  //     };
-  //     console.log(config);
-  //     axios(config)
-  //       .then(res => {
-  //         console.log(res);
-  //       })
-  //       .catch(err => {
-  //         console.log(err);
-  //       });
-  //   })
-  // }
 }
 
 export class MouseClickShowdataModifier extends ChartModifierBase2D {
-  // public modifierMouseMove(args: ModifierMouseArgs): void {
-  //   super.modifierMouseMove(args);
-  //   const translatedPoint = translateFromCanvasToSeriesViewRect(
-  //     args.mousePoint,
-  //     this.parentSurface.seriesViewRect
-  //   );
-  //   console.log(translatedPoint);
-  //   // if (translatedPoint && this.isSelecting) {
-  //   //   this.endPoint = args.mousePoint;
-  //   // // Pixel COORDINATE MODE EXAMPLE
-  //   // this.selectionAnnotation.x2 = translatedPoint.x;
-  //   // this.selectionAnnotation.y2 = translatedPoint.y;
-
-  //   // DataValue COORDINATE MODE EXAMPLE
-  //   const { xCalc, yCalc } = this.getDefaultCoordCalculators();
-  //   if (!xCalc) {
-  //     return;
-  //   }
-  //   // console.log(xCalc, yCalc);
-  //   console.log(xCalc.getDataValue(translatedPoint.x));
-  //   console.log(yCalc.getDataValue(translatedPoint.y));
-  //   // this.selectionAnnotation.x2 = xCalc.getDataValue(translatedPoint.x);
-  //   // this.selectionAnnotation.y2 = yCalc.getDataValue(translatedPoint.y);
-  // }
   public modifierMouseUp(args: ModifierMouseArgs) {
     super.modifierMouseUp(args);
-    // console.log(args);
     const translatedPoint = translateFromCanvasToSeriesViewRect(
       args.mousePoint,
       this.parentSurface.seriesViewRect
     );
-    // console.log(translatedPoint);
     const { xCalc, yCalc } = this.getDefaultCoordCalculators();
     if (!xCalc) {
       return;
     }
-    // console.log(xCalc.getDataValue(translatedPoint.x));
-    // console.log(yCalc.getDataValue(translatedPoint.y));
     console.log(tagList.value.data);
 
-    // for (let i = 0; i < tagList.value.data.length; i++) {
-    //   console.log(i);
-    // }
     selectTagData.data.length = 0;
     for (let i = 0; i < tagList.value.data.length; i++) {
       if (
@@ -715,10 +402,6 @@ export class MouseClickShowdataModifier extends ChartModifierBase2D {
         console.log(tagList.value.data[i].channel);
         console.log(tagList.value.data[i].x1);
         console.log(tagList.value.data[i].x2);
-        // selectTagData.index = 0;
-        // selectTagData.data.length = 0;
-        // selectTagData.index = i;
-        // selectTagData.data.push(tagList.value.data[i]);
         selectTagData.data.push({
           index: i,
           channel: "0",
@@ -903,14 +586,8 @@ export const initSciChart = async () => {
     return (index / 250).toFixed(0) + "s";
   };
   xAxis.drawMajorGridLines = true;
-  // Create an X,Y Axis and add to the chart
-  // const xAxis = new NumericAxis(wasmContext);
   xAxis.autoTicks = false;
-  // Have a major gridline every 10 units on the axis
-  // xAxis.maxAutoTicks = 1;
-  // xAxis.majorDelta = 30;
   console.log(xAxis.majorDelta);
-  // Have a minor gridline every 2 units on the axis
   xAxis.minorDelta = 0;
   console.log(xAxis.minorDelta);
   xAxis.visibleRangeLimit = new NumberRange(0, 7499);
@@ -962,71 +639,6 @@ export const initSciChart = async () => {
       xyDataSeries1.append(index, item + 0);
     }
   );
-
-  // sciChartSurface.chartModifiers.add(new RolloverModifier());
-  // const cursorModifier = new CursorModifier({
-  //   crosshairStroke: "#ff6600",
-  //   crosshairStrokeThickness: 1,
-  //   tooltipContainerBackground: "#000",
-  //   tooltipTextStroke: "#ff6600",
-  //   showTooltip: false
-  //   // axisLabelsFill: "#b36200",
-  //   // axisLabelsStroke: "#fff"
-  // });
-  // sciChartSurface.chartModifiers.add(cursorModifier);
-  // const rubberBandZoomModifier = new RubberBandXyZoomModifier();
-  // const zoomExtentsModifier = new ZoomExtentsModifier();
-  // const rangeSelectionModifier = new RangeSelectionChartModifier();
-  // sciChartSurface.chartModifiers.add(zoomExtentsModifier);
-
-  // sciChartSurface.chartModifiers.add(rubberBandZoomModifier);
-  // sciChartSurface.chartModifiers.add(rangeSelectionModifier);
-  // const inputEnablePan: HTMLElement = document.getElementById("enable-pan");
-  // const inputEnableZoom: HTMLElement = document.getElementById("enable-zoom");
-  // const inputEnableZoomToFit: HTMLElement = document.getElementById("enable-zoom-to-fit");
-  // const inputEnableMouseWheel: HTMLElement = document.getElementById(
-  //   "enable-mouse-wheel-zoom"
-  // );
-  // const inputEnableRangeSelect: HTMLElement = document.getElementById(
-  //   "enable-range-select"
-  // );
-
-  // const inputEnableZoom2: HTMLInputElement = <HTMLInputElement>(
-  //   document.getElementById("enable-zoom")
-  // );
-  // const inputEnableZoomToFit2: HTMLInputElement = <HTMLInputElement>(
-  //   document.getElementById("enable-zoom-to-fit")
-  // );
-  // const inputEnableMouseWheel2: HTMLInputElement = <HTMLInputElement>(
-  //   document.getElementById("enable-mouse-wheel-zoom")
-  // );
-  // const inputEnableRangeSelect2: HTMLInputElement = <HTMLInputElement>(
-  //   document.getElementById("enable-range-select")
-  // );
-
-  // inputEnableZoom.addEventListener("change", () => {
-  //   rubberBandZoomModifier.isEnabled = inputEnableZoom2.checked;
-  //   zoomPanModifier.isEnabled = !inputEnableZoom2.checked;
-  //   rangeSelectionModifier.isEnabled = !inputEnableZoom2.checked;
-  //   inputEnablePan2.checked = !inputEnableZoom2.checked;
-  //   inputEnableRangeSelect2.checked = !inputEnableZoom2.checked;
-  // });
-  // inputEnableRangeSelect.addEventListener("change", () => {
-  //   rangeSelectionModifier.isEnabled = inputEnableRangeSelect2.checked;
-  //   zoomPanModifier.isEnabled = !inputEnableRangeSelect2.checked;
-  //   rubberBandZoomModifier.isEnabled = !inputEnableRangeSelect2.checked;
-  //   inputEnablePan2.checked = !inputEnableRangeSelect2.checked;
-  //   inputEnableZoom2.checked = !inputEnableRangeSelect2.checked;
-  // });
-
-  // inputEnableZoomToFit.addEventListener("change", () => {
-  //   zoomExtentsModifier.isEnabled = inputEnableZoomToFit2.checked;
-  // });
-  // inputEnableMouseWheel.addEventListener("change", () => {
-  //   mouseWheelZoomModifier.isEnabled = inputEnableMouseWheel2.checked;
-  // });
-
-  // sciChartSurface.chartModifiers.add(new RolloverModifier());
 
   sciChartSurface.annotations.add(
     // Add TextAnnotations in the top left of the chart
@@ -1149,19 +761,6 @@ export const initSciChart = async () => {
   sciChartSurface.renderableSeries.add(lineSeries5);
   sciChartSurface.renderableSeries.add(lineSeries6);
 
-  // const mouseWheelZoomModifier = new MouseWheelZoomModifier({
-  //   xyDirection: EXyDirection.XDirection
-  // });
-  // const zoomPanModifier = new ZoomPanModifier({
-  //   xyDirection: EXyDirection.XDirection
-  // });
-
-  // sciChartSurface.chartModifiers.add(zoomPanModifier);
-  // sciChartSurface.chartModifiers.add(mouseWheelZoomModifier);
-  // const simpleDataPointSelectionModifier = new SimpleDataPointSelectionModifier();
-  // const data = simpleDataPointSelectionModifier.modifierMouseUp;
-  // console.log(data);
-
   const tagModeEnable: HTMLInputElement = <HTMLInputElement>(
     document.getElementById("tag-mode")
   );
@@ -1195,7 +794,9 @@ export const initSciChart = async () => {
   });
   axios
     .get(apiUrl.url + "notes/" + diagnoses.data[0].diagnosis_id, {
-      headers: { Authorization: "Bearer " + token }
+      headers: {
+        Authorization: "Bearer " + token
+      }
     })
     .then(res => {
       console.log(res);
@@ -1208,8 +809,6 @@ export const initSciChart = async () => {
             new BoxAnnotation({
               fill: "#FFE66F33",
               strokeThickness: 0,
-              // x1: parseInt(res.data.data[i].x1),
-              // x2: parseInt(res.data.data[i].x2),
               x1: parseInt(tagListData.data[i].x1),
               x2: parseInt(tagListData.data[i].x2),
               y1: -1,
@@ -1221,8 +820,6 @@ export const initSciChart = async () => {
             new BoxAnnotation({
               fill: "#FFE66F33",
               strokeThickness: 0,
-              // x1: parseInt(res.data.data[i].x1),
-              // x2: parseInt(res.data.data[i].x2),
               x1: parseInt(tagListData.data[i].x1),
               x2: parseInt(tagListData.data[i].x2),
               y1: 1,
@@ -1234,8 +831,6 @@ export const initSciChart = async () => {
             new BoxAnnotation({
               fill: "#FFE66F33",
               strokeThickness: 0,
-              // x1: parseInt(res.data.data[i].x1),
-              // x2: parseInt(res.data.data[i].x2),
               x1: parseInt(tagListData.data[i].x1),
               x2: parseInt(tagListData.data[i].x2),
               y1: 3,
@@ -1247,8 +842,6 @@ export const initSciChart = async () => {
             new BoxAnnotation({
               fill: "#FFE66F33",
               strokeThickness: 0,
-              // x1: parseInt(res.data.data[i].x1),
-              // x2: parseInt(res.data.data[i].x2),
               x1: parseInt(tagListData.data[i].x1),
               x2: parseInt(tagListData.data[i].x2),
               y1: 5,
@@ -1260,8 +853,6 @@ export const initSciChart = async () => {
             new BoxAnnotation({
               fill: "#FFE66F33",
               strokeThickness: 0,
-              // x1: parseInt(res.data.data[i].x1),
-              // x2: parseInt(res.data.data[i].x2),
               x1: parseInt(tagListData.data[i].x1),
               x2: parseInt(tagListData.data[i].x2),
               y1: 7,
@@ -1273,8 +864,6 @@ export const initSciChart = async () => {
             new BoxAnnotation({
               fill: "#FFE66F33",
               strokeThickness: 0,
-              // x1: parseInt(res.data.data[i].x1),
-              // x2: parseInt(res.data.data[i].x2),
               x1: parseInt(tagListData.data[i].x1),
               x2: parseInt(tagListData.data[i].x2),
               y1: 9,
@@ -1342,25 +931,15 @@ export const saveData = val => {
     .catch(err => {
       console.log(err);
     });
-  // initSciChart();
-  // axios
-  //   .get(apiUrl.url + "notes/" + diagnoses.data[0].diagnosis_id, {
-  //     headers: { Authorization: "Bearer " + token }
-  //   })
-  //   .then(res => {
-  //     console.log(res);
-  //     tagListData.data = res.data.data;
-  //   })
-  //   .catch(err => {
-  //     console.log(err);
-  //   });
 };
 
 export const showTagList = (): Promise<any> => {
   return new Promise((resolve, reject) => {
     axios
       .get(apiUrl.url + "notes/" + diagnoses.data[0].diagnosis_id, {
-        headers: { Authorization: "Bearer " + token }
+        headers: {
+          Authorization: "Bearer " + token
+        }
       })
       .then(res => {
         console.log(res);
@@ -1434,117 +1013,11 @@ export const modifyData = (tagData, val) => {
       console.log(selectTagData.data[0].index);
       tagListData.data[selectTagData.data[0].index].note = config.data.note;
       selectTagData.data[0].note = JSON.parse(config.data.note)[0];
-      // selectTagData.data.length = 0;
-      // selectTagData.data.push({
-      //   index: i,
-      //   channel: "LEAD 2",
-      //   created_at: tagList.value.data[i].created_at,
-      //   diagnosis_id: tagList.value.data[i].diagnosis_id,
-      //   id: tagList.value.data[i].id,
-      //   note: JSON.parse(tagList.value.data[i].note)[0],
-      //   x1: (Number(tagList.value.data[i].x1) / 250).toFixed(2),
-      //   x2: (Number(tagList.value.data[i].x2) / 250).toFixed(2)
-      // });
-      // selectTagData.data.push({
-      //   channel: "",
-      //   created_at: "",
-      //   diagnosis_id: "",
-      //   note: "",
-      //   x1: "",
-      //   x2: ""
-      // });
-      // selectTagData.data.push(config.data);
-      // tagListData.data[selectTagData.index] = config.data;
     })
     .catch(err => {
       console.log(err);
     });
-  // console.log(tagData.data[0].channel);
-  // console.log(tagData.data[0].x1);
-  // console.log(tagData.data[0].x2);
-  // console.log(`["${val}"]`);
-  // initSciChart();
 };
-// editNote({ commit, rootState }, data) {
-//   const note = {
-//     id: data.id.toString(),
-//     diagnosis_id: "",
-//     x1: data.x1.toFixed(0).toString(),
-//     x2: data.x2.toFixed(0).toString(),
-//     channel: data.channel.toString(),
-//     note: '["' + data.note.toString() + '"]'
-//   };
-//   const config = {
-//     url: apiUrl.url + "/medical/v1/notes/modify",
-//     headers: {
-//       Authorization: "Bearer " + rootState.token,
-//       "Content-Type": "application/json"
-//     },
-//     method: "put",
-//     data: note
-//   };
-//   axios(config)
-//     .then(() => {
-//       commit("UPDATE_NOTE", note);
-//     })
-//     .catch(err => console.log(err));
-// }
-
-// call api 顯示已 tag 的範圍
-// const notes = fetch(url + "/medical/v1/notes/" + diagnosis_id, {
-//   headers: myHeaders
-// })
-//   .then(response => response.json())
-//   .then(json => {
-//     return json.data;
-//   });
-
-// const main_code = Promise.all([diagnosis, notes]).then(d => {
-//   var diagnosis_data = d[0];
-//   var notes_data = d[1];
-
-//   $(".sn_serial_no").text(diagnosis_data.sn_serial_no);
-//   $(".diagnosis_type").text(diagnosis_data.diagnosis_type);
-//   $(".measure_times").text(diagnosis_data.measure_times);
-//   $(".measure_type").text(diagnosis_data.measure_type);
-//   $(".measure_person").text(diagnosis_data.measure_person);
-//   $(".age").text(diagnosis_data.age);
-//   $(".gender").text(diagnosis_data.gender);
-//   dataset = [
-//     diagnosis_data.measures[0].values[0].raw_datas.map(function(x) {
-//       return { y: x };
-//     }), // ch1
-//     diagnosis_data.measures[0].values[1].raw_datas.map(function(x) {
-//       return { y: x };
-//     }), // ch2
-//     diagnosis_data.measures[0].values[2].raw_datas.map(function(x) {
-//       return { y: x };
-//     }), // ch3
-//     diagnosis_data.measures[0].values[3].raw_datas.map(function(x) {
-//       return { y: x };
-//     }), // ch4
-//     diagnosis_data.measures[0].values[4].raw_datas.map(function(x) {
-//       return { y: x };
-//     }), // ch5
-//     diagnosis_data.measures[0].values[5].raw_datas.map(function(x) {
-//       return { y: x };
-//     }) // ch6
-//   ];
-// NumberOfMeasurements = dataset[0].length;
-
-// export const saveData = (val) => {
-//   console.log(val);
-//   console.log(selectedPoints);
-//   const note: TNote = {
-//     id: "",
-//     diagnosis_id: diagnoses.data[0].diagnosis_id,
-//     x1: x1,
-//     x2: x2,
-//     channel: theChannel,
-//     note: `["ST-D"]`
-//   };
-//   console.log(note);
-// };
 
 // HOME PAGE
 export const isLogin = ref(JSON.parse(localStorage.getItem("isLogin")));
@@ -1556,7 +1029,6 @@ export const identifier = ref("");
 export const password = ref("");
 export const retrieveToken = (phone: string, password: string) => {
   const loginConfig: any = {
-    // baseURL: "https://dev.intelliances.com/broker/medical/v2",
     baseURL: apiUrl.url,
     url: "/login",
     headers: {
@@ -1596,11 +1068,7 @@ export const login = () => {
 export const logout = () => {
   window.localStorage.removeItem("userid");
   window.localStorage.removeItem("diagnosesid");
-  // window.localStorage.removeItem("dataInfo");
   tableData.data.length = 0;
-  // diagnoses.value.length = 0;
-  // dataInfomation.value.length = 0;
-  // isLogin.value = false;
   localStorage.setItem("isLogin", JSON.stringify(false));
   isLogin.value = false;
   console.log(isLogin.value);
@@ -1625,8 +1093,6 @@ export const requestDiagnoses = () => {
       medical_id: "01",
       user_id: localStorage.getItem("userid"),
       role: "regular"
-      // start_date:
-      // "2021-03-11T02:47:12.068Z"
     }
   };
   axios(config)
@@ -1637,9 +1103,6 @@ export const requestDiagnoses = () => {
       });
       tableData.data = res.data.data;
       console.log(tableData);
-
-      // tableData.data.length = 0;
-      // tableData.data.push(...res.data.data);
     })
     .catch(err => {
       console.log(err);
@@ -1650,14 +1113,8 @@ export const requestDiagnoses = () => {
 
 export const getECGChart = (index, row) => {
   console.log(index, row);
-  // localStorage.setItem("diagnosesid", row.diagnosis_id);
-  // diagnosesid.value = row.diagnosis_id;
   console.log(row.diagnosis_id);
-  // window.setTimeout(() => {
-  //   router.push(`/Diagnoses/${row.diagnosis_id}`);
-  // }, 1000);
   router.push(`/Diagnoses/${row.diagnosis_id}`);
-  // showECGChart(index, row);
 };
 
 export const showECGChart = (id): Promise<any> => {
@@ -1670,60 +1127,13 @@ export const showECGChart = (id): Promise<any> => {
         platform: "web"
       },
       method: "get",
-      data: {
-        // medical_id: "01",
-        // measure_person: username.value,
-        // role: String(role),
-        // start_date: diagnosesUpdateTime
-        // user_id: "c32a9d8f-c0fe-4e23-beb9-4e0d9db24368",
-        // role: "regular",
-        // start_date: "2021-03-11T02:47:12.068Z"
-      }
+      data: {}
     };
     console.log("送的資料", config);
     axios(config)
       .then(res => {
         console.log(res);
-        // const dataAry = [];
-        // const dataInfo = [];
-        // res.data.data.measures[0].values.forEach(item => {
-        //   dataAry.push([item.name, item.raw_datas]);
-        // });
-        // dataInfo.push({
-        //   dataInfo: [
-        //     res.data.data.diagnosis_id,
-        //     res.data.data.start_time,
-        //     res.data.data.hr_last,
-        //     res.data.data.gain,
-        //     res.data.data.device_id
-        //   ]
-        // });
-        // res.data.data.measures[0].values.forEach(item => {
-        //   dataAry.push({
-        //     chartInfo: [item.name, item.raw_datas]});
-        // });
-        // console.log(dataAry);
-        // localStorage.setItem(
-        //   "dataAry",
-        //   JSON.stringify(res.data.data.measures[0].values)
-        // );
-        // dataInfo.push(
-        // 	res.data.data.diagnosis_id,
-        // 	res.data.data.start_time,
-        // 	res.data.data.hr_last,
-        // 	res.data.data.gain,
-        // 	res.data.data.device_id
-        // );
-        // dataInformation.data = dataInfo;
         diagnoses.data = [res.data.data];
-        // res.data.data;
-        // diagnoses.data =
-        // 	res.data.data.measures[0]
-        // 		.values || [];
-        // localStorage.setItem("datainfo", JSON.stringify(dataInfo));
-        // console.log(
-        // 	dataInformation.data
-        // );
         console.log(diagnoses.data);
         console.log(`a`);
         resolve(diagnoses);
@@ -1742,9 +1152,15 @@ export const getAnomalyModels = (): Promise<any> => {
     axios
       .get("https://dev.intelliances.com/broker/medical/v1/models/name")
       .then(res => {
-        modelName.push({ value: "選項" + 1, label: res.data.default });
+        modelName.push({
+          value: "選項" + 1,
+          label: res.data.default
+        });
         res.data.challengers.forEach((item, index) => {
-          modelName.push({ value: `選項${index + 2}`, label: item });
+          modelName.push({
+            value: `選項${index + 2}`,
+            label: item
+          });
         });
         resolve(modelName);
       })
@@ -1753,22 +1169,3 @@ export const getAnomalyModels = (): Promise<any> => {
       });
   });
 };
-
-const data = [
-  {
-    index: 1,
-    channel: "4",
-    created_at: "2021-06-02T10:09:38.986Z",
-    diagnosis_id: "7a647d9f-3243-4f31-84b8-b8ab4f636a14",
-    id: "4b6392c6-32cf-4d80-b6e5-fe3b2f8407cb",
-    note: '["VPC"]'
-  },
-  {
-    index: 2,
-    channel: "4",
-    created_at: "2021-06-03T02:00:19.201Z",
-    diagnosis_id: "7a647d9f-3243-4f31-84b8-b8ab4f636a14",
-    id: "1ff91d4b-ca3c-491b-a87e-ef8d2f280c99",
-    note: '["ST-D"]'
-  }
-];

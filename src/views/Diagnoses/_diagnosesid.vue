@@ -392,10 +392,8 @@
 </template>
 
 <script lang="ts">
-// import SCICHART_LICENSE_KEY =
 import { useRoute } from "vue-router";
 import { computed, defineComponent, onMounted, ref, reactive, watchEffect } from "vue";
-// import SciChart from "@/components/SciChart.vue";
 import {
   dataInformation,
   showECGChart,
@@ -426,10 +424,6 @@ export default {
       JSON.parse(localStorage.getItem("selectedPoints"))
     ]);
     console.log(selectedPoints);
-    // const tagNoteEvent = () => {
-    //   // console.log(new SimpleDataPointSelectionModifier().addNote());
-    //   new SimpleDataPointSelectionModifier().addNote();
-    // };
     onMounted(async () => {
       console.log(`b`);
       await getAnomalyModels();
@@ -438,35 +432,9 @@ export default {
       initSciChart();
       await showTagList();
     });
-    // const selectModel = value => {
-    //   console.log(value);
-    // };
     const selectModel = computed(() => {
       return selected.value;
     });
-
-    // const exampleModal = document.getElementById("exampleModal");
-    // exampleModal.addEventListener("show.bs.modal", function(event) {
-    //   // Button that triggered the modal
-    //   const button = event.relatedTarget;
-    //   // Extract info from data-bs-* attributes
-    //   const recipient = button.getAttribute("data-bs-whatever");
-    //   // If necessary, you could initiate an AJAX request here
-    //   // and then do the updating in a callback.
-    //   //
-    //   // Update the modal's content.
-    //   const modalTitle = exampleModal.querySelector(".modal-title");
-    //   const modalBodyInput = exampleModal.querySelector(".modal-body button");
-
-    //   modalTitle.textContent = "New message to " + recipient;
-    //   modalBodyInput.value = recipient;
-    // });
-
-    // const resetSelectedPoints = computed(() => {
-    //   // return selectedPoints;
-    //   console.log(selectedPoints);
-    // });
-    // console.log(selectModel);
     watchEffect(async () => await console.log(selectedPoints));
     return {
       dataInformation,
