@@ -99,10 +99,10 @@ export const tagListData: any = reactive({
 export const tagList = computed(() => {
   return tagListData;
 });
-export const selectTagData = reactive({
-  index: 0,
+export const selectTagData: any = reactive({
   data: [
     {
+      index: 0,
       channel: "",
       created_at: "",
       diagnosis_id: "",
@@ -112,11 +112,107 @@ export const selectTagData = reactive({
     }
   ]
 });
+console.log(selectTagData.data);
 export const tagDataShow = computed(() => {
-  return selectTagData;
+  // if (selectTagData.data[0].channel === "0") {
+  //   return [
+  //     {
+  //       index: selectTagData.data[0].index,
+  //       channel: "aVF",
+  //       created_at: selectTagData.data[0].created_at,
+  //       diagnosis_id: selectTagData.data[0].diagnosis_id,
+  //       note: selectTagData.data[0].note,
+  //       x1: (Number(selectTagData.data[0].x1) / 250).toFixed(2) + "s",
+  //       x2: (Number(selectTagData.data[0].x2) / 250).toFixed(2) + "s"
+  //     }
+  //   ];
+  // } else if (selectTagData.data[0].channel === "1") {
+  //   return [
+  //     {
+  //       index: selectTagData.data[0].index,
+  //       channel: "aVL",
+  //       created_at: selectTagData.data[0].created_at,
+  //       diagnosis_id: selectTagData.data[0].diagnosis_id,
+  //       note: selectTagData.data[0].note,
+  //       x1: (Number(selectTagData.data[0].x1) / 250).toFixed(2) + "s",
+  //       x2: (Number(selectTagData.data[0].x2) / 250).toFixed(2) + "s"
+  //     }
+  //   ];
+  // } else if (selectTagData.data[0].channel === "2") {
+  //   return [
+  //     {
+  //       index: selectTagData.data[0].index,
+  //       channel: "aVR",
+  //       created_at: selectTagData.data[0].created_at,
+  //       diagnosis_id: selectTagData.data[0].diagnosis_id,
+  //       note: selectTagData.data[0].note,
+  //       x1: (Number(selectTagData.data[0].x1) / 250).toFixed(2) + "s",
+  //       x2: (Number(selectTagData.data[0].x2) / 250).toFixed(2) + "s"
+  //     }
+  //   ];
+  // } else if (selectTagData.data[0].channel === "3") {
+  //   return [
+  //     {
+  //       index: selectTagData.data[0].index,
+  //       channel: "LEAD 3",
+  //       created_at: selectTagData.data[0].created_at,
+  //       diagnosis_id: selectTagData.data[0].diagnosis_id,
+  //       note: selectTagData.data[0].note,
+  //       x1: (Number(selectTagData.data[0].x1) / 250).toFixed(2) + "s",
+  //       x2: (Number(selectTagData.data[0].x2) / 250).toFixed(2) + "s"
+  //     }
+  //   ];
+  // } else if (selectTagData.data[0].channel === "4") {
+  // return [
+  //   {
+  //     index: selectTagData.data[0].index,
+  //     channel: "LEAD 2",
+  //     created_at: selectTagData.data[0].created_at,
+  //     diagnosis_id: selectTagData.data[0].diagnosis_id,
+  //     note: selectTagData.data[0].note,
+  //     x1: (Number(selectTagData.data[0].x1) / 250).toFixed(2) + "s",
+  //     x2: (Number(selectTagData.data[0].x2) / 250).toFixed(2) + "s"
+  //   }
+  // ];
+  // } else if (selectTagData.data[0].channel === "5") {
+  //   return [
+  //     {
+  //       index: selectTagData.data[0].index,
+  //       channel: "LEAD 1",
+  //       created_at: selectTagData.data[0].created_at,
+  //       diagnosis_id: selectTagData.data[0].diagnosis_id,
+  //       note: selectTagData.data[0].note,
+  //       x1: (Number(selectTagData.data[0].x1) / 250).toFixed(2) + "s",
+  //       x2: (Number(selectTagData.data[0].x2) / 250).toFixed(2) + "s"
+  //     }
+  //   ];
+  // }
+  // return [
+  //   {
+  //     index: selectTagData.data[0].index,
+  //     channel: selectTagData.data[0].channel,
+  //     created_at: selectTagData.data[0].created_at,
+  //     diagnosis_id: selectTagData.data[0].diagnosis_id,
+  //     note: selectTagData.data[0].note,
+  //     x1: (Number(selectTagData.data[0].x1) / 250).toFixed(2) + "s",
+  //     x2: (Number(selectTagData.data[0].x2) / 250).toFixed(2) + "s"
+  //   }
+  // ];
+  return selectTagData.data;
 });
 export const isEnabled = ref(false);
 export const isChecked = computed(() => isEnabled.value);
+// export const tagDataShowTest = computed(() =>{
+//   return {
+//     index: selectTagData.data[0].index,
+//     channel: selectTagData.data[0].channel,
+//     created_at: selectTagData.data[0].created_at,
+//     diagnosis_id: selectTagData.data[0].diagnosis_id,
+//     note: selectTagData.data[0].note,
+//     x1: Number(selectTagData.data[0].x1).toFixed(2) + "s",
+//     x2: Number(selectTagData.data[0].x2).toFixed(2) + "s"
+//   };
+// });
 
 // export const isChecked = computed({
 //   get: () => isEnabled.value,
@@ -606,7 +702,7 @@ export class MouseClickShowdataModifier extends ChartModifierBase2D {
     // for (let i = 0; i < tagList.value.data.length; i++) {
     //   console.log(i);
     // }
-
+    selectTagData.data.length = 0;
     for (let i = 0; i < tagList.value.data.length; i++) {
       if (
         tagList.value.data[i].channel === "0" &&
@@ -619,10 +715,20 @@ export class MouseClickShowdataModifier extends ChartModifierBase2D {
         console.log(tagList.value.data[i].channel);
         console.log(tagList.value.data[i].x1);
         console.log(tagList.value.data[i].x2);
-        selectTagData.index = 0;
-        selectTagData.data.length = 0;
-        selectTagData.index = i;
-        selectTagData.data.push(tagList.value.data[i]);
+        // selectTagData.index = 0;
+        // selectTagData.data.length = 0;
+        // selectTagData.index = i;
+        // selectTagData.data.push(tagList.value.data[i]);
+        selectTagData.data.push({
+          index: i,
+          channel: "0",
+          created_at: tagList.value.data[i].created_at,
+          diagnosis_id: tagList.value.data[i].diagnosis_id,
+          id: tagList.value.data[i].id,
+          note: JSON.parse(tagList.value.data[i].note)[0],
+          x1: tagList.value.data[i].x1,
+          x2: tagList.value.data[i].x2
+        });
       } else if (
         tagList.value.data[i].channel === "1" &&
         1 < yCalc.getDataValue(translatedPoint.y) &&
@@ -634,10 +740,19 @@ export class MouseClickShowdataModifier extends ChartModifierBase2D {
         console.log(tagList.value.data[i].channel);
         console.log(tagList.value.data[i].x1);
         console.log(tagList.value.data[i].x2);
-        selectTagData.index = 0;
-        selectTagData.data.length = 0;
-        selectTagData.index = i;
-        selectTagData.data.push(tagList.value.data[i]);
+        // selectTagData.index = 0;
+        // selectTagData.data.length = 0;
+        // selectTagData.index = i;
+        selectTagData.data.push({
+          index: i,
+          channel: "1",
+          created_at: tagList.value.data[i].created_at,
+          diagnosis_id: tagList.value.data[i].diagnosis_id,
+          id: tagList.value.data[i].id,
+          note: JSON.parse(tagList.value.data[i].note)[0],
+          x1: tagList.value.data[i].x1,
+          x2: tagList.value.data[i].x2
+        });
       } else if (
         tagList.value.data[i].channel === "2" &&
         3 < yCalc.getDataValue(translatedPoint.y) &&
@@ -649,10 +764,19 @@ export class MouseClickShowdataModifier extends ChartModifierBase2D {
         console.log(tagList.value.data[i].channel);
         console.log(tagList.value.data[i].x1);
         console.log(tagList.value.data[i].x2);
-        selectTagData.index = 0;
-        selectTagData.data.length = 0;
-        selectTagData.index = i;
-        selectTagData.data.push(tagList.value.data[i]);
+        // selectTagData.index = 0;
+        // selectTagData.data.length = 0;
+        // selectTagData.index = i;
+        selectTagData.data.push({
+          index: i,
+          channel: "2",
+          created_at: tagList.value.data[i].created_at,
+          diagnosis_id: tagList.value.data[i].diagnosis_id,
+          id: tagList.value.data[i].id,
+          note: JSON.parse(tagList.value.data[i].note)[0],
+          x1: tagList.value.data[i].x1,
+          x2: tagList.value.data[i].x2
+        });
       } else if (
         tagList.value.data[i].channel === "3" &&
         5 < yCalc.getDataValue(translatedPoint.y) &&
@@ -664,10 +788,19 @@ export class MouseClickShowdataModifier extends ChartModifierBase2D {
         console.log(tagList.value.data[i].channel);
         console.log(tagList.value.data[i].x1);
         console.log(tagList.value.data[i].x2);
-        selectTagData.index = 0;
-        selectTagData.data.length = 0;
-        selectTagData.index = i;
-        selectTagData.data.push(tagList.value.data[i]);
+        // selectTagData.index = 0;
+        // selectTagData.data.length = 0;
+        // selectTagData.index = i;
+        selectTagData.data.push({
+          index: i,
+          channel: "3",
+          created_at: tagList.value.data[i].created_at,
+          diagnosis_id: tagList.value.data[i].diagnosis_id,
+          id: tagList.value.data[i].id,
+          note: JSON.parse(tagList.value.data[i].note)[0],
+          x1: tagList.value.data[i].x1,
+          x2: tagList.value.data[i].x2
+        });
       } else if (
         tagList.value.data[i].channel === "4" &&
         7 < yCalc.getDataValue(translatedPoint.y) &&
@@ -679,10 +812,19 @@ export class MouseClickShowdataModifier extends ChartModifierBase2D {
         console.log(tagList.value.data[i].channel);
         console.log(tagList.value.data[i].x1);
         console.log(tagList.value.data[i].x2);
-        selectTagData.index = 0;
-        selectTagData.data.length = 0;
-        selectTagData.index = i;
-        selectTagData.data.push(tagList.value.data[i]);
+        // selectTagData.index = 0;
+        // selectTagData.data.length = 0;
+        // selectTagData.index = i;
+        selectTagData.data.push({
+          index: i,
+          channel: "4",
+          created_at: tagList.value.data[i].created_at,
+          diagnosis_id: tagList.value.data[i].diagnosis_id,
+          id: tagList.value.data[i].id,
+          note: JSON.parse(tagList.value.data[i].note)[0],
+          x1: tagList.value.data[i].x1,
+          x2: tagList.value.data[i].x2
+        });
       } else if (
         tagList.value.data[i].channel === "5" &&
         9 < yCalc.getDataValue(translatedPoint.y) &&
@@ -694,13 +836,23 @@ export class MouseClickShowdataModifier extends ChartModifierBase2D {
         console.log(tagList.value.data[i].channel);
         console.log(tagList.value.data[i].x1);
         console.log(tagList.value.data[i].x2);
-        selectTagData.index = 0;
-        selectTagData.data.length = 0;
-        selectTagData.index = i;
-        selectTagData.data.push(tagList.value.data[i]);
+        // selectTagData.index = 0;
+        // selectTagData.data.length = 0;
+        // selectTagData.index = i;
+        selectTagData.data.push({
+          index: i,
+          channel: "5",
+          created_at: tagList.value.data[i].created_at,
+          diagnosis_id: tagList.value.data[i].diagnosis_id,
+          id: tagList.value.data[i].id,
+          note: JSON.parse(tagList.value.data[i].note)[0],
+          x1: tagList.value.data[i].x1,
+          x2: tagList.value.data[i].x2
+        });
       }
     }
     console.log(selectTagData);
+    // console.log(tagDataShow.value);
   }
   private getDefaultCoordCalculators() {
     const xAxis = this.parentSurface.xAxes.get(0);
@@ -1058,8 +1210,8 @@ export const initSciChart = async () => {
               strokeThickness: 0,
               // x1: parseInt(res.data.data[i].x1),
               // x2: parseInt(res.data.data[i].x2),
-              x1: parseInt(tagList.value.data[i].x1),
-              x2: parseInt(tagList.value.data[i].x2),
+              x1: parseInt(tagListData.data[i].x1),
+              x2: parseInt(tagListData.data[i].x2),
               y1: -1,
               y2: 1
             })
@@ -1071,8 +1223,8 @@ export const initSciChart = async () => {
               strokeThickness: 0,
               // x1: parseInt(res.data.data[i].x1),
               // x2: parseInt(res.data.data[i].x2),
-              x1: parseInt(tagList.value.data[i].x1),
-              x2: parseInt(tagList.value.data[i].x2),
+              x1: parseInt(tagListData.data[i].x1),
+              x2: parseInt(tagListData.data[i].x2),
               y1: 1,
               y2: 3
             })
@@ -1084,8 +1236,8 @@ export const initSciChart = async () => {
               strokeThickness: 0,
               // x1: parseInt(res.data.data[i].x1),
               // x2: parseInt(res.data.data[i].x2),
-              x1: parseInt(tagList.value.data[i].x1),
-              x2: parseInt(tagList.value.data[i].x2),
+              x1: parseInt(tagListData.data[i].x1),
+              x2: parseInt(tagListData.data[i].x2),
               y1: 3,
               y2: 5
             })
@@ -1097,8 +1249,8 @@ export const initSciChart = async () => {
               strokeThickness: 0,
               // x1: parseInt(res.data.data[i].x1),
               // x2: parseInt(res.data.data[i].x2),
-              x1: parseInt(tagList.value.data[i].x1),
-              x2: parseInt(tagList.value.data[i].x2),
+              x1: parseInt(tagListData.data[i].x1),
+              x2: parseInt(tagListData.data[i].x2),
               y1: 5,
               y2: 7
             })
@@ -1110,8 +1262,8 @@ export const initSciChart = async () => {
               strokeThickness: 0,
               // x1: parseInt(res.data.data[i].x1),
               // x2: parseInt(res.data.data[i].x2),
-              x1: parseInt(tagList.value.data[i].x1),
-              x2: parseInt(tagList.value.data[i].x2),
+              x1: parseInt(tagListData.data[i].x1),
+              x2: parseInt(tagListData.data[i].x2),
               y1: 7,
               y2: 9
             })
@@ -1123,8 +1275,8 @@ export const initSciChart = async () => {
               strokeThickness: 0,
               // x1: parseInt(res.data.data[i].x1),
               // x2: parseInt(res.data.data[i].x2),
-              x1: parseInt(tagList.value.data[i].x1),
-              x2: parseInt(tagList.value.data[i].x2),
+              x1: parseInt(tagListData.data[i].x1),
+              x2: parseInt(tagListData.data[i].x2),
               y1: 9,
               y2: 11
             })
@@ -1186,8 +1338,6 @@ export const saveData = val => {
         x2: config.data.x2,
         diagnosis_id: config.data.diagmosis_id
       });
-      // tagListData.length = 0;
-      // tagListData.data.push({});
     })
     .catch(err => {
       console.log(err);
@@ -1224,10 +1374,10 @@ export const showTagList = (): Promise<any> => {
 
 export const deleteData = val => {
   console.log(tagListData);
-  console.log(val.data[0].id);
+  console.log(val);
   // console.log(tagListData.data.indexOf(val.data[0].id));
   const config: any = {
-    url: apiUrl.url + "notes/delete/" + val.data[0].id,
+    url: apiUrl.url + "notes/delete/" + val[0].id,
     headers: {
       Authorization: "Bearer " + token,
       "Content-Type": "application/json"
@@ -1242,9 +1392,10 @@ export const deleteData = val => {
     .catch(err => {
       console.log(err);
     });
-  tagListData.data.splice(selectTagData.index);
+  tagListData.data.splice(selectTagData.data.index);
   selectTagData.data.length = 0;
   selectTagData.data.push({
+    index: 0,
     channel: "",
     created_at: "",
     diagnosis_id: "",
@@ -1266,11 +1417,11 @@ export const modifyData = (tagData, val) => {
     },
     method: "put",
     data: {
-      id: tagData.data[0].id,
+      id: tagData[0].id,
       diagnosis_id: diagnoses.data[0].diagnosis_id,
-      x1: tagData.data[0].x1,
-      x2: tagData.data[0].x2,
-      channel: tagData.data[0].channel,
+      x1: tagData[0].x1,
+      x2: tagData[0].x2,
+      channel: tagData[0].channel,
       note: `["${val}"]`
     }
   };
@@ -1278,8 +1429,22 @@ export const modifyData = (tagData, val) => {
   axios(config)
     .then(res => {
       console.log(res);
-      console.log(config);
-      selectTagData.data.length = 0;
+      console.log(config.data.note);
+      console.log(tagListData.data);
+      console.log(selectTagData.data[0].index);
+      tagListData.data[selectTagData.data[0].index].note = config.data.note;
+      selectTagData.data[0].note = JSON.parse(config.data.note)[0];
+      // selectTagData.data.length = 0;
+      // selectTagData.data.push({
+      //   index: i,
+      //   channel: "LEAD 2",
+      //   created_at: tagList.value.data[i].created_at,
+      //   diagnosis_id: tagList.value.data[i].diagnosis_id,
+      //   id: tagList.value.data[i].id,
+      //   note: JSON.parse(tagList.value.data[i].note)[0],
+      //   x1: (Number(tagList.value.data[i].x1) / 250).toFixed(2),
+      //   x2: (Number(tagList.value.data[i].x2) / 250).toFixed(2)
+      // });
       // selectTagData.data.push({
       //   channel: "",
       //   created_at: "",
@@ -1288,8 +1453,8 @@ export const modifyData = (tagData, val) => {
       //   x1: "",
       //   x2: ""
       // });
-      selectTagData.data.push(config.data);
-      tagListData.data[selectTagData.index] = config.data;
+      // selectTagData.data.push(config.data);
+      // tagListData.data[selectTagData.index] = config.data;
     })
     .catch(err => {
       console.log(err);
@@ -1588,3 +1753,22 @@ export const getAnomalyModels = (): Promise<any> => {
       });
   });
 };
+
+const data = [
+  {
+    index: 1,
+    channel: "4",
+    created_at: "2021-06-02T10:09:38.986Z",
+    diagnosis_id: "7a647d9f-3243-4f31-84b8-b8ab4f636a14",
+    id: "4b6392c6-32cf-4d80-b6e5-fe3b2f8407cb",
+    note: '["VPC"]'
+  },
+  {
+    index: 2,
+    channel: "4",
+    created_at: "2021-06-03T02:00:19.201Z",
+    diagnosis_id: "7a647d9f-3243-4f31-84b8-b8ab4f636a14",
+    id: "1ff91d4b-ca3c-491b-a87e-ef8d2f280c99",
+    note: '["ST-D"]'
+  }
+];

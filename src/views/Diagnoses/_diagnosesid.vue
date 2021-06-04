@@ -94,33 +94,41 @@
                   <th scope="col">Channel Name</th>
                   <th scope="col">Time</th>
                   <th scope="col">備註</th>
+                  <th scope="col">操作</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <th>{{ tagDataShow.data[0].channel }}</th>
-                  <td>{{ tagDataShow.data[0].x1 }} ~ {{ tagDataShow.data[0].x2 }}</td>
-                  <td>{{ tagDataShow.data[0].note }}</td>
+                <tr v-for="(item, i) in tagDataShow" :key="i">
+                  <th v-if="item.channel === '0'">avF</th>
+                  <th v-else-if="item.channel === '1'">aVL</th>
+                  <th v-else-if="item.channel === '2'">aVR</th>
+                  <th v-else-if="item.channel === '3'">LEAD 3</th>
+                  <th v-else-if="item.channel === '4'">LEAD 2</th>
+                  <th v-else-if="item.channel === '5'">LEAD 1</th>
+                  <td>
+                    {{ (item.x1 / 250).toFixed(2) }}s ~ {{ (item.x2 / 250).toFixed(2) }}s
+                  </td>
+                  <td>{{ item.note }}</td>
+                  <td>
+                    <a
+                      href="#"
+                      class="btn btn-primary me-2"
+                      data-bs-toggle="modal"
+                      data-bs-target="#modifyModal"
+                      data-bs-whatever="id"
+                      >編輯</a
+                    >
+                    <a
+                      href="#"
+                      class="btn btn-danger me-2"
+                      data-bs-toggle="modal"
+                      data-bs-target="#deleteModal"
+                      >刪除</a
+                    >
+                  </td>
                 </tr>
               </tbody>
             </table>
-            <div class="text-end">
-              <a
-                href="#"
-                class="btn btn-primary me-2"
-                data-bs-toggle="modal"
-                data-bs-target="#modifyModal"
-                data-bs-whatever="id"
-                >編輯</a
-              >
-              <a
-                href="#"
-                class="btn btn-danger me-2"
-                data-bs-toggle="modal"
-                data-bs-target="#deleteModal"
-                >刪除</a
-              >
-            </div>
           </div>
         </div>
       </div>
