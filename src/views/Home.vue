@@ -1,7 +1,4 @@
 <template>
-  <!-- <div class="home">
-    <img alt="intelliances logo" src="../assets/logo.png" />
-  </div> -->
   <div id="carouselExampleControls" class="carousel slide home" data-bs-ride="carousel">
     <div class="carousel-inner">
       <div class="carousel-item active">
@@ -47,9 +44,4 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "Home",
-  components: {}
-};
-</script>
+<script></script>

@@ -10,8 +10,9 @@
     "start": "node src/server.js"
   },
   "dependencies": {
+    "@popperjs/core": "^2.9.2",
     "axios": "^0.21.1",
-    "element-plus": "^1.0.1-beta.27",
+    "bootstrap": "^5.0.1",
     "express": "^4.17.1",
     "sass-loader": "^11.0.1",
     "scichart": "^1.4.1595",
