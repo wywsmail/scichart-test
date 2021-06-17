@@ -31,7 +31,7 @@ export const modalFn = () => {
       }
     }
     const config: any = {
-      url: apiUrl.url + "notes/create",
+      url: apiUrl.url + localStorage.getItem("dbNum") + "/notes/create",
       headers: {
         Authorization: "Bearer " + token,
         "Content-Type": "application/json"
@@ -72,7 +72,11 @@ export const modalFn = () => {
     console.log(val);
     // console.log(tagListData.data.indexOf(val.data[0].id));
     const config: any = {
-      url: apiUrl.url + "notes/delete/" + val[0].id,
+      url:
+        apiUrl.url +
+        localStorage.getItem("dbNum") +
+        "/notes/delete/" +
+        val[0].id,
       headers: {
         Authorization: "Bearer " + token,
         "Content-Type": "application/json"
@@ -104,7 +108,7 @@ export const modalFn = () => {
     console.log(tagData);
     console.log(val);
     const config: any = {
-      url: apiUrl.url + "notes/modify",
+      url: apiUrl.url + localStorage.getItem("dbNum") + "/notes/modify",
       headers: {
         Authorization: "Bearer " + token,
         "Content-Type": "application/json"

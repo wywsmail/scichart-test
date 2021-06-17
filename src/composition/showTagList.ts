@@ -1,7 +1,7 @@
 import axios from "axios";
 import apiUrl from "../../api_url.global";
 import { useRoute } from "vue-router";
-import { tagListData, token } from "@/composition/store";
+import { tagListData, token, dbNum } from "@/composition/store";
 
 export const showTagListFn = () => {
   const showTagList = (): Promise<any> => {
@@ -9,11 +9,18 @@ export const showTagListFn = () => {
     return new Promise((resolve, reject) => {
       axios
         // .get(apiUrl.url + "notes/" + diagnoses.data[0].diagnosis_id, {
-        .get(apiUrl.url + "notes/" + route.params.diagnosesid, {
-          headers: {
-            Authorization: "Bearer " + token
+        .get(
+          apiUrl.url +
+          "v2"+
+            // localStorage.getItem("dbNum") +
+            "/notes/" +
+            route.params.diagnosesid,
+          {
+            headers: {
+              Authorization: "Bearer " + token
+            }
           }
-        })
+        )
         .then(res => {
           console.log(res);
           tagListData.data = res.data.data;
@@ -26,6 +33,7 @@ export const showTagListFn = () => {
     });
   };
   return {
-    showTagList
-  }
+    showTagList,
+    tagListData
+  };
 };

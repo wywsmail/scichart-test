@@ -45,9 +45,11 @@
 </template>
 <script>
 import { onMounted } from "vue";
-import { tagList, showTagList } from "@/composition/store";
+import { tagList } from "@/composition/store";
+import { useShowTagList } from "@/composition/index";
 export default {
   setup() {
+    const { showTagList } = useShowTagList();
     onMounted(async () => {
       await showTagList();
     });

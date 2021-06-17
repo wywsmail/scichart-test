@@ -37,6 +37,16 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("../views/Diagnoses_v2/_diagnosesid.vue")
   },
   {
+    path: "/infinite-test",
+    name: "infinite-test",
+    // component: Chart
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/infinite-test.vue")
+  },
+  {
     path: "/testarea",
     name: "testarea",
     // component: Chart
@@ -47,22 +57,13 @@ const routes: Array<RouteRecordRaw> = [
       import(/* webpackChunkName: "about" */ "../views/testarea.vue")
   },
   {
-    path: "/Login_v1",
-    name: "Login_v1",
+    path: "/Login",
+    name: "Login",
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/Login_v1.vue")
-  },
-  {
-    path: "/Login_v2",
-    name: "Login_v2",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/Login_v2.vue")
+      import(/* webpackChunkName: "about" */ "../views/Login.vue")
   }
 ];
 

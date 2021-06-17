@@ -8,7 +8,8 @@ export const evaluationModeFn = () => {
     return new Promise((resolve, reject) => {
       modelName.length = 0;
       axios
-        .get("https://dev.intelliances.com/broker/medical/v1/models/name")
+        // .get("https://dev.intelliances.com/broker/medical/v1/models/name")
+        .get(`${apiUrl.url}v1/models/name`)
         .then(res => {
           modelName.push({
             // value: "選項" + 1,
@@ -31,7 +32,7 @@ export const evaluationModeFn = () => {
   };
   const activeEvaluationMode = (val, id) => {
     const config: any = {
-      baseURL: apiUrl.url,
+      baseURL: apiUrl.url + localStorage.getItem("dbNum"),
       url: `/anomaly/${val}/${id}`,
       headers: {
         "Content-Type": "application/json",

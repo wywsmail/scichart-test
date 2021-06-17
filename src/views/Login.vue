@@ -1,5 +1,5 @@
 <template>
-  <h2>Login(V2 DB)</h2>
+  <h2>Login</h2>
   <Login></Login>
 </template>
 

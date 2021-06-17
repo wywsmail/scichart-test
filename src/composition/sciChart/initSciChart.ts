@@ -4,6 +4,7 @@
 import { diagnoses, token, tagListData } from "@/composition/store";
 import axios from "axios";
 import apiUrl from "../../../api_url.global";
+import { useRoute } from "vue-router";
 
 import { SciChartSurface } from "scichart/Charting/Visuals/SciChartSurface";
 import { NumericAxis } from "scichart/Charting/Visuals/Axis/NumericAxis";
@@ -18,6 +19,7 @@ import { MouseWheelZoomModifier } from "scichart/Charting/ChartModifiers/MouseWh
 import { EXyDirection } from "scichart/types/XyDirection";
 import { SciChartJSLightTheme } from "scichart/Charting/Themes/SciChartJSLightTheme";
 import { ZoomPanModifier } from "scichart/Charting/ChartModifiers/ZoomPanModifier";
+import { XAxisDragModifier } from "scichart/Charting/ChartModifiers/XAxisDragModifier";
 import { HorizontalLineAnnotation } from "scichart/Charting/Visuals/Annotations/HorizontalLineAnnotation";
 
 // import { ChartModifierBase2D } from "scichart/Charting/ChartModifiers/ChartModifierBase2D";
@@ -30,6 +32,7 @@ import { BoxAnnotation } from "scichart/Charting/Visuals/Annotations/BoxAnnotati
 
 import { SimpleDataPointSelectionModifier } from "@/composition/sciChart/simpleDataPointSelectionModifier";
 import { MouseClickShowdataModifier } from "@/composition/sciChart/mouseClickShowdataModifier";
+import { EDragMode } from 'scichart/types/DragMode';
 
 export const initSciChartFn = () => {
   const initSciChart = async () => {
@@ -247,34 +250,47 @@ export const initSciChartFn = () => {
     const simpleDataPointSelectionModifier = new SimpleDataPointSelectionModifier();
     const mouseWheelZoomModifier = new MouseWheelZoomModifier();
     const mouseMoveShowdataModifier = new MouseClickShowdataModifier();
+    const xAxisDragModifier = new XAxisDragModifier();
 
     sciChartSurface.chartModifiers.add(zoomPanModifier);
     sciChartSurface.chartModifiers.add(simpleDataPointSelectionModifier);
     sciChartSurface.chartModifiers.add(mouseWheelZoomModifier);
     sciChartSurface.chartModifiers.add(mouseMoveShowdataModifier);
+    sciChartSurface.chartModifiers.add(xAxisDragModifier);
 
     mouseWheelZoomModifier.xyDirection = EXyDirection.XDirection;
     zoomPanModifier.xyDirection = EXyDirection.XDirection;
+    xAxisDragModifier.dragMode = EDragMode.Panning;
 
     tagModeEnable.addEventListener("change", () => {
       if (tagModeEnable.checked === true) {
         simpleDataPointSelectionModifier.isEnabled = true;
         zoomPanModifier.isEnabled = false;
+        xAxisDragModifier.isEnabled = true;
         scichartRoot.setAttribute("data-bs-toggle", "modal");
         scichartRoot.setAttribute("data-bs-target", "#exampleModal");
       } else {
         simpleDataPointSelectionModifier.isEnabled = false;
         zoomPanModifier.isEnabled = true;
+        xAxisDragModifier.isEnabled = false;
         scichartRoot.removeAttribute("data-bs-toggle");
         scichartRoot.removeAttribute("data-bs-target");
       }
     });
     axios
-      .get(apiUrl.url + "notes/" + diagnoses.data[0].diagnosis_id, {
-        headers: {
-          Authorization: "Bearer " + token
+      .get(
+        apiUrl.url +
+          // localStorage.getItem("dbNum")
+          localStorage.getItem("dbNum") +
+          "/notes/" +
+          diagnoses.data[0].diagnosis_id,
+        // route.params.diagnosesid,
+        {
+          headers: {
+            Authorization: "Bearer " + token
+          }
         }
-      })
+      )
       .then(res => {
         console.log(res);
         tagListData.data = res.data.data;

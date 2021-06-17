@@ -26,13 +26,12 @@ interface TNote {
 }
 
 import { reactive, ref, computed } from "vue";
-import router from "../router/index";
-import axios from "axios";
-import apiUrl from "../../api_url.global";
 
 export const token = localStorage.getItem("token") || ref(null);
+export const isLogin = ref(JSON.parse(localStorage.getItem("isLogin")));
 
-// 原 tempState.js
+export const dbNum = ref("v2");
+// export const dbNum = ref(JSON.parse(localStorage.getItem("dbNum")));
 
 export const tableData = reactive({
   data: []

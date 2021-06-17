@@ -1,12 +1,12 @@
 import axios from "axios";
 import apiUrl from "../../api_url.global";
-import { diagnoses } from "@/composition/store";
+import { diagnoses, dbNum } from "@/composition/store";
 
 export const showECGChartFn = () => {
   const showECGChart = (id): Promise<any> => {
     return new Promise((resolve, reject) => {
       const config: any = {
-        baseURL: apiUrl.url,
+        baseURL: apiUrl.url + localStorage.getItem("dbNum"),
         url: "/diagnoses/" + id,
         headers: {
           "Content-Type": "application/json",

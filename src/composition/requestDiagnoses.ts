@@ -1,25 +1,36 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import axios from "axios";
+import { ref } from "vue";
 import apiUrl from "../../api_url.global";
-import { tableData } from "@/composition/store";
+import { tableData, dbNum } from "@/composition/store";
 import router from "../router/index";
 
-export const requestDiagnosesFn = () =>{
+export const requestDiagnosesFn = () => {
   const requestDiagnoses = () => {
     const config: any = {
-      baseURL: apiUrl.url,
+      baseURL: apiUrl.url + localStorage.getItem("dbNum"),
       url: "/diagnoses/dashboard",
       headers: {
         "Content-Type": "application/json",
         platform: "web"
       },
-      method: "post",
-      data: {
+      method: "post"
+    };
+    if (localStorage.getItem("dbNum") === "v1") {
+      config.data = {
+        medical_id: "01",
+        measure_person: localStorage.getItem("username"),
+        // measure_person: "wywsmail",
+        role: "api"
+      };
+    } else if (localStorage.getItem("dbNum") === "v2") {
+      config.data = {
         medical_id: "01",
         user_id: localStorage.getItem("userid"),
         role: "regular"
-      }
-    };
+      };
+    }
+    console.log(config);
     axios(config)
       .then(res => {
         console.log(res.data.data);
@@ -34,7 +45,8 @@ export const requestDiagnosesFn = () =>{
       });
   };
   const getECGChart = id => {
-    router.push(`/Diagnoses_v2/${id}`);
+    // router.push(`/Diagnoses_v2/${id}`);
+    router.push(`/Diagnoses_${localStorage.getItem("dbNum")}/${id}`);
   };
-  return { requestDiagnoses, getECGChart };
+  return { requestDiagnoses, getECGChart, dbNum };
 };

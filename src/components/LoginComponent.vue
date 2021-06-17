@@ -12,7 +12,7 @@
               aria-describedby="emailHelp"
               v-model="identifier"
             />
-            <div id="emailHelp" class="form-text ç">
+            <div id="emailHelp" class="form-text">
               We'll never share your email with anyone else.
             </div>
           </div>
@@ -25,8 +25,34 @@
               v-model="password"
             />
           </div>
+          <div class="mb-3 text-start">
+            <div for="" class="form-label">請選擇欲登入之資料庫</div>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="flexRadioDefault"
+                id="flexRadioDefault1"
+                value="v1"
+                v-model="dbNum"
+              />
+              <label class="form-check-label" for="flexRadioDefault1"> V1 DB </label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="flexRadioDefault"
+                id="flexRadioDefault2"
+                checked
+                value="v2"
+                v-model="dbNum"
+              />
+              <label class="form-check-label" for="flexRadioDefault2"> V2 DB </label>
+            </div>
+          </div>
           <button type="submit" class="btn btn-primary" @click.prevent="login">
-            Log In
+            {{ dbNum }} Log In
           </button>
         </form>
       </div>
@@ -36,6 +62,7 @@
 
 <script>
 import { useLoginFn } from "@/composition/index";
+import { dbNum } from "@/composition/store";
 // import { password, identifier, login } from "@/composition/store";
 
 export default {
@@ -43,7 +70,8 @@ export default {
     const {
       identifier,
       password,
-      // isLogin,
+      // dbNum,
+      isLogin,
       // token,
       // retrieveToken,
       login
@@ -52,7 +80,8 @@ export default {
     return {
       identifier,
       password,
-      // isLogin,
+      dbNum,
+      isLogin,
       // token,
       // retrieveToken,
       login

@@ -37,25 +37,20 @@
         </ul>
         <ul class="navbar-nav mb-2 mb-lg-0">
           <li class="nav-item">
+            <a class="nav-link" href="#" @click.prevent="changePage('infinite-test')"
+              >Infinite-test</a
+            >
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="#" @click.prevent="changePage('testarea')"
               >Test Area</a
             >
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#" @click.prevent="changePage('login_v1')"
-              >Log in(V1 DB)</a
-            >
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Log out(V1 DB)</a>
-          </li>
           <li class="nav-item" v-if="!isLogin">
-            <a class="nav-link" href="#" @click.prevent="changePage('login_v2')"
-              >Log in(V2 DB)</a
-            >
+            <a class="nav-link" href="#" @click.prevent="changePage('login')">Log in</a>
           </li>
           <li class="nav-item" v-else>
-            <a class="nav-link" href="#" @click.prevent="logout">Log out(V2 DB)</a>
+            <a class="nav-link" href="#" @click.prevent="logout">Log out</a>
           </li>
         </ul>
       </div>
@@ -71,6 +66,7 @@ import router from "./router/index";
 export default {
   setup() {
     const { logout, isLogin } = useLoginFn();
+    console.log(isLogin.value);
     const changePage = (to) => {
       router.push(`/${to}`);
     };
