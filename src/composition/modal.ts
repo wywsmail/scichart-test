@@ -11,11 +11,39 @@ import {
   // initSciChart
 } from "@/composition/store";
 
+// let max = selectedPoints[0].length;
+// let max = 0;
+// const filterSelectedPoints = selectedPoints.
+// selectedPoints.forEach((item)=>{
+//   max = item.length > max ? item.length : max;
+// });
+// console.log(max);
 export const modalFn = () => {
   const { initSciChart } = useInitSciChart();
+  // const maxLength = Math.max(...selectedPoints.map(p => p.length));
+  // const filterSelectedAry = { channel: 0, data: [] };
+  // selectedPoints.forEach((item, index) => {
+  //   if (item.length === maxLength) {
+  //     filterSelectedAry.channel = index;
+  //     filterSelectedAry.data.push(item);
+  //   }
+  // });
+  // console.log(filterSelectedAry);
   const saveData = val => {
-    console.log(selectedPoints);
-    console.log(diagnoses.data);
+    const maxLength = Math.max(...selectedPoints.map(p => p.length));
+    const filterSelectedAry = { channel: 0, data: [] };
+    selectedPoints.forEach((item, index) => {
+      if (item.length === maxLength) {
+        filterSelectedAry.channel = index;
+        filterSelectedAry.data.push(item);
+      }
+    });
+
+    // console.log(selectedPoints);
+    // console.log(selectedPoints.length);
+    // console.log(maxLength);
+    // console.log(filterSelectedAry);
+    // console.log(diagnoses.data);
     let x1: string;
     let x2: string;
     let y1: string;
@@ -27,9 +55,44 @@ export const modalFn = () => {
         x2 = selectedPoints[i][0].x2Value.toFixed(0);
         y1 = selectedPoints[i][0].y1Value.toFixed(0);
         y2 = selectedPoints[i][0].y2Value.toFixed(0);
-        theChannel = i.toString();
+        // theChannel = max.toString();
+        theChannel = filterSelectedAry.channel.toString();
       }
     }
+    // console.log(selectedPoints[-1].length);
+    // for (let i = 0; i < selectedPoints.length; i++) {
+    //   if (
+    //     selectedPoints[i].length !== 0 &&
+    //     selectedPoints[i - 1].length !== 0 &&
+    //     selectedPoints[i + 1].length !== 0
+    //   ) {
+    //     x1 = selectedPoints[i][0].x1Value.toFixed(0);
+    //     x2 = selectedPoints[i][0].x2Value.toFixed(0);
+    //     y1 = selectedPoints[i][0].y1Value.toFixed(0);
+    //     y2 = selectedPoints[i][0].y2Value.toFixed(0);
+    //     theChannel = i.toString();
+    //   } else if (
+    //     selectedPoints[i].length !== 0 &&
+    //     selectedPoints[i - 1].length !== 0 &&
+    //     selectedPoints[i + 1].length === 0
+    //   ) {
+    //     x1 = selectedPoints[i][0].x1Value.toFixed(0);
+    //     x2 = selectedPoints[i][0].x2Value.toFixed(0);
+    //     y1 = selectedPoints[i][0].y1Value.toFixed(0);
+    //     y2 = selectedPoints[i][0].y2Value.toFixed(0);
+    //     theChannel = i.toString();
+    //   } else if (
+    //     selectedPoints[i].length !== 0 &&
+    //     selectedPoints[i - 1].length === 0 &&
+    //     selectedPoints[i + 1].length !== 0
+    //   ) {
+    //     x1 = selectedPoints[i][0].x1Value.toFixed(0);
+    //     x2 = selectedPoints[i][0].x2Value.toFixed(0);
+    //     y1 = selectedPoints[i][0].y1Value.toFixed(0);
+    //     y2 = selectedPoints[i][0].y2Value.toFixed(0);
+    //     theChannel = i.toString();
+    //   }
+    // }
     const config: any = {
       url: apiUrl.url + localStorage.getItem("dbNum") + "/notes/create",
       headers: {

@@ -78,8 +78,8 @@ export const evaluationTags = ref([]);
 export const anomalyModels = ref([]);
 
 export const selectedPoints: TDataPoint[][] = reactive([]);
-
-export const noteMode = ref("");
+// export const selectedPoints: any = reactive([]);
+export const noteMode = ref("ST-E");
 export const tagMode = computed(() => {
   return noteMode.value;
 });
