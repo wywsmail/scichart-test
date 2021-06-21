@@ -150,21 +150,34 @@ export const modalFn = () => {
     axios(config)
       .then(res => {
         console.log(res);
+        tagListData.data.splice(selectTagData.data.index);
+        console.log(tagListData.data);
+        selectTagData.data.length = 0;
+        selectTagData.data.push({
+          index: 0,
+          channel: "",
+          created_at: "",
+          diagnosis_id: "",
+          note: "",
+          x1: "",
+          x2: ""
+        });
       })
       .catch(err => {
         console.log(err);
       });
-    tagListData.data.splice(selectTagData.data.index);
-    selectTagData.data.length = 0;
-    selectTagData.data.push({
-      index: 0,
-      channel: "",
-      created_at: "",
-      diagnosis_id: "",
-      note: "",
-      x1: "",
-      x2: ""
-    });
+    // tagListData.data.splice(selectTagData.data.index);
+    // console.log(tagListData);
+    // selectTagData.data.length = 0;
+    // selectTagData.data.push({
+    //   index: 0,
+    //   channel: "",
+    //   created_at: "",
+    //   diagnosis_id: "",
+    //   note: "",
+    //   x1: "",
+    //   x2: ""
+    // });
     initSciChart();
   };
   const modifyData = (tagData, val) => {

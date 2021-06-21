@@ -27,6 +27,7 @@ export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
   // Called when mouse-down on the chart
   public modifierMouseDown(args: ModifierMouseArgs): void {
     super.modifierMouseDown(args);
+    console.log(args);
     this.selectionAnnotation = new BoxAnnotation({
       // DataValue COORDINATE MODE EXAMPLE
       yCoordinateMode: ECoordinateMode.Relative,

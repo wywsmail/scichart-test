@@ -6,7 +6,12 @@
           <h5 class="card-header">Tag Information</h5>
           <div class="card-body">
             <div class="form-check form-switch justify-content-end d-flex">
-              <input class="form-check-input" type="checkbox" id="tag-mode" />
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="tag-mode"
+                tabindex="1"
+              />
               <label class="form-check-label" for="tag-mode">Enable Tag Mode</label>
             </div>
             <table class="table">
@@ -59,12 +64,12 @@
   </div>
 </template>
 <script>
-import {tagDataShow } from "@/composition/store";
+import { tagDataShow } from "@/composition/store";
 export default {
   setup() {
-    return{
+    return {
       tagDataShow
-    }
+    };
   }
-}
+};
 </script>

@@ -32,7 +32,7 @@ import { BoxAnnotation } from "scichart/Charting/Visuals/Annotations/BoxAnnotati
 
 import { SimpleDataPointSelectionModifier } from "@/composition/sciChart/simpleDataPointSelectionModifier";
 import { MouseClickShowdataModifier } from "@/composition/sciChart/mouseClickShowdataModifier";
-import { EDragMode } from 'scichart/types/DragMode';
+import { EDragMode } from "scichart/types/DragMode";
 
 export const initSciChartFn = () => {
   const initSciChart = async () => {
@@ -246,6 +246,10 @@ export const initSciChartFn = () => {
     );
     const scichartRoot = document.getElementById("scichart-root");
 
+    scichartRoot.addEventListener("mouseup", e => {
+      console.log(e);
+    });
+
     const zoomPanModifier = new ZoomPanModifier();
     const simpleDataPointSelectionModifier = new SimpleDataPointSelectionModifier();
     const mouseWheelZoomModifier = new MouseWheelZoomModifier();
@@ -262,6 +266,29 @@ export const initSciChartFn = () => {
     zoomPanModifier.xyDirection = EXyDirection.XDirection;
     xAxisDragModifier.dragMode = EDragMode.Panning;
 
+    document.body.addEventListener("keydown", e => {
+      console.log(e.keyCode); 
+      e.preventDefault();
+      switch (e.keyCode) {
+        case 32:
+          tagModeEnable.focus();
+          tagModeEnable.checked = !tagModeEnable.checked;
+          console.log(tagModeEnable.checked);
+      }
+      if (tagModeEnable.checked === true) {
+        simpleDataPointSelectionModifier.isEnabled = true;
+        zoomPanModifier.isEnabled = false;
+        xAxisDragModifier.isEnabled = true;
+        scichartRoot.setAttribute("data-bs-toggle", "modal");
+        scichartRoot.setAttribute("data-bs-target", "#exampleModal");
+      } else {
+        simpleDataPointSelectionModifier.isEnabled = false;
+        zoomPanModifier.isEnabled = true;
+        xAxisDragModifier.isEnabled = false;
+        scichartRoot.removeAttribute("data-bs-toggle");
+        scichartRoot.removeAttribute("data-bs-target");
+      }
+    });
     tagModeEnable.addEventListener("change", () => {
       if (tagModeEnable.checked === true) {
         simpleDataPointSelectionModifier.isEnabled = true;
