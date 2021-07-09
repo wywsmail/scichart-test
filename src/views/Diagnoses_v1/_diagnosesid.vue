@@ -27,6 +27,7 @@ import { onMounted, computed } from "vue";
 import {
   // dataInformation,
   // showECGChart,
+  isChecked,
   diagnoses,
   // getAnomalyModels,
   // modelName,
@@ -67,6 +68,13 @@ export default {
       await showECGChart(route.params.diagnosesid);
       initSciChart();
       await showTagList();
+      window.addEventListener("keydown", (e) => {
+        e.preventDefault();
+        if (e.keyCode === 32) {
+          isChecked.value = !isChecked.value;
+          console.log(isChecked.value);
+        }
+      });
     });
     return {
       // dataInformation,

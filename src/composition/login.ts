@@ -50,6 +50,7 @@ export const loginFn = () => {
         localStorage.setItem("userid", res.data.user_id);
         localStorage.setItem("username", res.data.username);
         localStorage.setItem("token", res.data.access_token);
+        localStorage.setItem("phone", res.data.phone);
         window.setTimeout(() => {
           router.push({
             // name: "Diagnoses_v2"

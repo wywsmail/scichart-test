@@ -31,6 +31,7 @@
             class="btn btn-primary"
             @click="deleteData(tagDataShow)"
             data-bs-dismiss="modal"
+            tabindex="-1"
           >
             確認
           </button>

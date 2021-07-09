@@ -1,10 +1,19 @@
 /* eslint-disable @typescript-eslint/consistent-type-assertions */
 /* eslint-disable @typescript-eslint/camelcase */
 
-import { diagnoses, token, tagListData } from "@/composition/store";
+import {
+  diagnoses,
+  diagnosesUpdate,
+  token,
+  tagListData,
+  anomalyData,
+  isChecked,
+  isActive
+} from "@/composition/store";
 import axios from "axios";
 import apiUrl from "../../../api_url.global";
-import { useRoute } from "vue-router";
+// import { useRoute } from "vue-router";
+import { reactive } from "vue";
 
 import { SciChartSurface } from "scichart/Charting/Visuals/SciChartSurface";
 import { NumericAxis } from "scichart/Charting/Visuals/Axis/NumericAxis";
@@ -35,6 +44,58 @@ import { MouseClickShowdataModifier } from "@/composition/sciChart/mouseClickSho
 import { EDragMode } from "scichart/types/DragMode";
 
 export const initSciChartFn = () => {
+  // SciChartSurface.setRuntimeLicenseKey(
+  //   "v/0WAay88q5K5d+TsxglfrXiVkYIvp214hdjRXm5ISMTAaue7nTmdIbTIgH+AzBpZIuE20RKtPWFXOrKmbhLyy7y6ozcbKUqTlcTWpUalDb72gnqx6YxAAwGhe16TAoG/GKdNsFDdHax+ke/AvlVRyUuMaqQFs50nwgMJp51klnoJsuEEdbw6A3P8iR9JyPpSxgQ/ODg9790GRnhSecEA5smLRQBA3qBE9kDRwDZHQxO+DR4NFjiaoZTR88ZLb8dcVkU+YZNCg4VLyohjCjcCMfOnAUGGywkF+444aWZE5djzhps+xoJYyfbfrkD1ZMS51bApQEkEydOG+h0BN1PUSf1fLBhv5ltN7/+jLMKVshVErAgsXRscIkLYb3J5K2ZxjIvk0HeHnn2rtYfxX+j94Ta06h7ClwNcT3LFZnBLKe9yH8RUv6iOEQPQAXT50UlRLRCRYMViccc061CqZCmHVw5WD7HLzTfipk5VLxyqlmjf7v8mjpf2oBCNd05quIqSpLXUBzJZShBk9+Z2VGKOzeSVel7ZbRY0ReBm2BMaZ9Vx+hchrKWX+YCcbynD10mMx4FB2SL+fXxgzUp+7W67K/6YgCxlw0wHs/b5r9+gpqgMa6Zg7GF3nqp2yhpyXvPHhVIdNcmYfRGiPju5YuKY/Dsu0I3+QnCp5CDHgNqdsIEBTIbFd+734qGh6uaEcwKZcSnAWFmmWnW7WoqoX4twdahNOYR3+rDhu3KZvppeIx7cjKsCFz0EVnyVIEm4CD5inCbTWbYaQ=="
+  // );
+
+  // const { sciChartSurface, wasmContext } = await SciChartSurface.create(
+  //   "scichart-root"
+  // );
+  const changeSwitch = () => {
+    const tagModeEnable: HTMLInputElement = <HTMLInputElement>(
+      document.getElementById("tag-mode")
+    );
+    const simpleDataPointSelectionModifier = new SimpleDataPointSelectionModifier();
+    const zoomPanModifier = new SimpleDataPointSelectionModifier();
+    // isChecked.value = !isChecked.value;
+    tagModeEnable.checked = !tagModeEnable.checked;
+    if (tagModeEnable.checked === true) {
+      console.log(tagModeEnable.checked);
+      simpleDataPointSelectionModifier.isEnabled = true;
+      zoomPanModifier.isEnabled = false;
+      console.log(
+        "有嗎?",
+        "這是true=>",
+        simpleDataPointSelectionModifier,
+        zoomPanModifier
+      );
+      // xAxisDragModifier.isEnabled = true;
+      document
+        .getElementById("scichart-root")
+        .setAttribute("data-bs-toggle", "modal");
+      document
+        .getElementById("scichart-root")
+        .setAttribute("data-bs-target", "#exampleModal");
+    } else {
+      console.log(tagModeEnable.checked);
+      simpleDataPointSelectionModifier.isEnabled = false;
+      zoomPanModifier.isEnabled = true;
+      console.log(
+        "有嗎?",
+        "這是false=>",
+        simpleDataPointSelectionModifier,
+        zoomPanModifier
+      );
+      // xAxisDragModifier.isEnabled = false;
+      document
+        .getElementById("scichart-root")
+        .removeAttribute("data-bs-toggle");
+      document
+        .getElementById("scichart-root")
+        .removeAttribute("data-bs-target");
+    }
+    zoomPanModifier.xyDirection = EXyDirection.XDirection;
+  };
   const initSciChart = async () => {
     // SciChartSurface.setRuntimeLicenseKey(
     //   "5ycxvf/fY4gXbo/ejlWy2JzrxfwiO3XxnN4QB5l327kqZNnGd+hs1lHuSmi2+TDeenf0kGGDk6rpjYWwpLJipt6qTvMzRx6zlZhY9Qyo+DYNuNieYzxrC/ZceJwv7E/2UdlYysxQLHMDEcp0txtbjJ++qVe4gjU1bgU8+mz92RzB7rZhonqZ6pCZyLYgONZ8ljZicebuSlOM0KQSeomou30SIE1S9wiP6W9YuuaIoCR/gZIwMZnioOHf8k3gsPB3EfCH0D/Mz+/eUq9RliOJkSm66r13+XgaDRp/fG9UAF2xoZmXSqzBX1v52A2Xn7NuXyxmOiQVRvIfuF7qW6e7XIZqHed6ZJ+rp9xXMs+q1JlF39LmZsMqChi0HuAM8eohJhRJ0dspyTAFH9aot6nBJCi1DmKu0DXumyXm9IdEOlXCWa5whtWDwoUnvkuKrI1KRDVZ1KjsDoZ+Pvw+7oX0+ERCeMeUrpgx0XhDFe8jzQB33hmiAu23FJ4OIike6RGYlWk5VczgpY+NXSVj5tjM0b0JiF/mFGjoFKsQ3noKqAHyosPrfhtGH830MYD44ObNWuvLWeLxNofC4a5odOwPFHvwDVVlNTAo9UFw2g3p7pF9WAsup7+YV7cjooMQPqrMD4GBSggeh+k26nQyc9nAT0qiceMSScuHENhbc+j8UFI0RZuP1x5d6xkJJ1A8TtJ41KDqxML8QrV/KijPP+y5iAxIOCexrjGlPTCTdUhTpw=="
@@ -89,34 +150,47 @@ export const initSciChartFn = () => {
     const xyDataSeries5 = new XyDataSeries(wasmContext);
     const xyDataSeries6 = new XyDataSeries(wasmContext);
     console.log(diagnoses.data[0]);
+    console.log(diagnosesUpdate.value.data[0]);
     diagnoses.data[0].measures[0].values[0].raw_datas.forEach(
+      // CH1
       (item: number, index: number) => {
-        xyDataSeries6.append(index, item + 10);
+        // xyDataSeries6.append(index, item + 10);
+        xyDataSeries1.append(index, item + 10);
       }
     );
     diagnoses.data[0].measures[0].values[1].raw_datas.forEach(
+      // CH2
       (item: number, index: number) => {
-        xyDataSeries5.append(index, item + 8);
+        // xyDataSeries5.append(index, item + 8);
+        xyDataSeries2.append(index, item + 8);
       }
     );
     diagnoses.data[0].measures[0].values[2].raw_datas.forEach(
+      // CH3
       (item: number, index: number) => {
-        xyDataSeries4.append(index, item + 6);
+        // xyDataSeries4.append(index, item + 6);
+        xyDataSeries3.append(index, item + 6);
       }
     );
     diagnoses.data[0].measures[0].values[3].raw_datas.forEach(
+      // CH4
       (item: number, index: number) => {
-        xyDataSeries3.append(index, item + 4);
+        // xyDataSeries3.append(index, item + 4);
+        xyDataSeries4.append(index, item + 4);
       }
     );
     diagnoses.data[0].measures[0].values[4].raw_datas.forEach(
+      // CH5
       (item: number, index: number) => {
-        xyDataSeries2.append(index, item + 2);
+        // xyDataSeries2.append(index, item + 2);
+        xyDataSeries5.append(index, item + 2);
       }
     );
     diagnoses.data[0].measures[0].values[5].raw_datas.forEach(
+      // CH6
       (item: number, index: number) => {
-        xyDataSeries1.append(index, item + 0);
+        // xyDataSeries1.append(index, item + 0);
+        xyDataSeries6.append(index, item + 0);
       }
     );
 
@@ -212,26 +286,31 @@ export const initSciChartFn = () => {
     const lineSeries2 = new FastLineRenderableSeries(wasmContext);
     lineSeries2.strokeThickness = 2;
     lineSeries2.stroke = "rgba(255,0,0,1)";
+    // lineSeries2.stroke = "orange";
     lineSeries2.dataSeries = xyDataSeries2;
 
     const lineSeries3 = new FastLineRenderableSeries(wasmContext);
     lineSeries3.strokeThickness = 2;
     lineSeries3.stroke = "rgba(255,0,0,1)";
+    // lineSeries3.stroke = "yellow";
     lineSeries3.dataSeries = xyDataSeries3;
 
     const lineSeries4 = new FastLineRenderableSeries(wasmContext);
     lineSeries4.strokeThickness = 2;
     lineSeries4.stroke = "rgba(255,0,0,1)";
+    // lineSeries4.stroke = "green";
     lineSeries4.dataSeries = xyDataSeries4;
 
     const lineSeries5 = new FastLineRenderableSeries(wasmContext);
     lineSeries5.strokeThickness = 2;
     lineSeries5.stroke = "rgba(255,0,0,1)";
+    // lineSeries5.stroke = "blue";
     lineSeries5.dataSeries = xyDataSeries5;
 
     const lineSeries6 = new FastLineRenderableSeries(wasmContext);
     lineSeries6.strokeThickness = 2;
     lineSeries6.stroke = "rgba(255,0,0,1)";
+    // lineSeries6.stroke = "purple";
     lineSeries6.dataSeries = xyDataSeries6;
 
     sciChartSurface.renderableSeries.add(lineSeries1);
@@ -246,64 +325,194 @@ export const initSciChartFn = () => {
     );
     const scichartRoot = document.getElementById("scichart-root");
 
-    scichartRoot.addEventListener("mouseup", e => {
-      console.log(e);
-    });
+    // scichartRoot.addEventListener("mouseup", e => {
+    //   console.log(e);
+    // });
 
     const zoomPanModifier = new ZoomPanModifier();
     const simpleDataPointSelectionModifier = new SimpleDataPointSelectionModifier();
     const mouseWheelZoomModifier = new MouseWheelZoomModifier();
     const mouseMoveShowdataModifier = new MouseClickShowdataModifier();
-    const xAxisDragModifier = new XAxisDragModifier();
+    // const xAxisDragModifier = new XAxisDragModifier();
 
     sciChartSurface.chartModifiers.add(zoomPanModifier);
     sciChartSurface.chartModifiers.add(simpleDataPointSelectionModifier);
     sciChartSurface.chartModifiers.add(mouseWheelZoomModifier);
     sciChartSurface.chartModifiers.add(mouseMoveShowdataModifier);
-    sciChartSurface.chartModifiers.add(xAxisDragModifier);
+    // sciChartSurface.chartModifiers.add(xAxisDragModifier);
 
     mouseWheelZoomModifier.xyDirection = EXyDirection.XDirection;
     zoomPanModifier.xyDirection = EXyDirection.XDirection;
-    xAxisDragModifier.dragMode = EDragMode.Panning;
+    // xAxisDragModifier.dragMode = EDragMode.Panning;
 
-    document.body.addEventListener("keydown", e => {
-      console.log(e.keyCode); 
-      e.preventDefault();
-      switch (e.keyCode) {
-        case 32:
-          tagModeEnable.focus();
-          tagModeEnable.checked = !tagModeEnable.checked;
-          console.log(tagModeEnable.checked);
-      }
-      if (tagModeEnable.checked === true) {
-        simpleDataPointSelectionModifier.isEnabled = true;
-        zoomPanModifier.isEnabled = false;
-        xAxisDragModifier.isEnabled = true;
-        scichartRoot.setAttribute("data-bs-toggle", "modal");
-        scichartRoot.setAttribute("data-bs-target", "#exampleModal");
-      } else {
-        simpleDataPointSelectionModifier.isEnabled = false;
-        zoomPanModifier.isEnabled = true;
-        xAxisDragModifier.isEnabled = false;
-        scichartRoot.removeAttribute("data-bs-toggle");
-        scichartRoot.removeAttribute("data-bs-target");
-      }
-    });
     tagModeEnable.addEventListener("change", () => {
+      // isChecked.value = !isChecked.value;
+      // tagModeEnable.checked = !tagModeEnable.checked;
       if (tagModeEnable.checked === true) {
+        console.log(tagModeEnable.checked);
         simpleDataPointSelectionModifier.isEnabled = true;
         zoomPanModifier.isEnabled = false;
-        xAxisDragModifier.isEnabled = true;
+        // sciChartSurface.chartModifiers.add(simpleDataPointSelectionModifier);
+        // sciChartSurface.chartModifiers.remove(zoomPanModifier);
         scichartRoot.setAttribute("data-bs-toggle", "modal");
         scichartRoot.setAttribute("data-bs-target", "#exampleModal");
+        console.log(
+          "有嗎?",
+          "這是true=>",
+          simpleDataPointSelectionModifier,
+          zoomPanModifier
+        );
       } else {
+        console.log(tagModeEnable.checked);
         simpleDataPointSelectionModifier.isEnabled = false;
         zoomPanModifier.isEnabled = true;
-        xAxisDragModifier.isEnabled = false;
+        console.log(
+          "有嗎?",
+          "這是false=>",
+          simpleDataPointSelectionModifier,
+          zoomPanModifier
+        );
+        // sciChartSurface.chartModifiers.add(zoomPanModifier);
+        // sciChartSurface.chartModifiers.remove(simpleDataPointSelectionModifier);
         scichartRoot.removeAttribute("data-bs-toggle");
         scichartRoot.removeAttribute("data-bs-target");
       }
     });
+
+    const filterAnomalyData = reactive([]);
+    // const changeSwitch = () => {
+    //   isChecked.value = !isChecked.value;
+    //   if (isActive.value === true) {
+    //     console.log(isActive.value);
+    //     simpleDataPointSelectionModifier.isEnabled = true;
+    //     zoomPanModifier.isEnabled = false;
+    //     console.log(
+    //       "有嗎?",
+    //       "這是true=>",
+    //       simpleDataPointSelectionModifier,
+    //       zoomPanModifier
+    //     );
+    //     // xAxisDragModifier.isEnabled = true;
+    //     document
+    //       .getElementById("scichart-root")
+    //       .setAttribute("data-bs-toggle", "modal");
+    //     document
+    //       .getElementById("scichart-root")
+    //       .setAttribute("data-bs-target", "#exampleModal");
+    //   } else {
+    //     console.log(isActive.value);
+    //     simpleDataPointSelectionModifier.isEnabled = false;
+    //     zoomPanModifier.isEnabled = true;
+    //     console.log(
+    //       "有嗎?",
+    //       "這是false=>",
+    //       simpleDataPointSelectionModifier,
+    //       zoomPanModifier
+    //     );
+    //     // xAxisDragModifier.isEnabled = false;
+    //     document
+    //       .getElementById("scichart-root")
+    //       .removeAttribute("data-bs-toggle");
+    //     document
+    //       .getElementById("scichart-root")
+    //       .removeAttribute("data-bs-target");
+    //   }
+    // };
+    // tagModeEnable.addEventListener("input", () => {
+    //   // isChecked.value = !isChecked.value;
+    //   changeSwitch();
+    // });
+    // document.querySelector("body").addEventListener("keydown", e => {
+    //   e.preventDefault();
+    //   if (e.keyCode === 32) {
+    //     // isChecked.value = !isChecked.value;
+    //     changeSwitch();
+    //   }
+    // });
+    // for (let i = 0; i < tagListData.data.length; i++) {
+    //   if (tagListData.data[i].channel === "5") {
+    //     sciChartSurface.annotations.add(
+    //       new BoxAnnotation({
+    //         fill: "#FFE66F33",
+    //         strokeThickness: 0,
+    //         x1: parseInt(tagListData.data[i].x1),
+    //         x2: parseInt(tagListData.data[i].x2),
+    //         y1: -1,
+    //         y2: 1
+    //       })
+    //     );
+    //   } else if (tagListData.data[i].channel === "4") {
+    //     sciChartSurface.annotations.add(
+    //       new BoxAnnotation({
+    //         fill: "#FFE66F33",
+    //         strokeThickness: 0,
+    //         x1: parseInt(tagListData.data[i].x1),
+    //         x2: parseInt(tagListData.data[i].x2),
+    //         y1: 1,
+    //         y2: 3
+    //       })
+    //     );
+    //   } else if (tagListData.data[i].channel === "3") {
+    //     sciChartSurface.annotations.add(
+    //       new BoxAnnotation({
+    //         fill: "#FFE66F33",
+    //         strokeThickness: 0,
+    //         x1: parseInt(tagListData.data[i].x1),
+    //         x2: parseInt(tagListData.data[i].x2),
+    //         y1: 3,
+    //         y2: 5
+    //       })
+    //     );
+    //   } else if (tagListData.data[i].channel === "2") {
+    //     sciChartSurface.annotations.add(
+    //       new BoxAnnotation({
+    //         fill: "#FFE66F33",
+    //         strokeThickness: 0,
+    //         x1: parseInt(tagListData.data[i].x1),
+    //         x2: parseInt(tagListData.data[i].x2),
+    //         y1: 5,
+    //         y2: 7
+    //       })
+    //     );
+    //   } else if (tagListData.data[i].channel === "1") {
+    //     sciChartSurface.annotations.add(
+    //       new BoxAnnotation({
+    //         fill: "#FFE66F33",
+    //         strokeThickness: 0,
+    //         x1: parseInt(tagListData.data[i].x1),
+    //         x2: parseInt(tagListData.data[i].x2),
+    //         y1: 7,
+    //         y2: 9
+    //       })
+    //     );
+    //   } else {
+    //     sciChartSurface.annotations.add(
+    //       new BoxAnnotation({
+    //         fill: "#FFE66F33",
+    //         strokeThickness: 0,
+    //         x1: parseInt(tagListData.data[i].x1),
+    //         x2: parseInt(tagListData.data[i].x2),
+    //         y1: 9,
+    //         y2: 11
+    //       })
+    //     );
+    //   }
+    // }
+    // tagModeEnable.addEventListener("change", () => {
+    //   if (tagModeEnable.checked === true) {
+    //     simpleDataPointSelectionModifier.isEnabled = true;
+    //     zoomPanModifier.isEnabled = false;
+    //     xAxisDragModifier.isEnabled = true;
+    //     scichartRoot.setAttribute("data-bs-toggle", "modal");
+    //     scichartRoot.setAttribute("data-bs-target", "#exampleModal");
+    //   } else {
+    //     simpleDataPointSelectionModifier.isEnabled = false;
+    //     zoomPanModifier.isEnabled = true;
+    //     xAxisDragModifier.isEnabled = false;
+    //     scichartRoot.removeAttribute("data-bs-toggle");
+    //     scichartRoot.removeAttribute("data-bs-target");
+    //   }
+    // });
     axios
       .get(
         apiUrl.url +
@@ -319,11 +528,12 @@ export const initSciChartFn = () => {
         }
       )
       .then(res => {
+        anomalyData.data.length = 0;
         console.log(res);
         tagListData.data = res.data.data;
         console.log(tagListData);
         for (let i = 0; i < res.data.data.length; i++) {
-          if (res.data.data[i].channel === "0") {
+          if (res.data.data[i].channel === "5") {
             sciChartSurface.annotations.add(
               new BoxAnnotation({
                 fill: "#FFE66F33",
@@ -334,7 +544,7 @@ export const initSciChartFn = () => {
                 y2: 1
               })
             );
-          } else if (res.data.data[i].channel === "1") {
+          } else if (res.data.data[i].channel === "4") {
             sciChartSurface.annotations.add(
               new BoxAnnotation({
                 fill: "#FFE66F33",
@@ -345,7 +555,7 @@ export const initSciChartFn = () => {
                 y2: 3
               })
             );
-          } else if (res.data.data[i].channel === "2") {
+          } else if (res.data.data[i].channel === "3") {
             sciChartSurface.annotations.add(
               new BoxAnnotation({
                 fill: "#FFE66F33",
@@ -356,7 +566,7 @@ export const initSciChartFn = () => {
                 y2: 5
               })
             );
-          } else if (res.data.data[i].channel === "3") {
+          } else if (res.data.data[i].channel === "2") {
             sciChartSurface.annotations.add(
               new BoxAnnotation({
                 fill: "#FFE66F33",
@@ -367,7 +577,7 @@ export const initSciChartFn = () => {
                 y2: 7
               })
             );
-          } else if (res.data.data[i].channel === "4") {
+          } else if (res.data.data[i].channel === "1") {
             sciChartSurface.annotations.add(
               new BoxAnnotation({
                 fill: "#FFE66F33",
@@ -395,6 +605,52 @@ export const initSciChartFn = () => {
       .catch(err => {
         console.log(err);
       });
+    console.log(anomalyData);
+    if (anomalyData.data.length !== 0) {
+      anomalyData.data[0].result.forEach((item1, index1) => {
+        filterAnomalyData.push({
+          channel: index1,
+          block: { num: [], section: [] }
+        });
+        item1.forEach((item2, index2) => {
+          if (item2 === 1) {
+            filterAnomalyData[index1].block.num.push(index2);
+          }
+        });
+      });
+      anomalyData.data[0].start_end_peak.forEach((item3, index3) => {
+        filterAnomalyData[index3].block.num.forEach((item4, index4) => {
+          filterAnomalyData[index3].block.section.push(item3[item4]);
+        });
+      });
+    }
+    console.log(filterAnomalyData);
+    filterAnomalyData.forEach((item, index) => {
+      // console.log(index);
+      item.block.section.forEach((item2, index2) => {
+        console.log(index);
+        console.log(item2[0]);
+        console.log(item2[1]);
+        sciChartSurface.annotations.add(
+          new BoxAnnotation({
+            fill: "#FF333350",
+            strokeThickness: 0,
+            x1: item2[0],
+            x2: item2[1],
+            y1: index * 2 - 1,
+            y2: index * 2 + 1
+          })
+        );
+      });
+    });
+    console.log(anomalyData);
   };
-  return { initSciChart };
+  const test = () => {
+    console.log("test");
+    const test2 = () => {
+      console.log("test2");
+    };
+    return { test2 };
+  };
+  return { initSciChart, anomalyData, test, changeSwitch };
 };

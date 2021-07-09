@@ -39,10 +39,10 @@ export const modalFn = () => {
       }
     });
 
-    // console.log(selectedPoints);
+    console.log(selectedPoints);
     // console.log(selectedPoints.length);
     // console.log(maxLength);
-    // console.log(filterSelectedAry);
+    console.log(filterSelectedAry);
     // console.log(diagnoses.data);
     let x1: string;
     let x2: string;
@@ -179,8 +179,10 @@ export const modalFn = () => {
     //   x2: ""
     // });
     initSciChart();
+    // window.location.reload;
+    // addKeyDownSwitch();
   };
-  const modifyData = (tagData, val) => {
+  const modifyData = (tagData, val, newChannel) => {
     console.log(tagData);
     console.log(val);
     const config: any = {
@@ -195,7 +197,8 @@ export const modalFn = () => {
         diagnosis_id: diagnoses.data[0].diagnosis_id,
         x1: tagData[0].x1,
         x2: tagData[0].x2,
-        channel: tagData[0].channel,
+        // channel: tagData[0].channel,
+        channel: `${newChannel}`,
         note: `["${val}"]`
       }
     };
@@ -208,10 +211,12 @@ export const modalFn = () => {
         console.log(selectTagData.data[0].index);
         tagListData.data[selectTagData.data[0].index].note = config.data.note;
         selectTagData.data[0].note = JSON.parse(config.data.note)[0];
+        selectTagData.data[0].channel = config.data.channel;
       })
       .catch(err => {
         console.log(err);
       });
+    initSciChart();
   };
   return { saveData, deleteData, modifyData };
 };

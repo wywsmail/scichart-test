@@ -23,11 +23,18 @@ export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
   y5 = 7;
   y6 = 9;
   y7 = 11;
+  // y1 = 11;
+  // y2 = 9;
+  // y3 = 7;
+  // y4 = 5;
+  // y5 = 3;
+  // y6 = 1;
+  // y7 = -1;
 
   // Called when mouse-down on the chart
   public modifierMouseDown(args: ModifierMouseArgs): void {
     super.modifierMouseDown(args);
-    console.log(args);
+    console.log(args.button);
     this.selectionAnnotation = new BoxAnnotation({
       // DataValue COORDINATE MODE EXAMPLE
       yCoordinateMode: ECoordinateMode.Relative,
@@ -116,6 +123,7 @@ export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
   // Called when mouse-up on the chart
   public modifierMouseUp(args: ModifierMouseArgs) {
     super.modifierMouseUp(args);
+    console.log(args);
     this.isSelecting = false;
     this.performSelection();
     this.startPoint = undefined;
@@ -157,30 +165,49 @@ export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
         }
         let bottomYData, topYData;
 
+        // if (
+        //   yCalc.getDataValue(this.startPoint.y) > this.y1 &&
+        //   yCalc.getDataValue(this.endPoint.y) < this.y2
+        // ) {
+        //   bottomYData = this.y1;
+        //   topYData = this.y2;
+        // } else if (
+        //   yCalc.getDataValue(this.startPoint.y) > this.y2 &&
+        //   yCalc.getDataValue(this.endPoint.y) < this.y3
+        // ) {
+        //   bottomYData = this.y2;
+        //   topYData = this.y3;
+        // } else if (
+        //   yCalc.getDataValue(this.startPoint.y) > this.y3 &&
+        //   yCalc.getDataValue(this.endPoint.y) < this.y4
+        // ) {
+        //   bottomYData = this.y3;
+        //   topYData = this.y4;
+        // } else if (
+        //   yCalc.getDataValue(this.startPoint.y) > this.y4 &&
+        //   yCalc.getDataValue(this.endPoint.y) < this.y5
+        // ) {
+        //   bottomYData = this.y4;
+        //   topYData = this.y5;
+        // } else if (
+        //   yCalc.getDataValue(this.startPoint.y) > this.y5 &&
+        //   yCalc.getDataValue(this.endPoint.y) < this.y6
+        // ) {
+        //   bottomYData = this.y5;
+        //   topYData = this.y6;
+        // } else if (
+        //   yCalc.getDataValue(this.startPoint.y) > this.y6 &&
+        //   yCalc.getDataValue(this.endPoint.y) < this.y7
+        // ) {
+        //   bottomYData = this.y6;
+        //   topYData = this.y7;
+        // }
         if (
-          yCalc.getDataValue(this.startPoint.y) > this.y1 &&
-          yCalc.getDataValue(this.endPoint.y) < this.y2
+          yCalc.getDataValue(this.startPoint.y) > this.y6 &&
+          yCalc.getDataValue(this.endPoint.y) < this.y7
         ) {
-          bottomYData = this.y1;
-          topYData = this.y2;
-        } else if (
-          yCalc.getDataValue(this.startPoint.y) > this.y2 &&
-          yCalc.getDataValue(this.endPoint.y) < this.y3
-        ) {
-          bottomYData = this.y2;
-          topYData = this.y3;
-        } else if (
-          yCalc.getDataValue(this.startPoint.y) > this.y3 &&
-          yCalc.getDataValue(this.endPoint.y) < this.y4
-        ) {
-          bottomYData = this.y3;
-          topYData = this.y4;
-        } else if (
-          yCalc.getDataValue(this.startPoint.y) > this.y4 &&
-          yCalc.getDataValue(this.endPoint.y) < this.y5
-        ) {
-          bottomYData = this.y4;
-          topYData = this.y5;
+          bottomYData = this.y6;
+          topYData = this.y7;
         } else if (
           yCalc.getDataValue(this.startPoint.y) > this.y5 &&
           yCalc.getDataValue(this.endPoint.y) < this.y6
@@ -188,11 +215,29 @@ export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
           bottomYData = this.y5;
           topYData = this.y6;
         } else if (
-          yCalc.getDataValue(this.startPoint.y) > this.y6 &&
-          yCalc.getDataValue(this.endPoint.y) < this.y7
+          yCalc.getDataValue(this.startPoint.y) > this.y4 &&
+          yCalc.getDataValue(this.endPoint.y) < this.y5
         ) {
-          bottomYData = this.y6;
-          topYData = this.y7;
+          bottomYData = this.y4;
+          topYData = this.y5;
+        } else if (
+          yCalc.getDataValue(this.startPoint.y) > this.y3 &&
+          yCalc.getDataValue(this.endPoint.y) < this.y4
+        ) {
+          bottomYData = this.y3;
+          topYData = this.y4;
+        } else if (
+          yCalc.getDataValue(this.startPoint.y) > this.y2 &&
+          yCalc.getDataValue(this.endPoint.y) < this.y3
+        ) {
+          bottomYData = this.y2;
+          topYData = this.y3;
+        } else if (
+          yCalc.getDataValue(this.startPoint.y) > this.y1 &&
+          yCalc.getDataValue(this.endPoint.y) < this.y2
+        ) {
+          bottomYData = this.y1;
+          topYData = this.y2;
         }
         for (let i = 0; i < dataSeries.count(); i++) {
           const x = dataSeries.getNativeXValues().get(i);

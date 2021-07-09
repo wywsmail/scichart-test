@@ -51,6 +51,7 @@ export default {
   setup() {
     const { showTagList } = useShowTagList();
     onMounted(async () => {
+      console.log(tagList.data);
       await showTagList();
     });
     return { tagList, showTagList };

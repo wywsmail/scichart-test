@@ -18,6 +18,7 @@
         <div
           class="btn btn-primary"
           @click="activeEvaluationMode(selected, diagnoses.data[0].diagnosis_id)"
+          tabindex="-1"
         >
           Evaluation Mode
         </div>

@@ -1,9 +1,13 @@
 import { reactive, ref } from "vue";
 import axios from "axios";
 import apiUrl from "../../api_url.global";
+import { anomalyData } from "@/composition/store";
+import { useInitSciChart } from "@/composition/index";
+
 export const evaluationModeFn = () => {
   const modelName = reactive([]);
   const selected = ref("");
+  const { initSciChart } = useInitSciChart();
   const getAnomalyModels = (): Promise<any> => {
     return new Promise((resolve, reject) => {
       modelName.length = 0;
@@ -44,7 +48,11 @@ export const evaluationModeFn = () => {
     console.log("送的資料", config);
     axios(config)
       .then(res => {
-        console.log(res);
+        console.log(res.data.data);
+        anomalyData.data.length = 0;
+        anomalyData.data.push(res.data.data);
+        console.log(anomalyData.data);
+        initSciChart();
       })
       .catch(err => {
         console.log(err);
@@ -54,7 +62,9 @@ export const evaluationModeFn = () => {
     modelName,
     getAnomalyModels,
     activeEvaluationMode,
-    selected
+    selected,
+    anomalyData,
+    initSciChart
   };
 };
 

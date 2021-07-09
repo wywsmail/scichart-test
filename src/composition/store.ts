@@ -36,11 +36,19 @@ export const dbNum = ref("v2");
 export const tableData = reactive({
   data: []
 });
+// export const 
 export const role = localStorage.getItem("role") ?? ref("");
 export const diagnoses: Iapidata<object> = reactive({
   data: [],
   length
 });
+export const diagnosesUpdate = computed(() => {
+  return diagnoses;
+});
+
+export const anomalyData = reactive({ data: [] });
+
+export const countNumber = ref(0);
 
 export const rows = ref([]);
 export const colums = ref([
@@ -69,8 +77,10 @@ export const colums = ref([
     field: "delete"
   }
 ]);
+
+export const scichartRoot = document.getElementById("scichart-root");
 export const numberOfElements = ref(0);
-export const diagnosesUpdateTime = ref(null);
+
 
 export const anomalyMode = ref(false);
 export const anomalySequence = ref([]);
@@ -106,5 +116,9 @@ console.log(selectTagData.data);
 export const tagDataShow = computed(() => {
   return selectTagData.data;
 });
-export const isEnabled = ref(false);
-export const isChecked = computed(() => isEnabled.value);
+// export const isEnabled = ref(false);
+// export const isChecked = computed(() => isEnabled.value);
+export const isChecked = ref(false);
+export const isActive = computed(() => {
+  return isChecked.value;
+});

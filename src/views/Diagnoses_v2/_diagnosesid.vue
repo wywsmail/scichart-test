@@ -27,7 +27,9 @@ import { onMounted, computed } from "vue";
 import {
   // dataInformation,
   // showECGChart,
+  isChecked,
   diagnoses,
+  diagnosesUpdate,
   // getAnomalyModels,
   // modelName,
   // initSciChart,
@@ -37,7 +39,9 @@ import {
   tagMode,
   // showTagList,
   tagListData,
-  tagList
+  tagList,
+  scichartRoot,
+  isActive
   // saveData,
   // deleteData,
   // modifyData,
@@ -58,21 +62,49 @@ export default {
     TagInfo
   },
   setup() {
-    const { showECGChart } = useShowECGChart();
+    const { showECGChart, showTagRange } = useShowECGChart();
     const { showTagList } = useShowTagList();
-    const { initSciChart } = useInitSciChart();
+    const { initSciChart, changeSwitch, test } = useInitSciChart();
 
     const route = useRoute();
+    // const switchToggle = (e) => {
+    //   e.preventDefault();
+    //   if (e.keyCode === 32) {
+    //     console.log(e);
+    //     isChecked.value = !isChecked.value;
+    //     console.log(e.keyCode);
+    //     console.log(isActive.value);
+    // test();
+    // test.test2();
+    // initSciChart().changeSwitch();
+    //   }
+    // };
     onMounted(async () => {
+      document.querySelector("body").addEventListener("keydown", (e) => {
+        e.preventDefault();
+        document.querySelector("#tag-mode").focus();
+        if (e.keyCode === 32) {
+          changeSwitch();
+          console.log("keyBoard");
+        }
+      });
+      // document.querySelector("#tag-mode").addEventListener("change", (e) => {
+      //   console.log(e);
+      //   changeSwitch();
+      //   console.log("mouse");
+      // });
       await showECGChart(route.params.diagnosesid);
       initSciChart();
       await showTagList();
+      await showTagRange();
+      console.log("有成功嗎？");
     });
     return {
       // dataInformation,
       initSciChart,
       // modelName,
       diagnoses,
+      diagnosesUpdate,
       // selected,
       selectedPoints,
       // noteMode,

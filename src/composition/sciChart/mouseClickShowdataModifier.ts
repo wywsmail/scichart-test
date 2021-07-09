@@ -22,7 +22,7 @@ export class MouseClickShowdataModifier extends ChartModifierBase2D {
     selectTagData.data.length = 0;
     for (let i = 0; i < tagList.value.data.length; i++) {
       if (
-        tagList.value.data[i].channel === "0" &&
+        tagList.value.data[i].channel === "5" &&
         -1 < yCalc.getDataValue(translatedPoint.y) &&
         yCalc.getDataValue(translatedPoint.y) < 1 &&
         Number(tagList.value.data[i].x1) <
@@ -34,79 +34,7 @@ export class MouseClickShowdataModifier extends ChartModifierBase2D {
         console.log(tagList.value.data[i].x2);
         selectTagData.data.push({
           index: i,
-          channel: "0",
-          created_at: tagList.value.data[i].created_at,
-          diagnosis_id: tagList.value.data[i].diagnosis_id,
-          id: tagList.value.data[i].id,
-          note: JSON.parse(tagList.value.data[i].note)[0],
-          x1: tagList.value.data[i].x1,
-          x2: tagList.value.data[i].x2
-        });
-      } else if (
-        tagList.value.data[i].channel === "1" &&
-        1 < yCalc.getDataValue(translatedPoint.y) &&
-        yCalc.getDataValue(translatedPoint.y) < 3 &&
-        Number(tagList.value.data[i].x1) <
-          xCalc.getDataValue(translatedPoint.x) &&
-        xCalc.getDataValue(translatedPoint.x) < Number(tagList.value.data[i].x2)
-      ) {
-        console.log(tagList.value.data[i].channel);
-        console.log(tagList.value.data[i].x1);
-        console.log(tagList.value.data[i].x2);
-        // selectTagData.index = 0;
-        // selectTagData.data.length = 0;
-        // selectTagData.index = i;
-        selectTagData.data.push({
-          index: i,
-          channel: "1",
-          created_at: tagList.value.data[i].created_at,
-          diagnosis_id: tagList.value.data[i].diagnosis_id,
-          id: tagList.value.data[i].id,
-          note: JSON.parse(tagList.value.data[i].note)[0],
-          x1: tagList.value.data[i].x1,
-          x2: tagList.value.data[i].x2
-        });
-      } else if (
-        tagList.value.data[i].channel === "2" &&
-        3 < yCalc.getDataValue(translatedPoint.y) &&
-        yCalc.getDataValue(translatedPoint.y) < 5 &&
-        Number(tagList.value.data[i].x1) <
-          xCalc.getDataValue(translatedPoint.x) &&
-        xCalc.getDataValue(translatedPoint.x) < Number(tagList.value.data[i].x2)
-      ) {
-        console.log(tagList.value.data[i].channel);
-        console.log(tagList.value.data[i].x1);
-        console.log(tagList.value.data[i].x2);
-        // selectTagData.index = 0;
-        // selectTagData.data.length = 0;
-        // selectTagData.index = i;
-        selectTagData.data.push({
-          index: i,
-          channel: "2",
-          created_at: tagList.value.data[i].created_at,
-          diagnosis_id: tagList.value.data[i].diagnosis_id,
-          id: tagList.value.data[i].id,
-          note: JSON.parse(tagList.value.data[i].note)[0],
-          x1: tagList.value.data[i].x1,
-          x2: tagList.value.data[i].x2
-        });
-      } else if (
-        tagList.value.data[i].channel === "3" &&
-        5 < yCalc.getDataValue(translatedPoint.y) &&
-        yCalc.getDataValue(translatedPoint.y) < 7 &&
-        Number(tagList.value.data[i].x1) <
-          xCalc.getDataValue(translatedPoint.x) &&
-        xCalc.getDataValue(translatedPoint.x) < Number(tagList.value.data[i].x2)
-      ) {
-        console.log(tagList.value.data[i].channel);
-        console.log(tagList.value.data[i].x1);
-        console.log(tagList.value.data[i].x2);
-        // selectTagData.index = 0;
-        // selectTagData.data.length = 0;
-        // selectTagData.index = i;
-        selectTagData.data.push({
-          index: i,
-          channel: "3",
+          channel: "5",
           created_at: tagList.value.data[i].created_at,
           diagnosis_id: tagList.value.data[i].diagnosis_id,
           id: tagList.value.data[i].id,
@@ -116,8 +44,8 @@ export class MouseClickShowdataModifier extends ChartModifierBase2D {
         });
       } else if (
         tagList.value.data[i].channel === "4" &&
-        7 < yCalc.getDataValue(translatedPoint.y) &&
-        yCalc.getDataValue(translatedPoint.y) < 9 &&
+        1 < yCalc.getDataValue(translatedPoint.y) &&
+        yCalc.getDataValue(translatedPoint.y) < 3 &&
         Number(tagList.value.data[i].x1) <
           xCalc.getDataValue(translatedPoint.x) &&
         xCalc.getDataValue(translatedPoint.x) < Number(tagList.value.data[i].x2)
@@ -139,7 +67,79 @@ export class MouseClickShowdataModifier extends ChartModifierBase2D {
           x2: tagList.value.data[i].x2
         });
       } else if (
-        tagList.value.data[i].channel === "5" &&
+        tagList.value.data[i].channel === "3" &&
+        3 < yCalc.getDataValue(translatedPoint.y) &&
+        yCalc.getDataValue(translatedPoint.y) < 5 &&
+        Number(tagList.value.data[i].x1) <
+          xCalc.getDataValue(translatedPoint.x) &&
+        xCalc.getDataValue(translatedPoint.x) < Number(tagList.value.data[i].x2)
+      ) {
+        console.log(tagList.value.data[i].channel);
+        console.log(tagList.value.data[i].x1);
+        console.log(tagList.value.data[i].x2);
+        // selectTagData.index = 0;
+        // selectTagData.data.length = 0;
+        // selectTagData.index = i;
+        selectTagData.data.push({
+          index: i,
+          channel: "3",
+          created_at: tagList.value.data[i].created_at,
+          diagnosis_id: tagList.value.data[i].diagnosis_id,
+          id: tagList.value.data[i].id,
+          note: JSON.parse(tagList.value.data[i].note)[0],
+          x1: tagList.value.data[i].x1,
+          x2: tagList.value.data[i].x2
+        });
+      } else if (
+        tagList.value.data[i].channel === "2" &&
+        5 < yCalc.getDataValue(translatedPoint.y) &&
+        yCalc.getDataValue(translatedPoint.y) < 7 &&
+        Number(tagList.value.data[i].x1) <
+          xCalc.getDataValue(translatedPoint.x) &&
+        xCalc.getDataValue(translatedPoint.x) < Number(tagList.value.data[i].x2)
+      ) {
+        console.log(tagList.value.data[i].channel);
+        console.log(tagList.value.data[i].x1);
+        console.log(tagList.value.data[i].x2);
+        // selectTagData.index = 0;
+        // selectTagData.data.length = 0;
+        // selectTagData.index = i;
+        selectTagData.data.push({
+          index: i,
+          channel: "2",
+          created_at: tagList.value.data[i].created_at,
+          diagnosis_id: tagList.value.data[i].diagnosis_id,
+          id: tagList.value.data[i].id,
+          note: JSON.parse(tagList.value.data[i].note)[0],
+          x1: tagList.value.data[i].x1,
+          x2: tagList.value.data[i].x2
+        });
+      } else if (
+        tagList.value.data[i].channel === "1" &&
+        7 < yCalc.getDataValue(translatedPoint.y) &&
+        yCalc.getDataValue(translatedPoint.y) < 9 &&
+        Number(tagList.value.data[i].x1) <
+          xCalc.getDataValue(translatedPoint.x) &&
+        xCalc.getDataValue(translatedPoint.x) < Number(tagList.value.data[i].x2)
+      ) {
+        console.log(tagList.value.data[i].channel);
+        console.log(tagList.value.data[i].x1);
+        console.log(tagList.value.data[i].x2);
+        // selectTagData.index = 0;
+        // selectTagData.data.length = 0;
+        // selectTagData.index = i;
+        selectTagData.data.push({
+          index: i,
+          channel: "1",
+          created_at: tagList.value.data[i].created_at,
+          diagnosis_id: tagList.value.data[i].diagnosis_id,
+          id: tagList.value.data[i].id,
+          note: JSON.parse(tagList.value.data[i].note)[0],
+          x1: tagList.value.data[i].x1,
+          x2: tagList.value.data[i].x2
+        });
+      } else if (
+        tagList.value.data[i].channel === "0" &&
         9 < yCalc.getDataValue(translatedPoint.y) &&
         yCalc.getDataValue(translatedPoint.y) < 11 &&
         Number(tagList.value.data[i].x1) <
@@ -154,7 +154,7 @@ export class MouseClickShowdataModifier extends ChartModifierBase2D {
         // selectTagData.index = i;
         selectTagData.data.push({
           index: i,
-          channel: "5",
+          channel: "0",
           created_at: tagList.value.data[i].created_at,
           diagnosis_id: tagList.value.data[i].diagnosis_id,
           id: tagList.value.data[i].id,

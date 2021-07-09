@@ -10,7 +10,7 @@
                 class="form-check-input"
                 type="checkbox"
                 id="tag-mode"
-                tabindex="1"
+                v-model="isActive"
               />
               <label class="form-check-label" for="tag-mode">Enable Tag Mode</label>
             </div>
@@ -25,12 +25,12 @@
               </thead>
               <tbody>
                 <tr v-for="(item, i) in tagDataShow" :key="i">
-                  <th v-if="item.channel === '0'">avF</th>
-                  <th v-else-if="item.channel === '1'">aVL</th>
-                  <th v-else-if="item.channel === '2'">aVR</th>
-                  <th v-else-if="item.channel === '3'">LEAD 3</th>
-                  <th v-else-if="item.channel === '4'">LEAD 2</th>
-                  <th v-else-if="item.channel === '5'">LEAD 1</th>
+                  <th v-if="item.channel === '5'">avF</th>
+                  <th v-else-if="item.channel === '4'">aVL</th>
+                  <th v-else-if="item.channel === '3'">aVR</th>
+                  <th v-else-if="item.channel === '2'">LEAD 3</th>
+                  <th v-else-if="item.channel === '1'">LEAD 2</th>
+                  <th v-else-if="item.channel === '0'">LEAD 1</th>
                   <th v-else></th>
                   <td v-if="item.x1">
                     {{ (item.x1 / 250).toFixed(2) }}s ~ {{ (item.x2 / 250).toFixed(2) }}s
@@ -63,12 +63,53 @@
     </div>
   </div>
 </template>
-<script>
-import { tagDataShow } from "@/composition/store";
+<script lang="ts">
+import { ref } from "vue";
+import { tagDataShow, isChecked, isActive } from "@/composition/store";
 export default {
   setup() {
+    // const isChecked = ref(false);
+    // const focus = ref(null);
+    // const switchToggle = (e) => {
+    //   // e.preventDefault();
+    //   focus.value.focus();
+    //   isChecked.value = !isChecked.value;
+    //   console.log(e.keyCode);
+    //   console.log(isChecked.value);
+    //   return false;
+    // };
+    // const tagModeEnable: HTMLInputElement = <HTMLInputElement>(
+    //   document.getElementById("tag-mode")
+    // );
+    // document.body.addEventListener("keydown", (e) => {
+    //   console.log(e.keyCode);
+    //   e.preventDefault();
+    //   switch (e.keyCode) {
+    //     case 32:
+    //       tagModeEnable.focus();
+    //       tagModeEnable.checked = !tagModeEnable.checked;
+    //       console.log(tagModeEnable.checked);
+    //   }
+    // if (tagModeEnable.checked === true) {
+    //   simpleDataPointSelectionModifier.isEnabled = true;
+    //   zoomPanModifier.isEnabled = false;
+    //   xAxisDragModifier.isEnabled = true;
+    //   scichartRoot.setAttribute("data-bs-toggle", "modal");
+    //   scichartRoot.setAttribute("data-bs-target", "#exampleModal");
+    // } else {
+    //   simpleDataPointSelectionModifier.isEnabled = false;
+    //   zoomPanModifier.isEnabled = true;
+    //   xAxisDragModifier.isEnabled = false;
+    //   scichartRoot.removeAttribute("data-bs-toggle");
+    //   scichartRoot.removeAttribute("data-bs-target");
+    // }
+    // });
     return {
-      tagDataShow
+      tagDataShow,
+      isChecked,
+      isActive
+      // switchToggle,
+      // focus
     };
   }
 };
