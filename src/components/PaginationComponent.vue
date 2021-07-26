@@ -4,20 +4,23 @@
       <div class="container-fluid justify-content-between">
         <h4>資料總頁數:{{ pageNumber }}</h4>
         <form class="d-flex">
+          <button class="btn btn-secondary me-2" @click="page--">Previous</button>
           <input
             class="form-control me-2"
             type="search"
             placeholder="請填入欲前往之頁數"
             aria-label="Search"
             v-model="page"
+            :value="page"
           />
           <button
-            class="btn btn-outline-success"
+            class="btn btn-outline-success me-2"
             type="submit"
-            @click="requestDiagnoses(page * 10 - 9, page * 10)"
+            @click="requestDiagnoses(page)"
           >
             Submit
           </button>
+          <button class="btn btn-secondary" @click="page++">Next</button>
         </form>
       </div>
     </nav>
@@ -38,10 +41,7 @@
             class="page-link"
             href="#"
             @click.prevent="
-              requestDiagnoses(
-                n * 10 - 9 + pageParameter * 10,
-                n * 10 + pageParameter * 10
-              )
+              requestDiagnoses(n + pageParameter * 10, n + pageParameter * 10)
             "
             >{{ n + pageParameter }}</a
           >
@@ -57,7 +57,7 @@
 <script>
 import { computed, ref } from "vue";
 import { useRequestDiagnoses } from "@/composition/index";
-import { countNumber } from "@/composition/store";
+import { countNumber, page } from "@/composition/store";
 export default {
   setup() {
     const { requestDiagnoses } = useRequestDiagnoses();
@@ -81,6 +81,7 @@ export default {
         // pageParameter.value--;
       }
     };
+    // const page = ref(1);
     console.log(countNumber.value);
     console.log(pageNumber.value);
     return {
@@ -89,7 +90,8 @@ export default {
       requestDiagnoses,
       next,
       previous,
-      pageParameter
+      pageParameter,
+      page
     };
   }
 };

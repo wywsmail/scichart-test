@@ -24,12 +24,12 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mb-2 mb-lg-0 me-auto">
-          <li class="nav-item">
+          <li class="nav-item" v-if="dbNum === 'v1'">
             <a class="nav-link" href="#" @click.prevent="changePage('Diagnoses_v1')"
               >Diagnoses(V1 DB)</a
             >
           </li>
-          <li class="nav-item">
+          <li class="nav-item" v-else>
             <a class="nav-link" href="#" @click.prevent="changePage('Diagnoses_v2')"
               >Diagnoses(V2 DB)</a
             >
@@ -61,13 +61,19 @@
       </div>
     </div>
   </nav>
-  <router-view />
+  <router-view v-slot="{ Component }">
+    <keep-alive include="Diagnoses_v1,Diagnoses_v2">
+      <component class="vies" :is="Component"></component>
+    </keep-alive>
+  </router-view>
   <footer class="mt-auto py-3">inCare © 2021</footer>
 </template>
 
 <script>
+import { onMounted } from "vue";
 import { useLoginFn } from "@/composition/index";
 import router from "./router/index";
+import { dbNum } from "@/composition/store";
 export default {
   setup() {
     const { logout, isLogin } = useLoginFn();
@@ -75,7 +81,15 @@ export default {
     const changePage = (to) => {
       router.push(`/${to}`);
     };
-    return { changePage, logout, isLogin };
+    // const dbNum = computed(() => {
+    //   return localStorage.getItem("dbNum");
+    // });
+    onMounted(() => {
+      dbNum.value = localStorage.getItem("dbNum");
+    });
+    // const dbNum = ref(localStorage.getItem("dbNum"));
+    console.log(dbNum.value);
+    return { changePage, logout, isLogin, dbNum };
   }
 };
 </script>

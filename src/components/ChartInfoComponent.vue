@@ -18,7 +18,7 @@
         <tr v-for="item in diagnoses.data" :key="item.diagnosis_id">
           <th scope="row">{{ item.diagnosis_id }}</th>
           <td>{{ item.start_time }}</td>
-          <td>{{ item.hr_last }}</td>
+          <td>{{ item.measures[0].heart_rate[29] }}</td>
           <td>{{ item.gain }}</td>
           <td>{{ item.device_id }}</td>
         </tr>

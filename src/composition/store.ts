@@ -29,14 +29,14 @@ import { reactive, ref, computed } from "vue";
 
 export const token = localStorage.getItem("token") || ref(null);
 export const isLogin = ref(JSON.parse(localStorage.getItem("isLogin")));
-
+export const page = ref(1);
 export const dbNum = ref("v2");
 // export const dbNum = ref(JSON.parse(localStorage.getItem("dbNum")));
 
 export const tableData = reactive({
   data: []
 });
-// export const 
+// export const
 export const role = localStorage.getItem("role") ?? ref("");
 export const diagnoses: Iapidata<object> = reactive({
   data: [],
@@ -46,7 +46,11 @@ export const diagnosesUpdate = computed(() => {
   return diagnoses;
 });
 
+export const selectedModelName = ref("");
+
 export const anomalyData = reactive({ data: [] });
+export const evaluationData = reactive({ data: [] });
+export const filterAnomalyData = reactive([]);
 
 export const countNumber = ref(0);
 
@@ -81,7 +85,6 @@ export const colums = ref([
 export const scichartRoot = document.getElementById("scichart-root");
 export const numberOfElements = ref(0);
 
-
 export const anomalyMode = ref(false);
 export const anomalySequence = ref([]);
 export const evaluationTags = ref([]);
@@ -112,12 +115,26 @@ export const selectTagData: any = reactive({
     }
   ]
 });
-console.log(selectTagData.data);
 export const tagDataShow = computed(() => {
   return selectTagData.data;
 });
-// export const isEnabled = ref(false);
-// export const isChecked = computed(() => isEnabled.value);
+
+export const evaluationTagData: any = reactive({
+  data: [
+    {
+      channel: 0,
+      evaluator: "",
+      evaluation: "",
+      model_name: "",
+      x1: 0,
+      x2: 0
+    }
+  ]
+});
+export const evaluationTagDataShow = computed(() => {
+  return evaluationTagData.data;
+});
+
 export const isChecked = ref(false);
 export const isActive = computed(() => {
   return isChecked.value;

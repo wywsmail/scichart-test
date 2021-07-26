@@ -4,7 +4,14 @@
 import { ChartModifierBase2D } from "scichart/Charting/ChartModifiers/ChartModifierBase2D";
 import { ModifierMouseArgs } from "scichart/Charting/ChartModifiers/ModifierMouseArgs";
 import { translateFromCanvasToSeriesViewRect } from "scichart/utils/translate";
-import { tagList, selectTagData } from "@/composition/store";
+import {
+  tagList,
+  selectTagData,
+  anomalyData,
+  evaluationData,
+  filterAnomalyData,
+  evaluationTagData
+} from "@/composition/store";
 
 export class MouseClickShowdataModifier extends ChartModifierBase2D {
   public modifierMouseUp(args: ModifierMouseArgs) {
@@ -18,7 +25,10 @@ export class MouseClickShowdataModifier extends ChartModifierBase2D {
       return;
     }
     console.log(tagList.value.data);
-
+    console.log(anomalyData);
+    console.log(filterAnomalyData);
+    console.log(evaluationData.data);
+    // Tag Information 篩選
     selectTagData.data.length = 0;
     for (let i = 0; i < tagList.value.data.length; i++) {
       if (
@@ -166,6 +176,235 @@ export class MouseClickShowdataModifier extends ChartModifierBase2D {
     }
     console.log(selectTagData);
     // console.log(tagDataShow.value);
+
+    // AnomalyData Information 篩選
+    evaluationTagData.data.length = 0;
+    filterAnomalyData.forEach((item, index) => {
+      // console.log(item);
+      if (
+        item.channel === 5 &&
+        -1 < yCalc.getDataValue(translatedPoint.y) &&
+        yCalc.getDataValue(translatedPoint.y) < 1 &&
+        Number(item.x1) < xCalc.getDataValue(translatedPoint.x) &&
+        xCalc.getDataValue(translatedPoint.x) < Number(item.x2)
+      ) {
+        evaluationTagData.data.push({
+          id: "",
+          channel: item.channel.toString(),
+          evaluator: "AI",
+          evaluation: "",
+          model_name: "",
+          x1: item.x1,
+          x2: item.x2
+        });
+      } else if (
+        item.channel === 4 &&
+        1 < yCalc.getDataValue(translatedPoint.y) &&
+        yCalc.getDataValue(translatedPoint.y) < 3 &&
+        Number(item.x1) < xCalc.getDataValue(translatedPoint.x) &&
+        xCalc.getDataValue(translatedPoint.x) < Number(item.x2)
+      ) {
+        evaluationTagData.data.push({
+          id: "",
+          channel: item.channel.toString(),
+          evaluator: "AI",
+          evaluation: "",
+          model_name: "",
+          x1: item.x1,
+          x2: item.x2
+        });
+      } else if (
+        item.channel === 3 &&
+        3 < yCalc.getDataValue(translatedPoint.y) &&
+        yCalc.getDataValue(translatedPoint.y) < 5 &&
+        Number(item.x1) < xCalc.getDataValue(translatedPoint.x) &&
+        xCalc.getDataValue(translatedPoint.x) < Number(item.x2)
+      ) {
+        evaluationTagData.data.push({
+          id: "",
+          channel: item.channel.toString(),
+          evaluator: "AI",
+          evaluation: "",
+          model_name: "",
+          x1: item.x1,
+          x2: item.x2
+        });
+      } else if (
+        item.channel === 2 &&
+        5 < yCalc.getDataValue(translatedPoint.y) &&
+        yCalc.getDataValue(translatedPoint.y) < 7 &&
+        Number(item.x1) < xCalc.getDataValue(translatedPoint.x) &&
+        xCalc.getDataValue(translatedPoint.x) < Number(item.x2)
+      ) {
+        evaluationTagData.data.push({
+          id: "",
+          channel: item.channel.toString(),
+          evaluator: "AI",
+          evaluation: "",
+          model_name: "",
+          x1: item.x1,
+          x2: item.x2
+        });
+      } else if (
+        item.channel === 1 &&
+        7 < yCalc.getDataValue(translatedPoint.y) &&
+        yCalc.getDataValue(translatedPoint.y) < 9 &&
+        Number(item.x1) < xCalc.getDataValue(translatedPoint.x) &&
+        xCalc.getDataValue(translatedPoint.x) < Number(item.x2)
+      ) {
+        evaluationTagData.data.push({
+          id: "",
+          channel: item.channel.toString(),
+          evaluator: "AI",
+          evaluation: "",
+          model_name: "",
+          x1: item.x1,
+          x2: item.x2
+        });
+      } else if (
+        item.channel === 0 &&
+        9 < yCalc.getDataValue(translatedPoint.y) &&
+        yCalc.getDataValue(translatedPoint.y) < 11 &&
+        Number(item.x1) < xCalc.getDataValue(translatedPoint.x) &&
+        xCalc.getDataValue(translatedPoint.x) < Number(item.x2)
+      ) {
+        evaluationTagData.data.push({
+          id: "",
+          channel: item.channel.toString(),
+          evaluator: "AI",
+          evaluation: "",
+          model_name: "",
+          x1: item.x1,
+          x2: item.x2
+        });
+      }
+    });
+    // Evaluation Information 篩選
+
+    evaluationData.data.forEach((item, index) => {
+      // console.log(item);
+      if (
+        item.channel === "5" &&
+        -1 < yCalc.getDataValue(translatedPoint.y) &&
+        yCalc.getDataValue(translatedPoint.y) < 1 &&
+        Number(item.x1) < xCalc.getDataValue(translatedPoint.x) &&
+        xCalc.getDataValue(translatedPoint.x) < Number(item.x2)
+      ) {
+        evaluationTagData.data.push({
+          id: item.id,
+          channel: item.channel,
+          evaluator: item.evaluator,
+          evaluation: item.evaluation,
+          model_name: item.model_name,
+          x1: item.x1,
+          x2: item.x2
+        });
+        console.log(item.id);
+        console.log(item.channel);
+        console.log(item.x1);
+        console.log(item.x2);
+      } else if (
+        item.channel === "4" &&
+        1 < yCalc.getDataValue(translatedPoint.y) &&
+        yCalc.getDataValue(translatedPoint.y) < 3 &&
+        Number(item.x1) < xCalc.getDataValue(translatedPoint.x) &&
+        xCalc.getDataValue(translatedPoint.x) < Number(item.x2)
+      ) {
+        evaluationTagData.data.push({
+          id: item.id,
+          channel: item.channel,
+          evaluator: item.evaluator,
+          evaluation: item.evaluation,
+          model_name: item.model_name,
+          x1: item.x1,
+          x2: item.x2
+        });
+        console.log(item.id);
+        console.log(item.channel);
+        console.log(item.x1);
+        console.log(item.x2);
+      } else if (
+        item.channel === "3" &&
+        3 < yCalc.getDataValue(translatedPoint.y) &&
+        yCalc.getDataValue(translatedPoint.y) < 5 &&
+        Number(item.x1) < xCalc.getDataValue(translatedPoint.x) &&
+        xCalc.getDataValue(translatedPoint.x) < Number(item.x2)
+      ) {
+        evaluationTagData.data.push({
+          id: item.id,
+          channel: item.channel,
+          evaluator: item.evaluator,
+          evaluation: item.evaluation,
+          model_name: item.model_name,
+          x1: item.x1,
+          x2: item.x2
+        });
+        console.log(item.id);
+        console.log(item.channel);
+        console.log(item.x1);
+        console.log(item.x2);
+      } else if (
+        item.channel === "2" &&
+        5 < yCalc.getDataValue(translatedPoint.y) &&
+        yCalc.getDataValue(translatedPoint.y) < 7 &&
+        Number(item.x1) < xCalc.getDataValue(translatedPoint.x) &&
+        xCalc.getDataValue(translatedPoint.x) < Number(item.x2)
+      ) {
+        evaluationTagData.data.push({
+          id: item.id,
+          channel: item.channel,
+          evaluator: item.evaluator,
+          evaluation: item.evaluation,
+          model_name: item.model_name,
+          x1: item.x1,
+          x2: item.x2
+        });
+        console.log(item.id);
+        console.log(item.channel);
+        console.log(item.x1);
+        console.log(item.x2);
+      } else if (
+        item.channel === "1" &&
+        7 < yCalc.getDataValue(translatedPoint.y) &&
+        yCalc.getDataValue(translatedPoint.y) < 9 &&
+        Number(item.x1) < xCalc.getDataValue(translatedPoint.x) &&
+        xCalc.getDataValue(translatedPoint.x) < Number(item.x2)
+      ) {
+        evaluationTagData.data.push({
+          id: item.id,
+          channel: item.channel,
+          evaluator: item.evaluator,
+          evaluation: item.evaluation,
+          model_name: item.model_name,
+          x1: item.x1,
+          x2: item.x2
+        });
+        console.log(item.id);
+        console.log(item.channel);
+        console.log(item.x1);
+        console.log(item.x2);
+      } else if (
+        item.channel === "0" &&
+        9 < yCalc.getDataValue(translatedPoint.y) &&
+        yCalc.getDataValue(translatedPoint.y) < 11 &&
+        Number(item.x1) < xCalc.getDataValue(translatedPoint.x) &&
+        xCalc.getDataValue(translatedPoint.x) < Number(item.x2)
+      ) {
+        evaluationTagData.data.push({
+          id: item.id,
+          channel: item.channel,
+          evaluator: item.evaluator,
+          evaluation: item.evaluation,
+          model_name: item.model_name,
+          x1: item.x1,
+          x2: item.x2
+        });
+        console.log(item.id);
+        console.log(item.channel);
+        console.log(item.x1);
+        console.log(item.x2);
+      }
+    });
   }
   private getDefaultCoordCalculators() {
     const xAxis = this.parentSurface.xAxes.get(0);

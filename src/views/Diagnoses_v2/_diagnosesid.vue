@@ -1,12 +1,19 @@
 <template>
   <EvaluationMode />
   <ChartInfo />
-  <TagInfo />
+  <div class="container">
+    <div class="row">
+      <TagInfo />
+      <EvaluationInfo />
+    </div>
+  </div>
   <SciChart />
   <TagListTable />
   <TagNoteModal />
   <ChangeTagNoteModal />
   <DeleteTagNoteModal />
+  <DeleteEvaluationTagModal />
+  <ModifyEvaluationTagModal />
 </template>
 
 <script>
@@ -17,13 +24,14 @@ import SciChart from "@/components/SciChartComponent";
 import TagNoteModal from "@/components/modal/TagNoteModal";
 import ChangeTagNoteModal from "@/components/modal/ChangeTagNoteModal";
 import DeleteTagNoteModal from "@/components/modal/DeleteTagNoteModal";
+import DeleteEvaluationTagModal from "@/components/modal/DeleteEvaluationTagModal";
 import EvaluationMode from "@/components/EvaluationComponent";
 import TagInfo from "@/components/TagInfoComponent";
+import EvaluationInfo from "@/components/EvaluationInfoComponent";
+import ModifyEvaluationTagModal from "@/components/modal/ModifyEvaluationTagModal";
 // import Vue
 import { useRoute } from "vue-router";
-import { onMounted, computed } from "vue";
-// import store
-// import { store } from "@/composition/index";
+import { onMounted } from "vue";
 import {
   // dataInformation,
   // showECGChart,
@@ -41,7 +49,8 @@ import {
   tagListData,
   tagList,
   scichartRoot,
-  isActive
+  isActive,
+  dbNum
   // saveData,
   // deleteData,
   // modifyData,
@@ -59,26 +68,32 @@ export default {
     ChangeTagNoteModal,
     DeleteTagNoteModal,
     EvaluationMode,
-    TagInfo
+    TagInfo,
+    EvaluationInfo,
+    DeleteEvaluationTagModal,
+    ModifyEvaluationTagModal
   },
   setup() {
     const { showECGChart, showTagRange } = useShowECGChart();
     const { showTagList } = useShowTagList();
     const { initSciChart, changeSwitch, test } = useInitSciChart();
+    const router = useRoute();
+    const backToDiagnosesList = () => {
+      // const router = useRoute();
+      // window.setTimeout(() => {
+      console.log(router);
+      console.log("OK");
+      router.push(`Diagnoses_${dbNum}`);
+      //   router.push({
+      //     // name: "Diagnoses_v2"
+      //     name: `Diagnoses_${dbNum}`
+      //   });
+      // }, 1000);
+      // router.push({ name: `Diagnoses_${dbNum}` });
+      // router.push(`Diagnoses_${dbNum}`);
+    };
 
     const route = useRoute();
-    // const switchToggle = (e) => {
-    //   e.preventDefault();
-    //   if (e.keyCode === 32) {
-    //     console.log(e);
-    //     isChecked.value = !isChecked.value;
-    //     console.log(e.keyCode);
-    //     console.log(isActive.value);
-    // test();
-    // test.test2();
-    // initSciChart().changeSwitch();
-    //   }
-    // };
     onMounted(async () => {
       document.querySelector("body").addEventListener("keydown", (e) => {
         e.preventDefault();
@@ -111,7 +126,8 @@ export default {
       tagMode,
       showTagList,
       tagListData,
-      tagList
+      tagList,
+      backToDiagnosesList
       // getAnomalyModels
       // saveData,
       // deleteData,

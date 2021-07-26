@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import axios from "axios";
 import apiUrl from "../../api_url.global";
 import { diagnoses, token, tagListData, tableData } from "@/composition/store";
@@ -19,6 +20,13 @@ export const showECGChartFn = () => {
       axios(config)
         .then(res => {
           console.log(res);
+          // res.data.data.forEach((item, index) => {
+          //   item.start_time = new Date(item.start_time).toLocaleString();
+          // });
+          res.data.data.start_time = new Date(
+            res.data.data.start_time
+          ).toLocaleString();
+          console.log(res.data.data);
           diagnoses.data = [res.data.data];
           tableData.data = [res.data.data];
           console.log(diagnoses.data);
@@ -27,7 +35,7 @@ export const showECGChartFn = () => {
         })
         .catch(err => {
           console.log(err);
-          alert("沒有資料喔")
+          alert("沒有資料喔");
           reject(err);
         });
     });

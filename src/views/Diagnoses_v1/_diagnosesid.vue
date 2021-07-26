@@ -1,12 +1,19 @@
 <template>
   <EvaluationMode />
   <ChartInfo />
-  <TagInfo />
+  <div class="container">
+    <div class="row">
+      <TagInfo />
+      <EvaluationInfo />
+    </div>
+  </div>
   <SciChart />
   <TagListTable />
   <TagNoteModal />
   <ChangeTagNoteModal />
   <DeleteTagNoteModal />
+  <DeleteEvaluationTagModal />
+  <ModifyEvaluationTagModal />
 </template>
 
 <script>
@@ -19,9 +26,12 @@ import ChangeTagNoteModal from "@/components/modal/ChangeTagNoteModal";
 import DeleteTagNoteModal from "@/components/modal/DeleteTagNoteModal";
 import EvaluationMode from "@/components/EvaluationComponent";
 import TagInfo from "@/components/TagInfoComponent";
+import EvaluationInfo from "@/components/EvaluationInfoComponent";
+import DeleteEvaluationTagModal from "@/components/modal/DeleteEvaluationTagModal";
+import ModifyEvaluationTagModal from "@/components/modal/ModifyEvaluationTagModal";
 // import Vue
 import { useRoute } from "vue-router";
-import { onMounted, computed } from "vue";
+import { onMounted } from "vue";
 // import store
 // import { store } from "@/composition/index";
 import {
@@ -56,7 +66,10 @@ export default {
     ChangeTagNoteModal,
     DeleteTagNoteModal,
     EvaluationMode,
-    TagInfo
+    TagInfo,
+    EvaluationInfo,
+    DeleteEvaluationTagModal,
+    ModifyEvaluationTagModal
   },
   setup() {
     const { showECGChart } = useShowECGChart();

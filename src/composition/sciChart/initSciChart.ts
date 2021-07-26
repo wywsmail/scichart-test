@@ -1,3 +1,4 @@
+/* eslint-disable no-constant-condition */
 /* eslint-disable @typescript-eslint/consistent-type-assertions */
 /* eslint-disable @typescript-eslint/camelcase */
 
@@ -7,6 +8,8 @@ import {
   token,
   tagListData,
   anomalyData,
+  evaluationData,
+  filterAnomalyData,
   isChecked,
   isActive
 } from "@/composition/store";
@@ -60,7 +63,7 @@ export const initSciChartFn = () => {
     // isChecked.value = !isChecked.value;
     tagModeEnable.checked = !tagModeEnable.checked;
     if (tagModeEnable.checked === true) {
-      console.log(tagModeEnable.checked);
+      console.log(tagModeEnable.checked, isChecked.value);
       simpleDataPointSelectionModifier.isEnabled = true;
       zoomPanModifier.isEnabled = false;
       console.log(
@@ -77,7 +80,7 @@ export const initSciChartFn = () => {
         .getElementById("scichart-root")
         .setAttribute("data-bs-target", "#exampleModal");
     } else {
-      console.log(tagModeEnable.checked);
+      console.log(tagModeEnable.checked, isChecked.value);
       simpleDataPointSelectionModifier.isEnabled = false;
       zoomPanModifier.isEnabled = true;
       console.log(
@@ -349,13 +352,21 @@ export const initSciChartFn = () => {
       // isChecked.value = !isChecked.value;
       // tagModeEnable.checked = !tagModeEnable.checked;
       if (tagModeEnable.checked === true) {
-        console.log(tagModeEnable.checked);
+        console.log(tagModeEnable.checked, isChecked.value);
         simpleDataPointSelectionModifier.isEnabled = true;
         zoomPanModifier.isEnabled = false;
         // sciChartSurface.chartModifiers.add(simpleDataPointSelectionModifier);
         // sciChartSurface.chartModifiers.remove(zoomPanModifier);
         scichartRoot.setAttribute("data-bs-toggle", "modal");
-        scichartRoot.setAttribute("data-bs-target", "#exampleModal");
+        if (filterAnomalyData.length === 0) {
+          scichartRoot.setAttribute("data-bs-target", "#exampleModal");
+        } else {
+          scichartRoot.setAttribute(
+            "data-bs-target",
+            "#modifyEvaluationDataModal"
+          );
+        }
+        // scichartRoot.setAttribute("data-bs-target", "#exampleModal");
         console.log(
           "有嗎?",
           "這是true=>",
@@ -363,7 +374,7 @@ export const initSciChartFn = () => {
           zoomPanModifier
         );
       } else {
-        console.log(tagModeEnable.checked);
+        console.log(tagModeEnable.checked, isChecked.value);
         simpleDataPointSelectionModifier.isEnabled = false;
         zoomPanModifier.isEnabled = true;
         console.log(
@@ -379,7 +390,7 @@ export const initSciChartFn = () => {
       }
     });
 
-    const filterAnomalyData = reactive([]);
+    // const filterAnomalyData = reactive([]);
     // const changeSwitch = () => {
     //   isChecked.value = !isChecked.value;
     //   if (isActive.value === true) {
@@ -429,75 +440,6 @@ export const initSciChartFn = () => {
     //     changeSwitch();
     //   }
     // });
-    // for (let i = 0; i < tagListData.data.length; i++) {
-    //   if (tagListData.data[i].channel === "5") {
-    //     sciChartSurface.annotations.add(
-    //       new BoxAnnotation({
-    //         fill: "#FFE66F33",
-    //         strokeThickness: 0,
-    //         x1: parseInt(tagListData.data[i].x1),
-    //         x2: parseInt(tagListData.data[i].x2),
-    //         y1: -1,
-    //         y2: 1
-    //       })
-    //     );
-    //   } else if (tagListData.data[i].channel === "4") {
-    //     sciChartSurface.annotations.add(
-    //       new BoxAnnotation({
-    //         fill: "#FFE66F33",
-    //         strokeThickness: 0,
-    //         x1: parseInt(tagListData.data[i].x1),
-    //         x2: parseInt(tagListData.data[i].x2),
-    //         y1: 1,
-    //         y2: 3
-    //       })
-    //     );
-    //   } else if (tagListData.data[i].channel === "3") {
-    //     sciChartSurface.annotations.add(
-    //       new BoxAnnotation({
-    //         fill: "#FFE66F33",
-    //         strokeThickness: 0,
-    //         x1: parseInt(tagListData.data[i].x1),
-    //         x2: parseInt(tagListData.data[i].x2),
-    //         y1: 3,
-    //         y2: 5
-    //       })
-    //     );
-    //   } else if (tagListData.data[i].channel === "2") {
-    //     sciChartSurface.annotations.add(
-    //       new BoxAnnotation({
-    //         fill: "#FFE66F33",
-    //         strokeThickness: 0,
-    //         x1: parseInt(tagListData.data[i].x1),
-    //         x2: parseInt(tagListData.data[i].x2),
-    //         y1: 5,
-    //         y2: 7
-    //       })
-    //     );
-    //   } else if (tagListData.data[i].channel === "1") {
-    //     sciChartSurface.annotations.add(
-    //       new BoxAnnotation({
-    //         fill: "#FFE66F33",
-    //         strokeThickness: 0,
-    //         x1: parseInt(tagListData.data[i].x1),
-    //         x2: parseInt(tagListData.data[i].x2),
-    //         y1: 7,
-    //         y2: 9
-    //       })
-    //     );
-    //   } else {
-    //     sciChartSurface.annotations.add(
-    //       new BoxAnnotation({
-    //         fill: "#FFE66F33",
-    //         strokeThickness: 0,
-    //         x1: parseInt(tagListData.data[i].x1),
-    //         x2: parseInt(tagListData.data[i].x2),
-    //         y1: 9,
-    //         y2: 11
-    //       })
-    //     );
-    //   }
-    // }
     // tagModeEnable.addEventListener("change", () => {
     //   if (tagModeEnable.checked === true) {
     //     simpleDataPointSelectionModifier.isEnabled = true;
@@ -528,122 +470,102 @@ export const initSciChartFn = () => {
         }
       )
       .then(res => {
-        anomalyData.data.length = 0;
+        // anomalyData.data.length = 0;
         console.log(res);
         tagListData.data = res.data.data;
         console.log(tagListData);
-        for (let i = 0; i < res.data.data.length; i++) {
-          if (res.data.data[i].channel === "5") {
-            sciChartSurface.annotations.add(
-              new BoxAnnotation({
-                fill: "#FFE66F33",
-                strokeThickness: 0,
-                x1: parseInt(tagListData.data[i].x1),
-                x2: parseInt(tagListData.data[i].x2),
-                y1: -1,
-                y2: 1
-              })
-            );
-          } else if (res.data.data[i].channel === "4") {
-            sciChartSurface.annotations.add(
-              new BoxAnnotation({
-                fill: "#FFE66F33",
-                strokeThickness: 0,
-                x1: parseInt(tagListData.data[i].x1),
-                x2: parseInt(tagListData.data[i].x2),
-                y1: 1,
-                y2: 3
-              })
-            );
-          } else if (res.data.data[i].channel === "3") {
-            sciChartSurface.annotations.add(
-              new BoxAnnotation({
-                fill: "#FFE66F33",
-                strokeThickness: 0,
-                x1: parseInt(tagListData.data[i].x1),
-                x2: parseInt(tagListData.data[i].x2),
-                y1: 3,
-                y2: 5
-              })
-            );
-          } else if (res.data.data[i].channel === "2") {
-            sciChartSurface.annotations.add(
-              new BoxAnnotation({
-                fill: "#FFE66F33",
-                strokeThickness: 0,
-                x1: parseInt(tagListData.data[i].x1),
-                x2: parseInt(tagListData.data[i].x2),
-                y1: 5,
-                y2: 7
-              })
-            );
-          } else if (res.data.data[i].channel === "1") {
-            sciChartSurface.annotations.add(
-              new BoxAnnotation({
-                fill: "#FFE66F33",
-                strokeThickness: 0,
-                x1: parseInt(tagListData.data[i].x1),
-                x2: parseInt(tagListData.data[i].x2),
-                y1: 7,
-                y2: 9
-              })
-            );
-          } else {
-            sciChartSurface.annotations.add(
-              new BoxAnnotation({
-                fill: "#FFE66F33",
-                strokeThickness: 0,
-                x1: parseInt(tagListData.data[i].x1),
-                x2: parseInt(tagListData.data[i].x2),
-                y1: 9,
-                y2: 11
-              })
-            );
-          }
-        }
+        res.data.data.forEach(item => {
+          sciChartSurface.annotations.add(
+            new BoxAnnotation({
+              fill: "#FFE66F33",
+              strokeThickness: 0,
+              x1: parseInt(item.x1),
+              x2: parseInt(item.x2),
+              y1: parseInt(item.channel) * -1 + 9 - parseInt(item.channel),
+              y2: parseInt(item.channel) * -1 + 11 - parseInt(item.channel)
+            })
+          );
+        });
       })
       .catch(err => {
         console.log(err);
       });
     console.log(anomalyData);
+    filterAnomalyData.length = 0;
+    // if (anomalyData.data.length !== 0) {
+    //   anomalyData.data[0].result.forEach((item1, index1) => {
+    //     filterAnomalyData.push({
+    //       channel: index1,
+    //       block: { num: [], section: [] }
+    //     });
+    //     item1.forEach((item2, index2) => {
+    //       if (item2 === 1 || item2 === 3) {
+    //         filterAnomalyData[index1].block.num.push(index2);
+    //       }
+    //     });
+    //   });
+    //   anomalyData.data[0].start_end_peak.forEach((item3, index3) => {
+    //     filterAnomalyData[index3].block.num.forEach(item4 => {
+    //       filterAnomalyData[index3].block.section.push(item3[item4]);
+    //     });
+    //   });
+    // }
+
     if (anomalyData.data.length !== 0) {
       anomalyData.data[0].result.forEach((item1, index1) => {
-        filterAnomalyData.push({
-          channel: index1,
-          block: { num: [], section: [] }
-        });
         item1.forEach((item2, index2) => {
-          if (item2 === 1) {
-            filterAnomalyData[index1].block.num.push(index2);
+          if (item2 !== 0) {
+            filterAnomalyData.push({
+              channel: index1,
+              x1: anomalyData.data[0].start_end_peak[index1][index2][0],
+              x2: anomalyData.data[0].start_end_peak[index1][index2][1]
+            });
           }
-        });
-      });
-      anomalyData.data[0].start_end_peak.forEach((item3, index3) => {
-        filterAnomalyData[index3].block.num.forEach((item4, index4) => {
-          filterAnomalyData[index3].block.section.push(item3[item4]);
         });
       });
     }
     console.log(filterAnomalyData);
-    filterAnomalyData.forEach((item, index) => {
-      // console.log(index);
-      item.block.section.forEach((item2, index2) => {
-        console.log(index);
-        console.log(item2[0]);
-        console.log(item2[1]);
-        sciChartSurface.annotations.add(
-          new BoxAnnotation({
-            fill: "#FF333350",
-            strokeThickness: 0,
-            x1: item2[0],
-            x2: item2[1],
-            y1: index * 2 - 1,
-            y2: index * 2 + 1
-          })
-        );
-      });
+    // filterAnomalyData.forEach(item => {
+    //   // console.log(index);
+    //   item.block.section.forEach(item2 => {
+    //     sciChartSurface.annotations.add(
+    //       new BoxAnnotation({
+    //         fill: "#FF333350",
+    //         strokeThickness: 0,
+    //         x1: item2[0],
+    //         x2: item2[1],
+    //         y1: parseInt(item.channel) * -1 + 9 - parseInt(item.channel),
+    //         y2: parseInt(item.channel) * -1 + 11 - parseInt(item.channel)
+    //       })
+    //     );
+    //   });
+    // });
+    filterAnomalyData.forEach(item => {
+      sciChartSurface.annotations.add(
+        new BoxAnnotation({
+          fill: "#FF333350",
+          strokeThickness: 0,
+          x1: item.x1,
+          x2: item.x2,
+          y1: item.channel * -1 + 9 - item.channel,
+          y2: item.channel * -1 + 11 - item.channel
+        })
+      );
     });
     console.log(anomalyData);
+    console.log(evaluationData);
+    evaluationData.data.forEach(item => {
+      sciChartSurface.annotations.add(
+        new BoxAnnotation({
+          fill: "#22770050",
+          strokeThickness: 0,
+          x1: parseInt(item.x1),
+          x2: parseInt(item.x2),
+          y1: parseInt(item.channel) * -1 + 9 - parseInt(item.channel),
+          y2: parseInt(item.channel) * -1 + 11 - parseInt(item.channel)
+        })
+      );
+    });
   };
   const test = () => {
     console.log("test");
@@ -652,5 +574,5 @@ export const initSciChartFn = () => {
     };
     return { test2 };
   };
-  return { initSciChart, anomalyData, test, changeSwitch };
+  return { initSciChart, anomalyData, test, changeSwitch, evaluationData };
 };

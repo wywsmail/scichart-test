@@ -53,13 +53,26 @@
             {{ item.notes }}
           </td>
           <td>
-            <button
-              type="button"
+            <router-link
+              v-if="dbNum === 'v1'"
+              :to="{
+                name: 'diagnosesChart_v1',
+                params: { diagnosesid: item.diagnosis_id }
+              }"
+              target="_blank"
               class="btn btn-outline-primary btn-sm"
-              @click="getECGChart(item.diagnosis_id)"
+              >顯示 ECG(v1)</router-link
             >
-              顯示 ECG
-            </button>
+            <router-link
+              v-else
+              :to="{
+                name: 'diagnosesChart_v2',
+                params: { diagnosesid: item.diagnosis_id }
+              }"
+              target="_blank"
+              class="btn btn-outline-primary btn-sm"
+              >顯示 ECG(v2)</router-link
+            >
           </td>
         </tr>
       </tbody>
@@ -69,7 +82,7 @@
 
 <script>
 import { useRequestDiagnoses, useShowECGChart } from "@/composition/index";
-import { tableData } from "@/composition/store";
+import { tableData, page } from "@/composition/store";
 import { onMounted } from "vue";
 
 export default {
@@ -83,15 +96,17 @@ export default {
     } = useRequestDiagnoses();
     const { showECGChart } = useShowECGChart();
     onMounted(() => {
-      requestDiagnoses();
+      requestDiagnoses(page.value);
       dataCounts();
     });
+    const dbNum = localStorage.getItem("dbNum");
     return {
       tableData,
       getECGChart,
       diagnosesSearch,
       countNumber,
-      showECGChart
+      showECGChart,
+      dbNum
     };
   }
 };

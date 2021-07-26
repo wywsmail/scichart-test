@@ -7,17 +7,13 @@ import {
   diagnoses,
   tagListData,
   token,
-  selectTagData
-  // initSciChart
+  selectTagData,
+  evaluationTagData,
+  isChecked,
+  selectedModelName,
+  anomalyData
 } from "@/composition/store";
 
-// let max = selectedPoints[0].length;
-// let max = 0;
-// const filterSelectedPoints = selectedPoints.
-// selectedPoints.forEach((item)=>{
-//   max = item.length > max ? item.length : max;
-// });
-// console.log(max);
 export const modalFn = () => {
   const { initSciChart } = useInitSciChart();
   // const maxLength = Math.max(...selectedPoints.map(p => p.length));
@@ -28,7 +24,6 @@ export const modalFn = () => {
   //     filterSelectedAry.data.push(item);
   //   }
   // });
-  // console.log(filterSelectedAry);
   const saveData = val => {
     const maxLength = Math.max(...selectedPoints.map(p => p.length));
     const filterSelectedAry = { channel: 0, data: [] };
@@ -59,40 +54,6 @@ export const modalFn = () => {
         theChannel = filterSelectedAry.channel.toString();
       }
     }
-    // console.log(selectedPoints[-1].length);
-    // for (let i = 0; i < selectedPoints.length; i++) {
-    //   if (
-    //     selectedPoints[i].length !== 0 &&
-    //     selectedPoints[i - 1].length !== 0 &&
-    //     selectedPoints[i + 1].length !== 0
-    //   ) {
-    //     x1 = selectedPoints[i][0].x1Value.toFixed(0);
-    //     x2 = selectedPoints[i][0].x2Value.toFixed(0);
-    //     y1 = selectedPoints[i][0].y1Value.toFixed(0);
-    //     y2 = selectedPoints[i][0].y2Value.toFixed(0);
-    //     theChannel = i.toString();
-    //   } else if (
-    //     selectedPoints[i].length !== 0 &&
-    //     selectedPoints[i - 1].length !== 0 &&
-    //     selectedPoints[i + 1].length === 0
-    //   ) {
-    //     x1 = selectedPoints[i][0].x1Value.toFixed(0);
-    //     x2 = selectedPoints[i][0].x2Value.toFixed(0);
-    //     y1 = selectedPoints[i][0].y1Value.toFixed(0);
-    //     y2 = selectedPoints[i][0].y2Value.toFixed(0);
-    //     theChannel = i.toString();
-    //   } else if (
-    //     selectedPoints[i].length !== 0 &&
-    //     selectedPoints[i - 1].length === 0 &&
-    //     selectedPoints[i + 1].length !== 0
-    //   ) {
-    //     x1 = selectedPoints[i][0].x1Value.toFixed(0);
-    //     x2 = selectedPoints[i][0].x2Value.toFixed(0);
-    //     y1 = selectedPoints[i][0].y1Value.toFixed(0);
-    //     y2 = selectedPoints[i][0].y2Value.toFixed(0);
-    //     theChannel = i.toString();
-    //   }
-    // }
     const config: any = {
       url: apiUrl.url + localStorage.getItem("dbNum") + "/notes/create",
       headers: {
@@ -166,21 +127,7 @@ export const modalFn = () => {
       .catch(err => {
         console.log(err);
       });
-    // tagListData.data.splice(selectTagData.data.index);
-    // console.log(tagListData);
-    // selectTagData.data.length = 0;
-    // selectTagData.data.push({
-    //   index: 0,
-    //   channel: "",
-    //   created_at: "",
-    //   diagnosis_id: "",
-    //   note: "",
-    //   x1: "",
-    //   x2: ""
-    // });
     initSciChart();
-    // window.location.reload;
-    // addKeyDownSwitch();
   };
   const modifyData = (tagData, val, newChannel) => {
     console.log(tagData);
@@ -218,5 +165,148 @@ export const modalFn = () => {
       });
     initSciChart();
   };
-  return { saveData, deleteData, modifyData };
+  const deleteEvaluationData = val => {
+    console.log(val[0].id);
+    const config: any = {
+      // 暫時停用，移除網址
+      // url:
+      //   apiUrl.url +
+      //   localStorage.getItem("dbNum") +
+      //   "/notes/delete/" +
+      //   val[0].id,
+      headers: {
+        Authorization: "Bearer " + token,
+        "Content-Type": "application/json"
+      },
+      method: "delete"
+    };
+    console.log(config);
+    axios(config)
+      .then(res => {
+        console.log(res);
+        // tagListData.data.splice(selectTagData.data.index);
+        console.log(tagListData.data);
+        evaluationTagData.data.length = 0;
+        evaluationTagData.data.push({
+          id: "",
+          channel: "",
+          evaluator: "",
+          evaluation: "",
+          model_name: "",
+          x1: "",
+          x2: ""
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+  const modifyEvaluationData = (data, val) => {
+    const maxLength = Math.max(...selectedPoints.map(p => p.length));
+    const filterSelectedAry = { channel: 0, data: [] };
+    selectedPoints.forEach((item, index) => {
+      if (item.length === maxLength) {
+        filterSelectedAry.channel = index;
+        filterSelectedAry.data.push(item);
+      }
+    });
+    let x1: string;
+    let x2: string;
+    let theChannel: string;
+    for (let i = 0; i < selectedPoints.length; i++) {
+      if (selectedPoints[i].length !== 0) {
+        x1 = selectedPoints[i][0].x1Value.toFixed(0);
+        x2 = selectedPoints[i][0].x2Value.toFixed(0);
+        // theChannel = max.toString();
+        theChannel = filterSelectedAry.channel.toString();
+      }
+    }
+    console.log(data);
+    console.log(anomalyData.data);
+    console.log(filterSelectedAry);
+    const aiTagNote1 = anomalyData.data[0].result
+      .flat(Infinity)
+      .filter(e => e > 0);
+    const aiTagNote2 = aiTagNote1.filter((item, index) => {
+      return aiTagNote1.indexOf(item) === index;
+    });
+    const evaluation: any = {
+      diagnosis_id: diagnoses.data[0].diagnosis_id,
+      model_name: selectedModelName.value,
+      evaluator: localStorage.getItem("username"),
+      score: "",
+      ai_sequence: [JSON.stringify(anomalyData.data[0].result)],
+      evaluator_sequence: []
+    };
+    console.log(aiTagNote2);
+    // if (aiTagNote2.toString() === 1){
+    //   evaluation.evaluation = "ST-D";
+    // }
+    if (isChecked.value !== true) {
+      if (aiTagNote2.toString() === "1") {
+        evaluation.evaluation = `${val}:APC`;
+        console.log(aiTagNote2.toString());
+      } else if (aiTagNote2.toString() === "2") {
+        evaluation.evaluation = `${val}:ST-D`;
+      } else if (aiTagNote2.toString() === "3") {
+        evaluation.evaluation = `${val}:ST-E`;
+        console.log(aiTagNote2.toString());
+      } else if (aiTagNote2.toString() === "4") {
+        evaluation.evaluation = `${val}:VPC`;
+      } else if (aiTagNote2.toString() === "5") {
+        evaluation.evaluation = `${val}:Atrial Fibrillation`;
+      } else if (aiTagNote2.toString() === "6") {
+        evaluation.evaluation = `${val}:PSVT`;
+      } else if (aiTagNote2.toString() === "7") {
+        evaluation.evaluation = `${val}:ST-N`;
+      } else if (aiTagNote2.toString() === "8") {
+        evaluation.evaluation = `${val}:UnKnown`;
+      } else if (aiTagNote2.toString() === "9") {
+        evaluation.evaluation = `${val}:BBB`;
+      } else if (aiTagNote2.toString() === "10") {
+        evaluation.evaluation = `${val}:OMI`;
+      }
+      // (evaluation.evaluation = `${val}:${aiTagNote2}`),
+      // (evaluation.ai_sequence = [JSON.stringify(anomalyData.data[0].result)]),
+      // (evaluation.evaluator_sequence = []),
+      (evaluation.channel = data[0].channel),
+        (evaluation.x1 = data[0].x1.toString()),
+        (evaluation.x2 = data[0].x2.toString());
+    } else {
+      (evaluation.evaluation = `${val}:Normal Sinus Rhythm`),
+        // (evaluation.ai_sequence = ""),
+        // (evaluation.evaluator_sequence = ""),
+        (evaluation.channel = theChannel),
+        (evaluation.x1 = x1),
+        (evaluation.x2 = x2);
+    }
+    const config: any = {
+      url: apiUrl.url + localStorage.getItem("dbNum") + "/evaluation",
+      headers: {
+        Authorization: "Bearer " + token,
+        "Content-Type": "application/json"
+      },
+      method: "post",
+      data: evaluation
+    };
+    console.log(config);
+    axios(config)
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+  return {
+    saveData,
+    deleteData,
+    modifyData,
+    deleteEvaluationData,
+    evaluationTagData,
+    isChecked,
+    modifyEvaluationData,
+    selectedModelName,
+    anomalyData
+  };
 };

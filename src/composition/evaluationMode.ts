@@ -1,19 +1,17 @@
 import { reactive, ref } from "vue";
 import axios from "axios";
 import apiUrl from "../../api_url.global";
-import { anomalyData } from "@/composition/store";
+import { anomalyData, evaluationData, filterAnomalyData, selectedModelName } from "@/composition/store";
 import { useInitSciChart } from "@/composition/index";
 
 export const evaluationModeFn = () => {
   const modelName = reactive([]);
-  const selected = ref("");
   const { initSciChart } = useInitSciChart();
   const getAnomalyModels = (): Promise<any> => {
     return new Promise((resolve, reject) => {
       modelName.length = 0;
       axios
-        // .get("https://dev.intelliances.com/broker/medical/v1/models/name")
-        .get(`${apiUrl.url}v1/models/name`)
+        .get(`${apiUrl.url}${localStorage.getItem("dbNum")}/models/name`)
         .then(res => {
           modelName.push({
             // value: "選項" + 1,
@@ -35,7 +33,7 @@ export const evaluationModeFn = () => {
     });
   };
   const activeEvaluationMode = (val, id) => {
-    const config: any = {
+    const config1: any = {
       baseURL: apiUrl.url + localStorage.getItem("dbNum"),
       url: `/anomaly/${val}/${id}`,
       headers: {
@@ -45,24 +43,53 @@ export const evaluationModeFn = () => {
       method: "get",
       data: {}
     };
-    console.log("送的資料", config);
-    axios(config)
-      .then(res => {
-        console.log(res.data.data);
+    console.log("getAnomaly送的資料", config1);
+    const getAnomaly = () => {
+      return axios(config1);
+    };
+    const config2: any = {
+      baseURL: apiUrl.url + localStorage.getItem("dbNum"),
+      url: `/evaluation/${id}`,
+      headers: {
+        "Content-Type": "application/json",
+        platform: "web"
+      },
+      method: "get",
+      data: {}
+    };
+    console.log("getEvalution送的資料", config2);
+    const getEvaluation = () => {
+      return axios(config2);
+    };
+
+    axios.all([getAnomaly(), getEvaluation()]).then(
+      axios.spread((anomaly, evaluation) => {
+        console.log(anomaly.data.data);
+        console.log(evaluation);
         anomalyData.data.length = 0;
-        anomalyData.data.push(res.data.data);
-        console.log(anomalyData.data);
+        anomalyData.data.push(anomaly.data.data);
+        evaluationData.data.length = 0;
+        evaluationData.data.push(...evaluation.data.data);
         initSciChart();
       })
-      .catch(err => {
-        console.log(err);
-      });
+    );
+    // axios(config)
+    //   .then(res => {
+    //     console.log(res.data.data);
+    //     anomalyData.data.length = 0;
+    //     anomalyData.data.push(res.data.data);
+    //     console.log(anomalyData.data);
+    //     initSciChart();
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //   });
   };
   return {
     modelName,
     getAnomalyModels,
     activeEvaluationMode,
-    selected,
+    selectedModelName,
     anomalyData,
     initSciChart
   };

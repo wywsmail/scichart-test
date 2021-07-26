@@ -2,15 +2,15 @@
 <template>
   <div
     class="modal fade"
-    id="deleteModal"
+    id="deleteEvaluationModal"
     tabindex="-1"
-    aria-labelledby="deleteModalLabel"
+    aria-labelledby="deleteEvaluationModal"
     aria-hidden="true"
   >
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="deleteModalLabel">刪除此段 Tag 資料</h5>
+          <h5 class="modal-title" id="deleteEvaluationModal">刪除此段 Evaluation Tag 資料</h5>
           <button
             type="button"
             class="btn-close"
@@ -20,7 +20,7 @@
         </div>
         <div class="modal-body">
           <div class="alert alert-danger" role="alert">
-            請確認是否要刪除此段 Tag 資料？
+            請確認是否要刪除此段 Evaluation Tag 資料？
           </div>
         </div>
         <div class="modal-footer">
@@ -30,7 +30,7 @@
           <button
             type="button"
             class="btn btn-primary"
-            @click="deleteData(tagDataShow)"
+            @click="deleteEvaluationData(evaluationTagDataShow)"
             data-bs-dismiss="modal"
             tabindex="-1"
           >
@@ -43,11 +43,11 @@
 </template>
 <script>
 import { useModalFn } from "@/composition/index";
-import { tagDataShow } from "@/composition/store";
+import { evaluationTagDataShow } from "@/composition/store";
 export default {
   setup() {
-    const { deleteData } = useModalFn();
-    return { deleteData, tagDataShow };
+    const { deleteEvaluationData } = useModalFn();
+    return { deleteEvaluationData, evaluationTagDataShow };
   }
 };
 </script>
