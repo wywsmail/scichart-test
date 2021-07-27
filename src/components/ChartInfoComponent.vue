@@ -1,9 +1,6 @@
 <template>
   <div class="container">
     <h1>Chart Information</h1>
-    <button class="btn btn-primary" @click="add">加一加一</button>
-    {{ num }}
-    <button class="btn btn-primary" @click="minus">減一減一</button>
     <table class="table">
       <thead>
         <tr>
@@ -28,17 +25,12 @@
 </template>
 
 <script>
-import { useAddFunction } from "@/composition/index";
 import { diagnoses } from "@/composition/store";
 
 export default {
   setup() {
-    const { num, add, minus } = useAddFunction();
     return {
-      diagnoses,
-      num,
-      add,
-      minus
+      diagnoses
     };
   }
 };

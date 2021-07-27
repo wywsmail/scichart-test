@@ -24,10 +24,6 @@ export class MouseClickShowdataModifier extends ChartModifierBase2D {
     if (!xCalc) {
       return;
     }
-    console.log(tagList.value.data);
-    console.log(anomalyData);
-    console.log(filterAnomalyData);
-    console.log(evaluationData.data);
     // Tag Information 篩選
     selectTagData.data.length = 0;
     for (let i = 0; i < tagList.value.data.length; i++) {
@@ -39,9 +35,6 @@ export class MouseClickShowdataModifier extends ChartModifierBase2D {
           xCalc.getDataValue(translatedPoint.x) &&
         xCalc.getDataValue(translatedPoint.x) < Number(tagList.value.data[i].x2)
       ) {
-        console.log(tagList.value.data[i].channel);
-        console.log(tagList.value.data[i].x1);
-        console.log(tagList.value.data[i].x2);
         selectTagData.data.push({
           index: i,
           channel: "5",
@@ -60,12 +53,6 @@ export class MouseClickShowdataModifier extends ChartModifierBase2D {
           xCalc.getDataValue(translatedPoint.x) &&
         xCalc.getDataValue(translatedPoint.x) < Number(tagList.value.data[i].x2)
       ) {
-        console.log(tagList.value.data[i].channel);
-        console.log(tagList.value.data[i].x1);
-        console.log(tagList.value.data[i].x2);
-        // selectTagData.index = 0;
-        // selectTagData.data.length = 0;
-        // selectTagData.index = i;
         selectTagData.data.push({
           index: i,
           channel: "4",
@@ -84,12 +71,6 @@ export class MouseClickShowdataModifier extends ChartModifierBase2D {
           xCalc.getDataValue(translatedPoint.x) &&
         xCalc.getDataValue(translatedPoint.x) < Number(tagList.value.data[i].x2)
       ) {
-        console.log(tagList.value.data[i].channel);
-        console.log(tagList.value.data[i].x1);
-        console.log(tagList.value.data[i].x2);
-        // selectTagData.index = 0;
-        // selectTagData.data.length = 0;
-        // selectTagData.index = i;
         selectTagData.data.push({
           index: i,
           channel: "3",
@@ -108,12 +89,6 @@ export class MouseClickShowdataModifier extends ChartModifierBase2D {
           xCalc.getDataValue(translatedPoint.x) &&
         xCalc.getDataValue(translatedPoint.x) < Number(tagList.value.data[i].x2)
       ) {
-        console.log(tagList.value.data[i].channel);
-        console.log(tagList.value.data[i].x1);
-        console.log(tagList.value.data[i].x2);
-        // selectTagData.index = 0;
-        // selectTagData.data.length = 0;
-        // selectTagData.index = i;
         selectTagData.data.push({
           index: i,
           channel: "2",
@@ -132,12 +107,6 @@ export class MouseClickShowdataModifier extends ChartModifierBase2D {
           xCalc.getDataValue(translatedPoint.x) &&
         xCalc.getDataValue(translatedPoint.x) < Number(tagList.value.data[i].x2)
       ) {
-        console.log(tagList.value.data[i].channel);
-        console.log(tagList.value.data[i].x1);
-        console.log(tagList.value.data[i].x2);
-        // selectTagData.index = 0;
-        // selectTagData.data.length = 0;
-        // selectTagData.index = i;
         selectTagData.data.push({
           index: i,
           channel: "1",
@@ -156,12 +125,6 @@ export class MouseClickShowdataModifier extends ChartModifierBase2D {
           xCalc.getDataValue(translatedPoint.x) &&
         xCalc.getDataValue(translatedPoint.x) < Number(tagList.value.data[i].x2)
       ) {
-        console.log(tagList.value.data[i].channel);
-        console.log(tagList.value.data[i].x1);
-        console.log(tagList.value.data[i].x2);
-        // selectTagData.index = 0;
-        // selectTagData.data.length = 0;
-        // selectTagData.index = i;
         selectTagData.data.push({
           index: i,
           channel: "0",
@@ -174,13 +137,10 @@ export class MouseClickShowdataModifier extends ChartModifierBase2D {
         });
       }
     }
-    console.log(selectTagData);
-    // console.log(tagDataShow.value);
 
     // AnomalyData Information 篩選
     evaluationTagData.data.length = 0;
-    filterAnomalyData.forEach((item, index) => {
-      // console.log(item);
+    filterAnomalyData.forEach(item => {
       if (
         item.channel === 5 &&
         -1 < yCalc.getDataValue(translatedPoint.y) &&
@@ -281,8 +241,7 @@ export class MouseClickShowdataModifier extends ChartModifierBase2D {
     });
     // Evaluation Information 篩選
 
-    evaluationData.data.forEach((item, index) => {
-      // console.log(item);
+    evaluationData.data.forEach(item => {
       if (
         item.channel === "5" &&
         -1 < yCalc.getDataValue(translatedPoint.y) &&
@@ -299,10 +258,6 @@ export class MouseClickShowdataModifier extends ChartModifierBase2D {
           x1: item.x1,
           x2: item.x2
         });
-        console.log(item.id);
-        console.log(item.channel);
-        console.log(item.x1);
-        console.log(item.x2);
       } else if (
         item.channel === "4" &&
         1 < yCalc.getDataValue(translatedPoint.y) &&
@@ -319,10 +274,6 @@ export class MouseClickShowdataModifier extends ChartModifierBase2D {
           x1: item.x1,
           x2: item.x2
         });
-        console.log(item.id);
-        console.log(item.channel);
-        console.log(item.x1);
-        console.log(item.x2);
       } else if (
         item.channel === "3" &&
         3 < yCalc.getDataValue(translatedPoint.y) &&
@@ -339,10 +290,6 @@ export class MouseClickShowdataModifier extends ChartModifierBase2D {
           x1: item.x1,
           x2: item.x2
         });
-        console.log(item.id);
-        console.log(item.channel);
-        console.log(item.x1);
-        console.log(item.x2);
       } else if (
         item.channel === "2" &&
         5 < yCalc.getDataValue(translatedPoint.y) &&
@@ -359,10 +306,6 @@ export class MouseClickShowdataModifier extends ChartModifierBase2D {
           x1: item.x1,
           x2: item.x2
         });
-        console.log(item.id);
-        console.log(item.channel);
-        console.log(item.x1);
-        console.log(item.x2);
       } else if (
         item.channel === "1" &&
         7 < yCalc.getDataValue(translatedPoint.y) &&
@@ -379,10 +322,6 @@ export class MouseClickShowdataModifier extends ChartModifierBase2D {
           x1: item.x1,
           x2: item.x2
         });
-        console.log(item.id);
-        console.log(item.channel);
-        console.log(item.x1);
-        console.log(item.x2);
       } else if (
         item.channel === "0" &&
         9 < yCalc.getDataValue(translatedPoint.y) &&
@@ -399,10 +338,6 @@ export class MouseClickShowdataModifier extends ChartModifierBase2D {
           x1: item.x1,
           x2: item.x2
         });
-        console.log(item.id);
-        console.log(item.channel);
-        console.log(item.x1);
-        console.log(item.x2);
       }
     });
   }

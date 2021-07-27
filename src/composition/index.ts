@@ -1,5 +1,4 @@
-import { addFunction, loginFn } from "@/composition/login";
-export const useAddFunction = addFunction;
+import { loginFn } from "@/composition/login";
 export const useLoginFn = loginFn;
 
 import { requestDiagnosesFn } from "@/composition/requestDiagnoses";
@@ -13,9 +12,6 @@ export const useEvaluationMode = evaluationModeFn;
 
 import { showECGChartFn } from "@/composition/showECGChart";
 export const useShowECGChart = showECGChartFn;
-
-import { showTagListFn } from "@/composition/showTagList";
-export const useShowTagList = showTagListFn;
 
 import { initSciChartFn } from "@/composition/sciChart/initSciChart";
 export const useInitSciChart = initSciChartFn;

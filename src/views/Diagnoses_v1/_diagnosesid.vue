@@ -8,7 +8,7 @@
     </div>
   </div>
   <SciChart />
-  <TagListTable />
+  <!-- <TagListTable /> -->
   <TagNoteModal />
   <ChangeTagNoteModal />
   <DeleteTagNoteModal />
@@ -32,30 +32,15 @@ import ModifyEvaluationTagModal from "@/components/modal/ModifyEvaluationTagModa
 // import Vue
 import { useRoute } from "vue-router";
 import { onMounted } from "vue";
-// import store
-// import { store } from "@/composition/index";
 import {
-  // dataInformation,
-  // showECGChart,
   isChecked,
   diagnoses,
-  // getAnomalyModels,
-  // modelName,
-  // initSciChart,
   selectedPoints,
-  // SimpleDataPointSelectionModifier,
-  // noteMode,
   tagMode,
-  // showTagList,
   tagListData,
   tagList
-  // saveData,
-  // deleteData,
-  // modifyData,
-  // selectTagData,
-  // tagDataShow
 } from "@/composition/store";
-import { useShowECGChart, useShowTagList, useInitSciChart } from "@/composition/index";
+import { useShowECGChart, useInitSciChart } from "@/composition/index";
 
 export default {
   components: {
@@ -73,15 +58,13 @@ export default {
   },
   setup() {
     const { showECGChart } = useShowECGChart();
-    const { showTagList } = useShowTagList();
     const { initSciChart } = useInitSciChart();
 
     const route = useRoute();
     onMounted(async () => {
       await showECGChart(route.params.diagnosesid);
       initSciChart();
-      await showTagList();
-      window.addEventListener("keydown", (e) => {
+      window.addEventListener("keydown", e => {
         e.preventDefault();
         if (e.keyCode === 32) {
           isChecked.value = !isChecked.value;
@@ -90,23 +73,12 @@ export default {
       });
     });
     return {
-      // dataInformation,
       initSciChart,
-      // modelName,
       diagnoses,
-      // selected,
       selectedPoints,
-      // noteMode,
       tagMode,
-      showTagList,
       tagListData,
       tagList
-      // getAnomalyModels
-      // saveData,
-      // deleteData,
-      // modifyData,
-      // selectTagData,
-      // tagDataShow
     };
   }
 };

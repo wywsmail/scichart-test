@@ -44,17 +44,10 @@
   </div>
 </template>
 <script>
-import { onMounted } from "vue";
 import { tagList } from "@/composition/store";
-import { useShowTagList } from "@/composition/index";
 export default {
   setup() {
-    const { showTagList } = useShowTagList();
-    onMounted(async () => {
-      console.log(tagList.data);
-      await showTagList();
-    });
-    return { tagList, showTagList };
+    return { tagList };
   }
 };
 </script>

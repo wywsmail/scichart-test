@@ -16,14 +16,6 @@ import {
 
 export const modalFn = () => {
   const { initSciChart } = useInitSciChart();
-  // const maxLength = Math.max(...selectedPoints.map(p => p.length));
-  // const filterSelectedAry = { channel: 0, data: [] };
-  // selectedPoints.forEach((item, index) => {
-  //   if (item.length === maxLength) {
-  //     filterSelectedAry.channel = index;
-  //     filterSelectedAry.data.push(item);
-  //   }
-  // });
   const saveData = val => {
     const maxLength = Math.max(...selectedPoints.map(p => p.length));
     const filterSelectedAry = { channel: 0, data: [] };
@@ -34,11 +26,6 @@ export const modalFn = () => {
       }
     });
 
-    console.log(selectedPoints);
-    // console.log(selectedPoints.length);
-    // console.log(maxLength);
-    console.log(filterSelectedAry);
-    // console.log(diagnoses.data);
     let x1: string;
     let x2: string;
     let y1: string;
@@ -50,7 +37,6 @@ export const modalFn = () => {
         x2 = selectedPoints[i][0].x2Value.toFixed(0);
         y1 = selectedPoints[i][0].y1Value.toFixed(0);
         y2 = selectedPoints[i][0].y2Value.toFixed(0);
-        // theChannel = max.toString();
         theChannel = filterSelectedAry.channel.toString();
       }
     }
@@ -72,11 +58,8 @@ export const modalFn = () => {
         note: `["${val}"]`
       }
     };
-    console.log(config);
     axios(config)
       .then(res => {
-        console.log(tagListData.data);
-        console.log(res.data.data.datas[0].note_id);
         tagListData.data.push({
           id: res.data.data.datas[0].note_id,
           channel: config.data.channel,
@@ -92,9 +75,6 @@ export const modalFn = () => {
       });
   };
   const deleteData = val => {
-    console.log(tagListData);
-    console.log(val);
-    // console.log(tagListData.data.indexOf(val.data[0].id));
     const config: any = {
       url:
         apiUrl.url +
@@ -107,12 +87,9 @@ export const modalFn = () => {
       },
       method: "delete"
     };
-    console.log(config);
     axios(config)
-      .then(res => {
-        console.log(res);
+      .then(() => {
         tagListData.data.splice(selectTagData.data.index);
-        console.log(tagListData.data);
         selectTagData.data.length = 0;
         selectTagData.data.push({
           index: 0,
@@ -130,8 +107,6 @@ export const modalFn = () => {
     initSciChart();
   };
   const modifyData = (tagData, val, newChannel) => {
-    console.log(tagData);
-    console.log(val);
     const config: any = {
       url: apiUrl.url + localStorage.getItem("dbNum") + "/notes/modify",
       headers: {
@@ -144,18 +119,12 @@ export const modalFn = () => {
         diagnosis_id: diagnoses.data[0].diagnosis_id,
         x1: tagData[0].x1,
         x2: tagData[0].x2,
-        // channel: tagData[0].channel,
         channel: `${newChannel}`,
         note: `["${val}"]`
       }
     };
-    console.log(config);
     axios(config)
-      .then(res => {
-        console.log(res);
-        console.log(config.data.note);
-        console.log(tagListData.data);
-        console.log(selectTagData.data[0].index);
+      .then(() => {
         tagListData.data[selectTagData.data[0].index].note = config.data.note;
         selectTagData.data[0].note = JSON.parse(config.data.note)[0];
         selectTagData.data[0].channel = config.data.channel;
@@ -166,7 +135,6 @@ export const modalFn = () => {
     initSciChart();
   };
   const deleteEvaluationData = val => {
-    console.log(val[0].id);
     const config: any = {
       // 暫時停用，移除網址
       // url:
@@ -182,10 +150,7 @@ export const modalFn = () => {
     };
     console.log(config);
     axios(config)
-      .then(res => {
-        console.log(res);
-        // tagListData.data.splice(selectTagData.data.index);
-        console.log(tagListData.data);
+      .then(() => {
         evaluationTagData.data.length = 0;
         evaluationTagData.data.push({
           id: "",
@@ -217,13 +182,9 @@ export const modalFn = () => {
       if (selectedPoints[i].length !== 0) {
         x1 = selectedPoints[i][0].x1Value.toFixed(0);
         x2 = selectedPoints[i][0].x2Value.toFixed(0);
-        // theChannel = max.toString();
         theChannel = filterSelectedAry.channel.toString();
       }
     }
-    console.log(data);
-    console.log(anomalyData.data);
-    console.log(filterSelectedAry);
     const aiTagNote1 = anomalyData.data[0].result
       .flat(Infinity)
       .filter(e => e > 0);
@@ -238,10 +199,6 @@ export const modalFn = () => {
       ai_sequence: [JSON.stringify(anomalyData.data[0].result)],
       evaluator_sequence: []
     };
-    console.log(aiTagNote2);
-    // if (aiTagNote2.toString() === 1){
-    //   evaluation.evaluation = "ST-D";
-    // }
     if (isChecked.value !== true) {
       if (aiTagNote2.toString() === "1") {
         evaluation.evaluation = `${val}:APC`;
@@ -266,16 +223,11 @@ export const modalFn = () => {
       } else if (aiTagNote2.toString() === "10") {
         evaluation.evaluation = `${val}:OMI`;
       }
-      // (evaluation.evaluation = `${val}:${aiTagNote2}`),
-      // (evaluation.ai_sequence = [JSON.stringify(anomalyData.data[0].result)]),
-      // (evaluation.evaluator_sequence = []),
       (evaluation.channel = data[0].channel),
         (evaluation.x1 = data[0].x1.toString()),
         (evaluation.x2 = data[0].x2.toString());
     } else {
       (evaluation.evaluation = `${val}:Normal Sinus Rhythm`),
-        // (evaluation.ai_sequence = ""),
-        // (evaluation.evaluator_sequence = ""),
         (evaluation.channel = theChannel),
         (evaluation.x1 = x1),
         (evaluation.x2 = x2);
@@ -289,11 +241,8 @@ export const modalFn = () => {
       method: "post",
       data: evaluation
     };
-    console.log(config);
     axios(config)
-      .then(res => {
-        console.log(res);
-      })
+      .then()
       .catch(err => {
         console.log(err);
       });

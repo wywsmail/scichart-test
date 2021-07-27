@@ -16,25 +16,16 @@ export const showECGChartFn = () => {
         method: "get",
         data: {}
       };
-      console.log("送的資料", config);
       axios(config)
         .then(res => {
-          console.log(res);
-          // res.data.data.forEach((item, index) => {
-          //   item.start_time = new Date(item.start_time).toLocaleString();
-          // });
           res.data.data.start_time = new Date(
             res.data.data.start_time
           ).toLocaleString();
-          console.log(res.data.data);
           diagnoses.data = [res.data.data];
           tableData.data = [res.data.data];
-          console.log(diagnoses.data);
-          console.log(`a`);
           resolve(diagnoses);
         })
         .catch(err => {
-          console.log(err);
           alert("沒有資料喔");
           reject(err);
         });
@@ -55,7 +46,6 @@ export const showECGChartFn = () => {
           }
         )
         .then(res => {
-          console.log(res);
           tagListData.data = res.data.data;
         })
         .catch(err => {

@@ -4,12 +4,10 @@
 // About interface
 
 interface Iapidata<T> {
-  // length: number;
   data: T;
 }
 
 interface TDataPoint {
-  // index: number;
   x1Value: number;
   x2Value: number;
   y1Value: number;
@@ -31,19 +29,15 @@ export const token = localStorage.getItem("token") || ref(null);
 export const isLogin = ref(JSON.parse(localStorage.getItem("isLogin")));
 export const page = ref(1);
 export const dbNum = ref("v2");
-// export const dbNum = ref(JSON.parse(localStorage.getItem("dbNum")));
 
 export const tableData = reactive({
   data: []
 });
-// export const
+
 export const role = localStorage.getItem("role") ?? ref("");
 export const diagnoses: Iapidata<object> = reactive({
   data: [],
   length
-});
-export const diagnosesUpdate = computed(() => {
-  return diagnoses;
 });
 
 export const selectedModelName = ref("");
@@ -54,44 +48,12 @@ export const filterAnomalyData = reactive([]);
 
 export const countNumber = ref(0);
 
-export const rows = ref([]);
-export const colums = ref([
-  {
-    label: "Patient ID",
-    field: "patient_id"
-  },
-  {
-    label: "Time",
-    field: "datetime"
-  },
-  {
-    label: "Measure Type",
-    field: "measure_type"
-  },
-  {
-    label: "Who measures",
-    field: "measure_person"
-  },
-  {
-    label: "Tags",
-    field: "tagged"
-  },
-  {
-    label: "",
-    field: "delete"
-  }
-]);
-
-export const scichartRoot = document.getElementById("scichart-root");
-export const numberOfElements = ref(0);
-
 export const anomalyMode = ref(false);
 export const anomalySequence = ref([]);
 export const evaluationTags = ref([]);
 export const anomalyModels = ref([]);
 
 export const selectedPoints: TDataPoint[][] = reactive([]);
-// export const selectedPoints: any = reactive([]);
 export const noteMode = ref("ST-E");
 export const tagMode = computed(() => {
   return noteMode.value;

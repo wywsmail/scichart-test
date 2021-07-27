@@ -25,34 +25,43 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mb-2 mb-lg-0 me-auto">
           <li class="nav-item" v-if="dbNum === 'v1'">
-            <a class="nav-link" href="#" @click.prevent="changePage('Diagnoses_v1')"
+            <a
+              class="nav-link"
+              href="#"
+              @click.prevent="changePage('Diagnoses_v1')"
               >Diagnoses(V1 DB)</a
             >
           </li>
           <li class="nav-item" v-else>
-            <a class="nav-link" href="#" @click.prevent="changePage('Diagnoses_v2')"
+            <a
+              class="nav-link"
+              href="#"
+              @click.prevent="changePage('Diagnoses_v2')"
               >Diagnoses(V2 DB)</a
             >
           </li>
         </ul>
         <ul class="navbar-nav mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link" href="#" @click.prevent="changePage('switchHitTest')"
+            <a
+              class="nav-link"
+              href="#"
+              @click.prevent="changePage('switchHitTest')"
               >switchHitTest</a
             >
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#" @click.prevent="changePage('infinite-test')"
+            <a
+              class="nav-link"
+              href="#"
+              @click.prevent="changePage('infinite-test')"
               >Infinite-test</a
             >
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#" @click.prevent="changePage('testarea')"
-              >Test Area</a
-            >
-          </li>
           <li class="nav-item" v-if="!isLogin">
-            <a class="nav-link" href="#" @click.prevent="changePage('login')">Log in</a>
+            <a class="nav-link" href="#" @click.prevent="changePage('login')"
+              >Log in</a
+            >
           </li>
           <li class="nav-item" v-else>
             <a class="nav-link" href="#" @click.prevent="logout">Log out</a>
@@ -77,18 +86,12 @@ import { dbNum } from "@/composition/store";
 export default {
   setup() {
     const { logout, isLogin } = useLoginFn();
-    console.log(isLogin.value);
-    const changePage = (to) => {
+    const changePage = to => {
       router.push(`/${to}`);
     };
-    // const dbNum = computed(() => {
-    //   return localStorage.getItem("dbNum");
-    // });
     onMounted(() => {
       dbNum.value = localStorage.getItem("dbNum");
     });
-    // const dbNum = ref(localStorage.getItem("dbNum"));
-    console.log(dbNum.value);
     return { changePage, logout, isLogin, dbNum };
   }
 };

@@ -78,12 +78,8 @@ export default {
         return;
       } else if (pageParameter.value === 0) {
         return;
-        // pageParameter.value--;
       }
     };
-    // const page = ref(1);
-    console.log(countNumber.value);
-    console.log(pageNumber.value);
     return {
       countNumber,
       pageNumber,

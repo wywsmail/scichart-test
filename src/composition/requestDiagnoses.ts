@@ -1,14 +1,7 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import axios from "axios";
-import { ref } from "vue";
 import apiUrl from "../../api_url.global";
-import {
-  tableData,
-  dbNum,
-  token,
-  countNumber,
-  page
-} from "@/composition/store";
+import { tableData, dbNum, token, countNumber } from "@/composition/store";
 import router from "../router/index";
 
 export const requestDiagnosesFn = () => {
@@ -23,12 +16,10 @@ export const requestDiagnosesFn = () => {
       },
       method: "post"
     };
-    console.log(page);
     if (localStorage.getItem("dbNum") === "v1") {
       config.data = {
         medical_id: "01",
         measure_person: localStorage.getItem("username"),
-        // measure_person: "wywsmail",
         role: "api",
         start_number: page * 10 - 9,
         end_number: page * 10
@@ -43,11 +34,9 @@ export const requestDiagnosesFn = () => {
         end_number: page * 10
       };
     }
-    console.log(config);
     axios(config)
       .then(res => {
-        console.log(res.data.data);
-        res.data.data.forEach((item,index) => {
+        res.data.data.forEach((item, index) => {
           item.start_time = new Date(item.start_time).toLocaleString();
           item.index = page * 10 - 9 + index;
           item.notes =
@@ -64,19 +53,14 @@ export const requestDiagnosesFn = () => {
       });
   };
   const getECGChart = id => {
-    // router.push(`/Diagnoses_v2/${id}`);
     router.push(`/Diagnoses_${localStorage.getItem("dbNum")}/${id}`);
   };
-  const diagnosesSearch = id => {
-    console.log(id);
-  };
-  // const countNumber = ref(0);
+
   const dataCounts = () => {
     const config: any = {
       baseURL: apiUrl.url + localStorage.getItem("dbNum"),
       url: "/diagnoses/count",
       headers: {
-        // Authorization: token,
         Authorization: "Bearer " + token,
         "Content-Type": "application/json",
         platform: "web"
@@ -87,7 +71,6 @@ export const requestDiagnosesFn = () => {
       config.data = {
         medical_id: "01",
         measure_person: localStorage.getItem("username"),
-        // measure_person: "wywsmail",
         role: "api",
         start_date: ""
       };
@@ -99,10 +82,8 @@ export const requestDiagnosesFn = () => {
         phone: localStorage.getItem("phone")
       };
     }
-    console.log(config);
     axios(config)
       .then(res => {
-        console.log(res.data.data.diagnosis_counts);
         countNumber.value = res.data.data.diagnosis_counts;
       })
       .catch(err => {
@@ -113,7 +94,6 @@ export const requestDiagnosesFn = () => {
     requestDiagnoses,
     getECGChart,
     dbNum,
-    diagnosesSearch,
     dataCounts,
     countNumber
   };
