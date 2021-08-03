@@ -1,12 +1,10 @@
 <template>
   <div class="container">
     <div class="row justify-content-center">
-      <div class="col-4">
+      <div class="col-8 col-md-6 col-lg-4">
         <form>
           <div class="mb-3 text-start">
-            <label for="exampleInputEmail1" class="form-label"
-              >請輸入帳號</label
-            >
+            <label for="exampleInputEmail1" class="form-label">請輸入帳號</label>
             <input
               type="text"
               class="form-control"
@@ -19,9 +17,7 @@
             </div>
           </div>
           <div class="mb-3 text-start">
-            <label for="exampleInputPassword1" class="form-label"
-              >請輸入密碼</label
-            >
+            <label for="exampleInputPassword1" class="form-label">請輸入密碼</label>
             <input
               type="password"
               class="form-control"
@@ -40,9 +36,7 @@
                 value="v1"
                 v-model="dbNum"
               />
-              <label class="form-check-label" for="flexRadioDefault1">
-                V1 DB
-              </label>
+              <label class="form-check-label" for="flexRadioDefault1"> V1 DB </label>
             </div>
             <div class="form-check form-check-inline">
               <input
@@ -54,9 +48,7 @@
                 value="v2"
                 v-model="dbNum"
               />
-              <label class="form-check-label" for="flexRadioDefault2">
-                V2 DB
-              </label>
+              <label class="form-check-label" for="flexRadioDefault2"> V2 DB </label>
             </div>
           </div>
           <button type="submit" class="btn btn-primary" @click.prevent="login">

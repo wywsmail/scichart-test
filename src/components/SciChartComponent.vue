@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div id="scichart-root" style="width: 100%; height: 800px; margin: auto"></div>
+    <div id="scichart-root" style="width: 100%; height: 32.45%"></div>
   </div>
 </template>
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="col-6">
+  <div class="col-12 col-md-6">
     <div class="card">
       <h5 class="card-header">Evaluation Information</h5>
       <div class="card-body">
@@ -10,7 +10,7 @@
               <th scope="col">Time</th>
               <th scope="col">Evaluator</th>
               <th scope="col">Note</th>
-              <th scope="col">操作</th>
+              <th scope="col" class="d-none d-xl-table-cell">操作</th>
             </tr>
           </thead>
           <tbody>
@@ -28,7 +28,7 @@
               <td v-else></td>
               <td>{{ item.evaluator }}</td>
               <td>{{ item.evaluation }}</td>
-              <td>
+              <td class="d-none d-xl-table-cell">
                 <a
                   href="#"
                   class="btn btn-primary me-2"

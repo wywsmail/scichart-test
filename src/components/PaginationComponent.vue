@@ -24,7 +24,7 @@
         </form>
       </div>
     </nav>
-    <nav aria-label="Page navigation example">
+    <!--<nav aria-label="Page navigation example">
       <ul class="pagination justify-content-end">
         <li class="page-item">
           <a
@@ -50,7 +50,7 @@
           <a class="page-link" href="#" @click.prevent="next">Next</a>
         </li>
       </ul>
-    </nav>
+    </nav> -->
   </div>
 </template>
 

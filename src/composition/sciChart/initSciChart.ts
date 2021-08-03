@@ -30,6 +30,7 @@ import { HorizontalLineAnnotation } from "scichart/Charting/Visuals/Annotations/
 import { BoxAnnotation } from "scichart/Charting/Visuals/Annotations/BoxAnnotation";
 import { SimpleDataPointSelectionModifier } from "@/composition/sciChart/simpleDataPointSelectionModifier";
 import { MouseClickShowdataModifier } from "@/composition/sciChart/mouseClickShowdataModifier";
+import { PinchZoomModifier } from "scichart/Charting/ChartModifiers/PinchZoomModifier";
 
 export const initSciChartFn = () => {
   const changeSwitch = () => {
@@ -289,21 +290,24 @@ export const initSciChartFn = () => {
     const scichartRoot = document.getElementById("scichart-root");
 
     const zoomPanModifier = new ZoomPanModifier();
-    const simpleDataPointSelectionModifier = new SimpleDataPointSelectionModifier();
+    // const simpleDataPointSelectionModifier = new SimpleDataPointSelectionModifier();
     const mouseWheelZoomModifier = new MouseWheelZoomModifier();
     const mouseMoveShowdataModifier = new MouseClickShowdataModifier();
+    const pinchZoomModifier = new PinchZoomModifier();
 
     sciChartSurface.chartModifiers.add(zoomPanModifier);
-    sciChartSurface.chartModifiers.add(simpleDataPointSelectionModifier);
+    // sciChartSurface.chartModifiers.add(simpleDataPointSelectionModifier);
     sciChartSurface.chartModifiers.add(mouseWheelZoomModifier);
     sciChartSurface.chartModifiers.add(mouseMoveShowdataModifier);
+    sciChartSurface.chartModifiers.add(pinchZoomModifier);
 
     mouseWheelZoomModifier.xyDirection = EXyDirection.XDirection;
     zoomPanModifier.xyDirection = EXyDirection.XDirection;
+    pinchZoomModifier.xyDirection = EXyDirection.XDirection;
 
     tagModeEnable.addEventListener("change", () => {
       if (tagModeEnable.checked === true) {
-        simpleDataPointSelectionModifier.isEnabled = true;
+        // simpleDataPointSelectionModifier.isEnabled = true;
         zoomPanModifier.isEnabled = false;
         scichartRoot.setAttribute("data-bs-toggle", "modal");
         if (filterAnomalyData.length === 0) {
@@ -317,16 +321,16 @@ export const initSciChartFn = () => {
         console.log(
           tagModeEnable.checked,
           isChecked.value,
-          simpleDataPointSelectionModifier,
+          // simpleDataPointSelectionModifier,
           zoomPanModifier
         );
       } else {
-        simpleDataPointSelectionModifier.isEnabled = false;
+        // simpleDataPointSelectionModifier.isEnabled = false;
         zoomPanModifier.isEnabled = true;
         console.log(
           tagModeEnable.checked,
           isChecked.value,
-          simpleDataPointSelectionModifier,
+          // simpleDataPointSelectionModifier,
           zoomPanModifier
         );
         scichartRoot.removeAttribute("data-bs-toggle");

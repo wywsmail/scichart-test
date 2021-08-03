@@ -1,9 +1,9 @@
 <template>
-  <div class="col-6">
+  <div class="col-12 col-md-6">
     <div class="card">
       <h5 class="card-header">Tag Information</h5>
       <div class="card-body">
-        <div class="form-check form-switch justify-content-end d-flex">
+        <div class="form-check form-switch d-none d-xl-inline-block">
           <input
             class="form-check-input"
             type="checkbox"
@@ -18,7 +18,7 @@
               <th scope="col">Channel Name</th>
               <th scope="col">Time</th>
               <th scope="col">備註</th>
-              <th scope="col">操作</th>
+              <th scope="col" class="d-none d-xl-table-cell">操作</th>
             </tr>
           </thead>
           <tbody>
@@ -35,7 +35,7 @@
               </td>
               <td v-else></td>
               <td>{{ item.note }}</td>
-              <td>
+              <td class="d-none d-xl-table-cell">
                 <a
                   href="#"
                   class="btn btn-primary me-2"

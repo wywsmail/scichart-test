@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="row justify-content-end mt-3">
-      <div class="col-2">
+      <div class="col-6 col-md-3">
         <select
           v-model="selectedModelName"
           placeholder="請選擇 Model"
@@ -14,7 +14,7 @@
           </option>
         </select>
       </div>
-      <div class="col-2">
+      <div class="col-6 col-md-3">
         <div
           class="btn btn-primary"
           @click="activeEvaluationMode(selectedModelName, diagnoses.data[0].diagnosis_id)"
@@ -34,11 +34,7 @@ import { useEvaluationMode } from "@/composition/index";
 // import { ref } from "vue";
 export default {
   setup() {
-    const {
-      modelName,
-      activeEvaluationMode,
-      getAnomalyModels
-    } = useEvaluationMode();
+    const { modelName, activeEvaluationMode, getAnomalyModels } = useEvaluationMode();
     onMounted(async () => {
       await getAnomalyModels();
     });
