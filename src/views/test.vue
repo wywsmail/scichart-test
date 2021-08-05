@@ -1,5 +1,5 @@
 <template>
-  <h1>Hello SciChart.js world?</h1>
+  <h1>Hello SciChart.js world</h1>
   <p>
     In this example we add simple zoom and pan behaviour. Select the options below to
     enable different behaviours
@@ -17,7 +17,7 @@
 
   <!-- the Div where the SciChartSurface will reside -->
   <div class="container">
-    <div id="scichart-root-test" style="height: 30%; width: 100%"></div>
+    <div id="scichart-root-test"></div>
   </div>
 </template>
 <script>
@@ -97,7 +97,7 @@ export default {
       sciChartSurface.chartModifiers.add(zoomPanModifier);
       sciChartSurface.chartModifiers.add(rubberBandZoomModifier);
       sciChartSurface.chartModifiers.add(mouseWheelZoomModifier);
-      scichartSurface.chartModifiers.add(pinchZoomModifier);
+      sciChartSurface.chartModifiers.add(pinchZoomModifier);
 
       const inputEnablePan = document.getElementById("enable-pan");
       const inputEnableZoom = document.getElementById("enable-zoom");
@@ -139,3 +139,10 @@ export default {
   }
 };
 </script>
+<style scoped>
+#scichart-root-test {
+  width: 100%;
+  touch-action: none;
+  height: 32.45%;
+}
+</style>

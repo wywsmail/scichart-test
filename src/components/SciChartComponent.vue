@@ -1,9 +1,15 @@
 <template>
   <div class="container">
-    <div id="scichart-root" style="width: 100%; height: 32.45%"></div>
+    <div id="scichart-root"></div>
   </div>
 </template>
 
 <script lang="ts"></script>
 
-<style scoped></style>
+<style scoped>
+#scichart-root {
+  width: 100%;
+  touch-action: none;
+  height: 32.45%;
+}
+</style>
