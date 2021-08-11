@@ -59,7 +59,7 @@
       <component class="vies" :is="Component"></component>
     </keep-alive>
   </router-view>
-  <footer class="mt-auto py-3">inCare © 2021</footer>
+  <footer class="mt-auto py-3">inCare © 2021(SciChart-test)</footer>
 </template>
 
 <script>
