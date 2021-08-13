@@ -1,16 +1,7 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#" @click.prevent="changePage('')">
-        <img
-          src="../src/assets/logo.png"
-          alt=""
-          width="30"
-          height="24"
-          class="d-inline-block align-top"
-        />
-        inCare
-      </a>
+      <a class="navbar-brand" href="#" @click.prevent="changePage('')">Home</a>
       <button
         class="navbar-toggler"
         type="button"
@@ -24,31 +15,10 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mb-2 mb-lg-0 me-auto">
-          <li class="nav-item" v-if="dbNum === 'v1'">
-            <a class="nav-link" href="#" @click.prevent="changePage('Diagnoses_v1')"
-              >Diagnoses(V1 DB)</a
-            >
-          </li>
-          <li class="nav-item" v-else>
+          <li class="nav-item">
             <a class="nav-link" href="#" @click.prevent="changePage('Diagnoses_v2')"
               >Diagnoses(V2 DB)</a
             >
-          </li>
-        </ul>
-        <ul class="navbar-nav mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link" href="#" @click.prevent="changePage('switchHitTest')"
-              >switchHitTest</a
-            >
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#" @click.prevent="changePage('test')">test</a>
-          </li>
-          <li class="nav-item" v-if="!isLogin">
-            <a class="nav-link" href="#" @click.prevent="changePage('login')">Log in</a>
-          </li>
-          <li class="nav-item" v-else>
-            <a class="nav-link" href="#" @click.prevent="logout">Log out</a>
           </li>
         </ul>
       </div>
@@ -66,17 +36,17 @@
 import { onMounted } from "vue";
 import { useLoginFn } from "@/composition/index";
 import router from "./router/index";
-import { dbNum } from "@/composition/store";
+// import { dbNum } from "@/composition/store";
 export default {
   setup() {
-    const { logout, isLogin } = useLoginFn();
+    // const { logout, isLogin } = useLoginFn();
     const changePage = (to) => {
       router.push(`/${to}`);
     };
     // onMounted(() => {
     //   dbNum.value = localStorage.getItem("dbNum");
     // });
-    return { changePage, logout, isLogin, dbNum };
+    return { changePage };
   }
 };
 </script>

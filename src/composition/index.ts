@@ -1,6 +1,3 @@
-import { loginFn } from "@/composition/login";
-export const useLoginFn = loginFn;
-
 import { requestDiagnosesFn } from "@/composition/requestDiagnoses";
 export const useRequestDiagnoses = requestDiagnosesFn;
 

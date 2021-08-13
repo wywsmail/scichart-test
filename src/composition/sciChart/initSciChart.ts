@@ -578,7 +578,7 @@ export const initSciChartFn = () => {
 				{
 					headers: {
 						Authorization:
-							"Bearer " + token
+							"Bearer " + token.value
 					}
 				}
 			)
