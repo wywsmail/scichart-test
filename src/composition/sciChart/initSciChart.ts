@@ -31,63 +31,64 @@ import { BoxAnnotation } from "scichart/Charting/Visuals/Annotations/BoxAnnotati
 import { SimpleDataPointSelectionModifier } from "@/composition/sciChart/simpleDataPointSelectionModifier";
 import { MouseClickShowdataModifier } from "@/composition/sciChart/mouseClickShowdataModifier";
 import { PinchZoomModifier } from "scichart/Charting/ChartModifiers/PinchZoomModifier";
+import { EExecuteOn } from "scichart/types/ExecuteOn";
 
 export const initSciChartFn = () => {
-	const changeSwitch = () => {
-		const tagModeEnable: HTMLInputElement = <
-			HTMLInputElement
-		>document.getElementById(
-			"tag-mode"
-		);
-		const simpleDataPointSelectionModifier = new SimpleDataPointSelectionModifier();
-		const zoomPanModifier = new SimpleDataPointSelectionModifier();
-		tagModeEnable.checked = !tagModeEnable.checked;
-		if (
-			tagModeEnable.checked === true
-		) {
-			simpleDataPointSelectionModifier.isEnabled = true;
-			zoomPanModifier.isEnabled = false;
-			console.log(
-				tagModeEnable.checked,
-				isChecked.value,
-				simpleDataPointSelectionModifier,
-				zoomPanModifier
-			);
-			document
-				.getElementById("scichart-root")
-				.setAttribute(
-					"data-bs-toggle",
-					"modal"
-				);
-			document
-				.getElementById("scichart-root")
-				.setAttribute(
-					"data-bs-target",
-					"#exampleModal"
-				);
-		} else {
-			simpleDataPointSelectionModifier.isEnabled = false;
-			zoomPanModifier.isEnabled = true;
-			console.log(
-				tagModeEnable.checked,
-				isChecked.value,
-				simpleDataPointSelectionModifier,
-				zoomPanModifier
-			);
-			document
-				.getElementById("scichart-root")
-				.removeAttribute(
-					"data-bs-toggle"
-				);
-			document
-				.getElementById("scichart-root")
-				.removeAttribute(
-					"data-bs-target"
-				);
-		}
-		zoomPanModifier.xyDirection =
-			EXyDirection.XDirection;
-	};
+	// const changeSwitch = () => {
+	// 	const tagModeEnable: HTMLInputElement = <
+	// 		HTMLInputElement
+	// 	>document.getElementById(
+	// 		"tag-mode"
+	// 	);
+	// 	const simpleDataPointSelectionModifier = new SimpleDataPointSelectionModifier();
+	// 	const zoomPanModifier = new SimpleDataPointSelectionModifier();
+	// 	tagModeEnable.checked = !tagModeEnable.checked;
+	// 	if (
+	// 		tagModeEnable.checked === true
+	// 	) {
+	// 		simpleDataPointSelectionModifier.isEnabled = true;
+	// 		zoomPanModifier.isEnabled = false;
+	// 		console.log(
+	// 			tagModeEnable.checked,
+	// 			isChecked.value,
+	// 			simpleDataPointSelectionModifier,
+	// 			zoomPanModifier
+	// 		);
+	// 		document
+	// 			.getElementById("scichart-root")
+	// 			.setAttribute(
+	// 				"data-bs-toggle",
+	// 				"modal"
+	// 			);
+	// 		document
+	// 			.getElementById("scichart-root")
+	// 			.setAttribute(
+	// 				"data-bs-target",
+	// 				"#exampleModal"
+	// 			);
+	// 	} else {
+	// 		simpleDataPointSelectionModifier.isEnabled = false;
+	// 		zoomPanModifier.isEnabled = true;
+	// 		console.log(
+	// 			tagModeEnable.checked,
+	// 			isChecked.value,
+	// 			simpleDataPointSelectionModifier,
+	// 			zoomPanModifier
+	// 		);
+	// 		document
+	// 			.getElementById("scichart-root")
+	// 			.removeAttribute(
+	// 				"data-bs-toggle"
+	// 			);
+	// 		document
+	// 			.getElementById("scichart-root")
+	// 			.removeAttribute(
+	// 				"data-bs-target"
+	// 			);
+	// 	}
+	// 	zoomPanModifier.xyDirection =
+	// 		EXyDirection.XDirection;
+	// };
 	const initSciChart = async () => {
 		// SciChartSurface.setRuntimeLicenseKey(
 		//   "5ycxvf/fY4gXbo/ejlWy2JzrxfwiO3XxnN4QB5l327kqZNnGd+hs1lHuSmi2+TDeenf0kGGDk6rpjYWwpLJipt6qTvMzRx6zlZhY9Qyo+DYNuNieYzxrC/ZceJwv7E/2UdlYysxQLHMDEcp0txtbjJ++qVe4gjU1bgU8+mz92RzB7rZhonqZ6pCZyLYgONZ8ljZicebuSlOM0KQSeomou30SIE1S9wiP6W9YuuaIoCR/gZIwMZnioOHf8k3gsPB3EfCH0D/Mz+/eUq9RliOJkSm66r13+XgaDRp/fG9UAF2xoZmXSqzBX1v52A2Xn7NuXyxmOiQVRvIfuF7qW6e7XIZqHed6ZJ+rp9xXMs+q1JlF39LmZsMqChi0HuAM8eohJhRJ0dspyTAFH9aot6nBJCi1DmKu0DXumyXm9IdEOlXCWa5whtWDwoUnvkuKrI1KRDVZ1KjsDoZ+Pvw+7oX0+ERCeMeUrpgx0XhDFe8jzQB33hmiAu23FJ4OIike6RGYlWk5VczgpY+NXSVj5tjM0b0JiF/mFGjoFKsQ3noKqAHyosPrfhtGH830MYD44ObNWuvLWeLxNofC4a5odOwPFHvwDVVlNTAo9UFw2g3p7pF9WAsup7+YV7cjooMQPqrMD4GBSggeh+k26nQyc9nAT0qiceMSScuHENhbc+j8UFI0RZuP1x5d6xkJJ1A8TtJ41KDqxML8QrV/KijPP+y5iAxIOCexrjGlPTCTdUhTpw=="
@@ -425,79 +426,93 @@ export const initSciChartFn = () => {
 			pinchZoomModifier
 		);
 
-		tagModeEnable.addEventListener(
-			"change",
-			() => {
-				// sciChartSurface.chartModifiers.add(
-				// 	zoomPanModifier
-				// );
-				// sciChartSurface.chartModifiers.add(
-				// 	simpleDataPointSelectionModifier
-				// );
-				if (
-					tagModeEnable.checked === true
-				) {
-					simpleDataPointSelectionModifier.isEnabled = true;
-					zoomPanModifier.isEnabled = false;
-					// sciChartSurface.chartModifiers.remove(
-					// 	zoomPanModifier
-					// );
-					// sciChartSurface.chartModifiers.add(
-					// 	simpleDataPointSelectionModifier
-					// );
-					scichartRoot.setAttribute(
-						"data-bs-toggle",
-						"modal"
-					);
-					if (
-						filterAnomalyData.length ===
-						0
-					) {
-						scichartRoot.setAttribute(
-							"data-bs-target",
-							"#exampleModal"
-						);
-					} else {
-						scichartRoot.setAttribute(
-							"data-bs-target",
-							"#modifyEvaluationDataModal"
-						);
-					}
-					console.log(
-						tagModeEnable.checked,
-						isChecked.value,
-						simpleDataPointSelectionModifier,
-						zoomPanModifier
-					);
-				} else {
-					simpleDataPointSelectionModifier.isEnabled = false;
-					zoomPanModifier.isEnabled = true;
-					// sciChartSurface.chartModifiers.remove(
-					// 	simpleDataPointSelectionModifier
-					// );
-					// sciChartSurface.chartModifiers.add(
-					// 	zoomPanModifier
-					// );
-					console.log(
-						tagModeEnable.checked,
-						isChecked.value,
-						simpleDataPointSelectionModifier,
-						zoomPanModifier
-					);
-					scichartRoot.removeAttribute(
-						"data-bs-toggle"
-					);
-					scichartRoot.removeAttribute(
-						"data-bs-target"
-					);
-				}
-			}
-		);
+		// tagModeEnable.addEventListener(
+		// 	"change",
+		// 	() => {
+		// 		// sciChartSurface.chartModifiers.add(
+		// 		// 	zoomPanModifier
+		// 		// );
+		// 		// sciChartSurface.chartModifiers.add(
+		// 		// 	simpleDataPointSelectionModifier
+		// 		// );
+		// 		isChecked.value = !isChecked.value;
+		// 		if (
+		// 			// tagModeEnable.checked === true
+		// 			isChecked.value
+		// 		) {
+		// 			simpleDataPointSelectionModifier.isEnabled = true;
+		// 			zoomPanModifier.isEnabled = false;
+		// 			// sciChartSurface.chartModifiers.remove(
+		// 			// 	zoomPanModifier
+		// 			// );
+		// 			// sciChartSurface.chartModifiers.add(
+		// 			// 	simpleDataPointSelectionModifier
+		// 			// );
+		// 			scichartRoot.setAttribute(
+		// 				"data-bs-toggle",
+		// 				"modal"
+		// 			);
+		// 			if (
+		// 				filterAnomalyData.length ===
+		// 				0
+		// 			) {
+		// 				scichartRoot.setAttribute(
+		// 					"data-bs-target",
+		// 					"#exampleModal"
+		// 				);
+		// 			} else {
+		// 				scichartRoot.setAttribute(
+		// 					"data-bs-target",
+		// 					"#modifyEvaluationDataModal"
+		// 				);
+		// 			}
+		// 			console.log(
+		// 				tagModeEnable.checked,
+		// 				isChecked.value,
+		// 				simpleDataPointSelectionModifier,
+		// 				zoomPanModifier
+		// 			);
+		// 		} else {
+		// 			simpleDataPointSelectionModifier.isEnabled = false;
+		// 			zoomPanModifier.isEnabled = true;
+		// 			// sciChartSurface.chartModifiers.remove(
+		// 			// 	simpleDataPointSelectionModifier
+		// 			// );
+		// 			// sciChartSurface.chartModifiers.add(
+		// 			// 	zoomPanModifier
+		// 			// );
+		// 			console.log(
+		// 				tagModeEnable.checked,
+		// 				isChecked.value,
+		// 				simpleDataPointSelectionModifier,
+		// 				zoomPanModifier
+		// 			);
+		// 			scichartRoot.removeAttribute(
+		// 				"data-bs-toggle"
+		// 			);
+		// 			scichartRoot.removeAttribute(
+		// 				"data-bs-target"
+		// 			);
+		// 		}
+		// 	}
+		// );
 
 		mouseWheelZoomModifier.xyDirection =
 			EXyDirection.XDirection;
 		zoomPanModifier.xyDirection =
 			EXyDirection.XDirection;
+
+		// 使用滑鼠左鍵
+		zoomPanModifier.executeOn =
+			EExecuteOn.MouseLeftButton;
+		// 使用滑鼠右鍵
+		simpleDataPointSelectionModifier.executeOn =
+			EExecuteOn.MouseRightButton;
+
+		// 使用滑鼠左鍵
+		// mouseMoveShowdataModifier.executeOn =
+		// 	EExecuteOn.MouseLeftButton;
+
 		pinchZoomModifier.xyDirection =
 			EXyDirection.XDirection;
 
@@ -692,7 +707,6 @@ export const initSciChartFn = () => {
 	return {
 		initSciChart,
 		anomalyData,
-		changeSwitch,
 		evaluationData
 	};
 };

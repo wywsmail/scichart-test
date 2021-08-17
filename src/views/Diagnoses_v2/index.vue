@@ -38,7 +38,8 @@ import {
   tagMode,
   tagListData,
   tagList,
-  dbNum
+  dbNum,
+  isChecked
 } from "@/composition/store";
 import { useShowECGChart, useInitSciChart } from "@/composition/index";
 
@@ -67,16 +68,29 @@ export default {
 
     const route = useRoute();
     onMounted(async () => {
-      document.querySelector("body").addEventListener("keydown", (e) => {
-        e.preventDefault();
-        document.querySelector("#tag-mode").focus();
-        if (e.keyCode === 32) {
-          changeSwitch();
-        }
-      });
+      // document.querySelector("body").addEventListener("keydown", (e) => {
+      //   e.preventDefault();
+      //   document.querySelector("#tag-mode").focus();
+      //   if (e.keyCode === 32) {
+      //     // changeSwitch();
+      //     isChecked.value = !isChecked.value;
+      //     console.log(isChecked.value);
+      //   }
+      // });
       await showECGChart(route.params.diagnosesid);
       initSciChart();
       await showTagRange();
+      // document
+      //   .querySelector("#tag-mode")
+      //   .focus()
+      //   .addEventListener("keydown", (e) => {
+      //     console.log(e.keyCode);
+      //     e.preventDefault();
+      //     if (e.keyCode === 32) {
+      //       isChecked.value = !isChecked.value;
+      //       console.log(isChecked.value);
+      //     }
+      //   });
     });
     return {
       initSciChart,

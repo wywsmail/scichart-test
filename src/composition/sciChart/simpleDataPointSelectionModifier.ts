@@ -181,8 +181,18 @@ export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
 		this.startPoint = undefined;
 		this.endPoint = undefined;
 		this.cancelSelectionData();
-		// this.annotations();
-		// console.log(ModifierAnnotations);
+		document
+			.getElementById("scichart-root")
+			.setAttribute(
+				"data-bs-toggle",
+				"modal"
+			);
+		document
+			.getElementById("scichart-root")
+			.setAttribute(
+				"data-bs-target",
+				"#exampleModal"
+			);
 	}
 
 	private performSelection() {
@@ -327,6 +337,19 @@ export class SimpleDataPointSelectionModifier extends ChartModifierBase2D {
 					}
 				}
 			});
+		console.log(selectedPoints);
+		// document
+		// 	.getElementById("scichart-root")
+		// 	.setAttribute(
+		// 		"data-bs-toggle",
+		// 		"modal"
+		// 	);
+		// document
+		// 	.getElementById("scichart-root")
+		// 	.setAttribute(
+		// 		"data-bs-target",
+		// 		"#exampleModal"
+		// 	);
 	}
 
 	private getDefaultCoordCalculators() {

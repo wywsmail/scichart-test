@@ -59,53 +59,77 @@
     </div>
   </div>
 </template>
-<script lang="ts">
+<script>
 import { tagDataShow, isChecked, isActive } from "@/composition/store";
+import { onMounted } from "@vue/runtime-core";
 export default {
   setup() {
-    // const isChecked = ref(false);
-    // const focus = ref(null);
-    // const switchToggle = (e) => {
-    //   // e.preventDefault();
-    //   focus.value.focus();
-    //   isChecked.value = !isChecked.value;
-    //   console.log(e.keyCode);
-    //   console.log(isChecked.value);
-    //   return false;
-    // };
-    // const tagModeEnable: HTMLInputElement = <HTMLInputElement>(
-    //   document.getElementById("tag-mode")
-    // );
-    // document.body.addEventListener("keydown", (e) => {
-    //   console.log(e.keyCode);
-    //   e.preventDefault();
-    //   switch (e.keyCode) {
-    //     case 32:
-    //       tagModeEnable.focus();
-    //       tagModeEnable.checked = !tagModeEnable.checked;
-    //       console.log(tagModeEnable.checked);
-    //   }
-    // if (tagModeEnable.checked === true) {
-    //   simpleDataPointSelectionModifier.isEnabled = true;
-    //   zoomPanModifier.isEnabled = false;
-    //   xAxisDragModifier.isEnabled = true;
-    //   scichartRoot.setAttribute("data-bs-toggle", "modal");
-    //   scichartRoot.setAttribute("data-bs-target", "#exampleModal");
-    // } else {
-    //   simpleDataPointSelectionModifier.isEnabled = false;
-    //   zoomPanModifier.isEnabled = true;
-    //   xAxisDragModifier.isEnabled = false;
-    //   scichartRoot.removeAttribute("data-bs-toggle");
-    //   scichartRoot.removeAttribute("data-bs-target");
-    // }
-    // });
-    return {
-      tagDataShow,
-      isChecked,
-      isActive
-      // switchToggle,
-      // focus
-    };
+    onMounted(() => {
+      // document
+      //   .querySelector("#tag-mode")
+      //   .focus()
+      //   .addEventListener("keydown", (e) => {
+      //     console.log(e.keyCode);
+      //     e.preventDefault();
+      //     if (e.keyCode === 32) {
+      //       isChecked.value = !isChecked.value;
+      //       console.log(isChecked.value);
+      //     }
+      //   });
+      // document.querySelector("body").addEventListener("keydown", (e) => {
+      //   e.preventDefault();
+      //   document.querySelector("#tag-mode").focus();
+      //   // .addEventListener("input", (e) => {
+      //   if (e.keyCode === 32) {
+      //     isChecked.value = !isChecked.value;
+      //     console.log(isChecked.value);
+      //   }
+      //   // });
+      // });
+      // const isChecked = ref(false);
+      // const focus = ref(null);
+      // const switchToggle = (e) => {
+      //   // e.preventDefault();
+      //   focus.value.focus();
+      //   isChecked.value = !isChecked.value;
+      //   console.log(e.keyCode);
+      //   console.log(isChecked.value);
+      //   return false;
+      // };
+      // const tagModeEnable: HTMLInputElement = <HTMLInputElement>(
+      //   document.getElementById("tag-mode")
+      // );
+      // document.body.addEventListener("keydown", (e) => {
+      //   console.log(e.keyCode);
+      //   e.preventDefault();
+      //   switch (e.keyCode) {
+      //     case 32:
+      //       tagModeEnable.focus();
+      //       tagModeEnable.checked = !tagModeEnable.checked;
+      //       console.log(tagModeEnable.checked);
+      //   }
+      // if (tagModeEnable.checked === true) {
+      //   simpleDataPointSelectionModifier.isEnabled = true;
+      //   zoomPanModifier.isEnabled = false;
+      //   xAxisDragModifier.isEnabled = true;
+      //   scichartRoot.setAttribute("data-bs-toggle", "modal");
+      //   scichartRoot.setAttribute("data-bs-target", "#exampleModal");
+      // } else {
+      //   simpleDataPointSelectionModifier.isEnabled = false;
+      //   zoomPanModifier.isEnabled = true;
+      //   xAxisDragModifier.isEnabled = false;
+      //   scichartRoot.removeAttribute("data-bs-toggle");
+      //   scichartRoot.removeAttribute("data-bs-target");
+      // }
+      // });
+      return {
+        tagDataShow,
+        isChecked,
+        isActive
+        // switchToggle,
+        // focus
+      };
+    });
   }
 };
 </script>
